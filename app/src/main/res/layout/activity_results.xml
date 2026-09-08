@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#080808">
@@ -37,77 +39,10 @@
             android:paddingBottom="18dp" />
 
         <LinearLayout
+            android:id="@+id/resultsContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="#151515"
-            android:padding="16dp"
-            android:layout_marginBottom="12dp">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="NBC PREMIER LEAGUE"
-                android:textColor="#D4AF37"
-                android:textSize="12sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Simba SC    2  -  1    Yanga SC"
-                android:textColor="#FFFFFF"
-                android:textSize="17sp"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:paddingTop="14dp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="FT • Leo"
-                android:textColor="#AAAAAA"
-                android:textSize="13sp"
-                android:gravity="center"
-                android:paddingTop="8dp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="#151515"
-            android:padding="16dp">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="ENGLISH PREMIER LEAGUE"
-                android:textColor="#D4AF37"
-                android:textSize="12sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Arsenal    3  -  0    Chelsea"
-                android:textColor="#FFFFFF"
-                android:textSize="17sp"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:paddingTop="14dp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="FT • Jana"
-                android:textColor="#AAAAAA"
-                android:textSize="13sp"
-                android:gravity="center"
-                android:paddingTop="8dp" />
-
-        </LinearLayout>
+            android:orientation="vertical" />
 
     </LinearLayout>
 

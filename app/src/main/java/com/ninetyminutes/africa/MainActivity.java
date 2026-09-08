@@ -1,41 +1,909 @@
 package com.ninetyminutes.africa;
 
 import android.content.Intent;
+import android.widget.Toast;
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.ninetyminutes.africa.network.FootballService;
+import com.ninetyminutes.africa.network.LiveService;
+import com.ninetyminutes.africa.network.NewsService;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+
 public class MainActivity extends AppCompatActivity {
+
+    private LinearLayout breakingContainer;
+    private LinearLayout latestNewsContainer;
+    private LinearLayout fixturesContainer;
+    private LinearLayout liveContainer;
+    private LinearLayout trendingContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
 
-        TextView navNews = findViewById(R.id.navNews);
-        TextView navMatches = findViewById(R.id.navMatches);
-        TextView navTable = findViewById(R.id.navTable);
-        TextView navMore = findViewById(R.id.navMore);
+        breakingContainer =
+                findViewById(R.id.breakingContainer);
 
-        navNews.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, NewsActivity.class);
-            startActivity(intent);
-        });
+        latestNewsContainer =
+                findViewById(R.id.latestNewsContainer);
 
-        navMatches.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, MatchesActivity.class);
-            startActivity(intent);
-        });
+        fixturesContainer =
+                findViewById(R.id.fixturesContainer);
 
-        navTable.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, TableActivity.class);
-            startActivity(intent);
-        });
+        liveContainer =
+                findViewById(R.id.liveContainer);
 
-        navMore.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, MoreActivity.class);
-            startActivity(intent);
-        });
+        trendingContainer =
+                findViewById(R.id.trendingContainer);
+
+        setupNavigation();
+
+        loadNews();
+
+        loadFixtures();
+
+        loadLive();
+    }
+
+    private void setupNavigation() {
+
+        findViewById(R.id.navNews).setOnClickListener(
+                v -> startActivity(
+                        new Intent(
+                                MainActivity.this,
+                                NewsActivity.class
+                        )
+                )
+        );
+
+        findViewById(R.id.navMatches).setOnClickListener(
+                v -> startActivity(
+                        new Intent(
+                                MainActivity.this,
+                                MatchesActivity.class
+                        )
+                )
+        );
+
+        findViewById(R.id.navTable).setOnClickListener(
+                v -> startActivity(
+                        new Intent(
+                                MainActivity.this,
+                                TableActivity.class
+                        )
+                )
+        );
+
+        findViewById(R.id.navMore).setOnClickListener(
+                v -> startActivity(
+                        new Intent(
+                                MainActivity.this,
+                                MoreActivity.class
+                        )
+                )
+        );
+
+        findViewById(R.id.navNotifications).setOnClickListener(
+                v -> startActivity(
+                        new Intent(
+                                MainActivity.this,
+                                NotificationsActivity.class
+                        )
+                )
+        );
+
+        findViewById(R.id.viewAllNews).setOnClickListener(
+                v -> startActivity(
+                        new Intent(
+                                MainActivity.this,
+                                NewsActivity.class
+                        )
+                )
+        );
+    }
+
+    private void loadNews() {
+
+        NewsService.getNews(
+                new NewsService.Callback() {
+
+                    @Override
+                    public void onSuccess(List<NewsItem> news) {
+
+                        runOnUiThread(() -> {
+
+                            breakingContainer.removeAllViews();
+
+                            latestNewsContainer.removeAllViews();
+
+                            trendingContainer.removeAllViews();
+
+                            if (news == null ||
+                                    news.isEmpty()) {
+
+                                addMessage(
+                                        latestNewsContainer,
+                                        "Hakuna habari kwa sasa."
+                                );
+
+                                return;
+                            }
+
+                            NewsItem breaking = null;
+
+                            for (NewsItem item : news) {
+
+                                String title =
+                                        item.getTitle();
+
+                                if (title != null &&
+                                        !title.trim().isEmpty()) {
+
+                                    breaking = item;
+                                    break;
+                                }
+                            }
+
+                            if (breaking != null) {
+                                addBreakingCard(breaking);
+                            }
+
+                            int limit =
+                                    Math.min(6, news.size());
+
+                            for (int i = 0;
+                                 i < limit;
+                                 i++) {
+
+                                addNewsCard(
+                                        latestNewsContainer,
+                                        news.get(i)
+                                );
+                            }
+
+                            int trendingLimit =
+                                    Math.min(3, news.size());
+
+                            for (int i = 0;
+                                 i < trendingLimit;
+                                 i++) {
+
+                                addTrendingItem(
+                                        trendingContainer,
+                                        i + 1,
+                                        news.get(i)
+                                );
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onError(String error) {
+
+                        runOnUiThread(() -> {
+
+                            addMessage(
+                                    latestNewsContainer,
+                                    "Imeshindikana kupakia habari."
+                            );
+                        });
+                    }
+                }
+        );
+    }
+
+    private void loadFixtures() {
+
+        FootballService.getFixtures(
+                new FootballService.Callback() {
+
+                    @Override
+                    public void onSuccess(JSONArray data) {
+
+                        runOnUiThread(() -> {
+
+                            fixturesContainer.removeAllViews();
+
+                            if (data.length() == 0) {
+
+                                addMessage(
+                                        fixturesContainer,
+                                        "Hakuna ratiba kwa sasa."
+                                );
+
+                                return;
+                            }
+
+                            int limit =
+                                    Math.min(5, data.length());
+
+                            for (int i = 0;
+                                 i < limit;
+                                 i++) {
+
+                                try {
+
+                                    JSONObject match =
+                                            data.getJSONObject(i);
+
+                                    addFixtureCard(match);
+
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onError(String error) {
+
+                        runOnUiThread(() ->
+                                addMessage(
+                                        fixturesContainer,
+                                        "Imeshindikana kupakia ratiba."
+                                )
+                        );
+                    }
+                }
+        );
+    }
+
+    private void loadLive() {
+
+        LiveService.getLiveFixtures(
+                new LiveService.Callback() {
+
+                    @Override
+                    public void onSuccess(JSONArray data) {
+
+                        runOnUiThread(() -> {
+
+                            liveContainer.removeAllViews();
+
+                            if (data.length() == 0) {
+
+                                addMessage(
+                                        liveContainer,
+                                        "Hakuna mechi LIVE kwa sasa."
+                                );
+
+                                return;
+                            }
+
+                            for (int i = 0;
+                                 i < data.length();
+                                 i++) {
+
+                                try {
+
+                                    JSONObject match =
+                                            data.getJSONObject(i);
+
+                                    addLiveCard(match);
+
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onError(String error) {
+
+                        runOnUiThread(() ->
+                                addMessage(
+                                        liveContainer,
+                                        "Live haipatikani kwa sasa."
+                                )
+                        );
+                    }
+                }
+        );
+    }
+
+    private void addBreakingCard(
+            NewsItem item
+    ) {
+
+        LinearLayout card =
+                createCard();
+
+        TextView title =
+                createText(
+                        item.getTitle(),
+                        18,
+                        "#FFFFFF"
+                );
+
+        title.setTypeface(
+                null,
+                Typeface.BOLD
+        );
+
+        TextView excerpt =
+                createText(
+                        item.getExcerpt(),
+                        13,
+                        "#AAAAAA"
+                );
+
+        LinearLayout.LayoutParams params =
+                new LinearLayout.LayoutParams(
+                        -1,
+                        -2
+                );
+
+        excerpt.setLayoutParams(params);
+
+        card.addView(title);
+        card.addView(excerpt);
+
+        card.setOnClickListener(
+                v -> openArticle(item)
+        );
+
+        breakingContainer.addView(card);
+    }
+
+    private void addNewsCard(
+            LinearLayout container,
+            NewsItem item
+    ) {
+
+        LinearLayout card =
+                createCard();
+
+        TextView title =
+                createText(
+                        item.getTitle(),
+                        17,
+                        "#FFFFFF"
+                );
+
+        title.setTypeface(
+                null,
+                Typeface.BOLD
+        );
+
+        card.addView(title);
+
+        String excerpt =
+                item.getExcerpt();
+
+        if (excerpt != null &&
+                !excerpt.trim().isEmpty()) {
+
+            TextView excerptView =
+                    createText(
+                            excerpt,
+                            13,
+                            "#AAAAAA"
+                    );
+
+            excerptView.setPadding(
+                    0, 8, 0, 0
+            );
+
+            card.addView(excerptView);
+        }
+
+        TextView meta =
+                createText(
+                        formatDate(
+                                item.getCreatedAt()
+                        ),
+                        12,
+                        "#777777"
+                );
+
+        meta.setPadding(
+                0, 8, 0, 0
+        );
+
+        card.addView(meta);
+
+        card.setOnClickListener(
+                v -> openArticle(item)
+        );
+
+        container.addView(card);
+    }
+
+    private void addTrendingItem(
+            LinearLayout container,
+            int number,
+            NewsItem item
+    ) {
+
+        TextView view =
+                createText(
+                        number + ". " + item.getTitle(),
+                        14,
+                        "#FFFFFF"
+                );
+
+        view.setPadding(
+                16, 14, 16, 14
+        );
+
+        view.setBackgroundColor(
+                Color.rgb(21, 21, 21)
+        );
+
+        LinearLayout.LayoutParams params =
+                new LinearLayout.LayoutParams(
+                        -1,
+                        -2
+                );
+
+        params.setMargins(
+                0, 0, 0, 6
+        );
+
+        view.setLayoutParams(params);
+
+        view.setOnClickListener(
+                v -> openArticle(item)
+        );
+
+        container.addView(view);
+    }
+
+    private void addFixtureCard(
+            JSONObject match
+    ) {
+
+        String home =
+                match.optString(
+                        "home_team",
+                        "Home"
+                );
+
+        String away =
+                match.optString(
+                        "away_team",
+                        "Away"
+                );
+
+        String competition =
+                match.optString(
+                        "competition",
+                        "Mechi"
+                );
+
+        String date =
+                match.optString(
+                        "match_date",
+                        ""
+                );
+
+        String time =
+                match.optString(
+                        "match_time",
+                        ""
+                );
+
+        LinearLayout card =
+                createCard();
+
+        TextView competitionView =
+                createText(
+                        competition,
+                        12,
+                        "#D4AF37"
+                );
+
+        competitionView.setTypeface(
+                null,
+                Typeface.BOLD
+        );
+
+        TextView teams =
+                createText(
+                        home + "  vs  " + away,
+                        16,
+                        "#FFFFFF"
+                );
+
+        teams.setGravity(
+                Gravity.CENTER
+        );
+
+        teams.setTypeface(
+                null,
+                Typeface.BOLD
+        );
+
+        TextView dateView =
+                createText(
+                        date +
+                                (time.isEmpty()
+                                        ? ""
+                                        : "  •  " + time),
+                        12,
+                        "#AAAAAA"
+                );
+
+        dateView.setGravity(
+                Gravity.CENTER
+        );
+
+        card.addView(
+                competitionView
+        );
+
+        card.addView(
+                teams
+        );
+
+        card.addView(
+                dateView
+        );
+
+        fixturesContainer.addView(card);
+    }
+
+    private void addLiveCard(
+            JSONObject match
+    ) {
+        String home =
+                match.optString(
+                        "home_team",
+                        "Home"
+                );
+
+        String away =
+                match.optString(
+                        "away_team",
+                        "Away"
+                );
+
+        String competition =
+                match.optString(
+                        "competition",
+                        "LIVE"
+                );
+
+        String liveTitle =
+                match.optString(
+                        "live_title",
+                        ""
+                );
+
+        String matchId = match.optString("id", "");
+        String streamUrl =
+                match.optString(
+                        "stream_url",
+                        ""
+                );
+
+        String streamType =
+                match.optString(
+                        "stream_type",
+                        "hls"
+                );
+
+        LinearLayout card = createCard();
+
+        TextView live =
+                createText(
+                        "LIVE",
+                        12,
+                        "#FF4444"
+                );
+
+        live.setTypeface(
+                null,
+                Typeface.BOLD
+        );
+
+        live.setGravity(
+                Gravity.CENTER
+        );
+
+        TextView teams =
+                createText(
+                        home + "  vs  " + away,
+                        17,
+                        "#FFFFFF"
+                );
+
+        teams.setGravity(
+                Gravity.CENTER
+        );
+
+        teams.setTypeface(
+                null,
+                Typeface.BOLD
+        );
+
+        TextView comp =
+                createText(
+                        competition,
+                        12,
+                        "#AAAAAA"
+                );
+
+        comp.setGravity(
+                Gravity.CENTER
+        );
+
+        card.addView(live);
+        card.addView(teams);
+        card.addView(comp);
+
+        if (!liveTitle.isEmpty()) {
+
+            TextView title =
+                    createText(
+                            liveTitle,
+                            13,
+                            "#AAAAAA"
+                    );
+
+            title.setGravity(
+                    Gravity.CENTER
+            );
+
+            card.addView(title);
+        }
+
+        if (!streamUrl.isEmpty()) {
+
+            card.setOnClickListener(v -> {
+
+                Intent intent =
+                        new Intent(
+                                MainActivity.this,
+                                LiveActivity.class
+                        );
+
+                intent.putExtra(
+                        "stream_url",
+                        streamUrl
+                );
+
+                intent.putExtra(
+                        "stream_type",
+                        streamType
+                );
+
+                intent.putExtra(
+                        "live_title",
+                        liveTitle
+                );
+
+                intent.putExtra(
+                        "home_team",
+                        home
+                );
+
+                intent.putExtra(
+                        "away_team",
+                        away
+                );
+
+                intent.putExtra(
+                        "competition",
+                        competition
+                );
+
+                intent.putExtra("match_id", matchId);
+                startActivity(intent);
+            });
+
+        } else {
+
+            card.setAlpha(0.65f);
+
+            card.setOnClickListener(v ->
+                    Toast.makeText(
+                            MainActivity.this,
+                            "Hakuna stream iliyowekwa kwa mechi hii.",
+                            Toast.LENGTH_SHORT
+                    ).show()
+            );
+        }
+
+        liveContainer.addView(card);
+    }
+
+    private LinearLayout createCard() {
+
+        LinearLayout card =
+                new LinearLayout(this);
+
+        card.setOrientation(
+                LinearLayout.VERTICAL
+        );
+
+        card.setPadding(
+                16, 16, 16, 16
+        );
+
+        GradientDrawable background =
+                new GradientDrawable();
+
+        background.setColor(
+                Color.rgb(21, 21, 21)
+        );
+
+        background.setCornerRadius(20);
+
+        card.setBackground(background);
+
+        LinearLayout.LayoutParams params =
+                new LinearLayout.LayoutParams(
+                        -1,
+                        -2
+                );
+
+        params.setMargins(
+                0, 0, 0, 10
+        );
+
+        card.setLayoutParams(params);
+
+        return card;
+    }
+
+    private TextView createText(
+            String text,
+            int size,
+            String color
+    ) {
+
+        TextView view =
+                new TextView(this);
+
+        view.setText(
+                text == null
+                        ? ""
+                        : text
+        );
+
+        view.setTextSize(size);
+
+        view.setTextColor(
+                Color.parseColor(color)
+        );
+
+        return view;
+    }
+
+    private void addMessage(
+            LinearLayout container,
+            String message
+    ) {
+
+        TextView view =
+                createText(
+                        message,
+                        14,
+                        "#AAAAAA"
+                );
+
+        view.setPadding(
+                10, 20, 10, 20
+        );
+
+        container.addView(view);
+    }
+
+    private void openArticle(
+            NewsItem item
+    ) {
+
+        Intent intent =
+                new Intent(
+                        MainActivity.this,
+                        ArticleDetailActivity.class
+                );
+
+        intent.putExtra(
+                "article_id",
+                item.getId()
+        );
+
+        intent.putExtra(
+                "article_title",
+                item.getTitle()
+        );
+
+        intent.putExtra(
+                "article_excerpt",
+                item.getExcerpt()
+        );
+
+        intent.putExtra(
+                "article_content",
+                item.getContent()
+        );
+
+        intent.putExtra(
+                "article_category",
+                item.getCategory()
+        );
+
+        intent.putExtra(
+                "article_author",
+                item.getAuthor()
+        );
+
+        intent.putExtra(
+                "article_image",
+                item.getImageUrl()
+        );
+
+        intent.putExtra(
+                "article_created_at",
+                item.getCreatedAt()
+        );
+
+        intent.putExtra(
+                "article_views",
+                item.getViews()
+        );
+
+        startActivity(intent);
+    }
+
+    private String formatDate(
+            String date
+    ) {
+
+        if (date == null ||
+                date.trim().isEmpty()) {
+
+            return "";
+        }
+
+        try {
+
+            SimpleDateFormat input =
+                    new SimpleDateFormat(
+                            "yyyy-MM-dd'T'HH:mm:ss",
+                            Locale.US
+                    );
+
+            Date parsed =
+                    input.parse(date);
+
+            if (parsed == null) {
+                return date;
+            }
+
+            SimpleDateFormat output =
+                    new SimpleDateFormat(
+                            "dd/MM/yyyy HH:mm",
+                            Locale.getDefault()
+                    );
+
+            return output.format(parsed);
+
+        } catch (Exception e) {
+
+            return date;
+        }
     }
 }

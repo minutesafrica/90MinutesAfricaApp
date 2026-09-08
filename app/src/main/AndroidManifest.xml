@@ -65,6 +65,7 @@
             android:name=".ContactActivity"
             android:exported="false" />
 
+        <activity android:name=".LiveActivity" android:exported="false" />
     </application>
 
 </manifest>

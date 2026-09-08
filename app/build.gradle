@@ -5,7 +5,8 @@ plugins {
 android {
     namespace 'com.ninetyminutes.africa'
     compileSdk 35
-buildToolsVersion "35.0.1"
+    buildToolsVersion "35.0.1"
+
     defaultConfig {
         applicationId 'com.ninetyminutes.africa'
         minSdk 23
@@ -18,4 +19,9 @@ buildToolsVersion "35.0.1"
 dependencies {
     implementation 'androidx.appcompat:appcompat:1.7.1'
     implementation 'com.google.android.material:material:1.13.0'
+
+    implementation 'androidx.media3:media3-exoplayer:1.8.0'
+    implementation 'androidx.media3:media3-ui:1.8.0'
+    implementation 'androidx.media3:media3-exoplayer-hls:1.8.0'
+    implementation 'androidx.webkit:webkit:1.14.0'
 }

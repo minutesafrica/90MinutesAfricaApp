@@ -9,100 +9,50 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:gravity="center_vertical"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp"
         android:background="#111111">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="90' MINUTES AFRICA"
+            android:text="90’ MINUTES AFRICA"
             android:textColor="#D4AF37"
-            android:textSize="19sp"
+            android:textSize="18sp"
             android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="RATIBA YA MECHI"
+            android:textColor="#FFFFFF"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_marginTop="12dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ratiba mpya kutoka kwenye mfumo wa 90’ Minutes Africa"
+            android:textColor="#AAAAAA"
+            android:textSize="13sp"
+            android:layout_marginTop="5dp" />
 
     </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
 
         <LinearLayout
+            android:id="@+id/matchesContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="⚽ RATIBA ZA MECHI"
-                android:textColor="#D4AF37"
-                android:textSize="22sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Mechi zijazo kutoka Tanzania, Afrika na dunia."
-                android:textColor="#AAAAAA"
-                android:textSize="14sp"
-                android:layout_marginTop="6dp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="18dp"
-                android:background="#151515"
-                android:layout_marginTop="20dp">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Simba SC   🆚   Yanga SC"
-                    android:textColor="#FFFFFF"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:gravity="center" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="16:00"
-                    android:textColor="#D4AF37"
-                    android:textSize="16sp"
-                    android:gravity="center"
-                    android:layout_marginTop="10dp" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="NBC Premier League"
-                    android:textColor="#888888"
-                    android:textSize="12sp"
-                    android:gravity="center"
-                    android:layout_marginTop="6dp" />
-
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/navResults"
-                android:layout_width="match_parent"
-                android:layout_height="52dp"
-                android:layout_marginTop="16dp"
-                android:gravity="center"
-                android:text="📊  MATOKEO"
-                android:textColor="#D4AF37"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                android:background="#151515"
-                android:clickable="true"
-                android:focusable="true" />
-
-        </LinearLayout>
+            android:padding="16dp" />
 
     </ScrollView>
 
