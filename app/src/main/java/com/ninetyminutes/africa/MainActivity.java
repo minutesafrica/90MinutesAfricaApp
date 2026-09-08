@@ -71,7 +71,15 @@ public class MainActivity extends AppCompatActivity {
         loadLive();
     }
 
-    private void setupNavigation() {
+    private void openWhatsappChannel() {
+    Intent intent = new Intent(
+            Intent.ACTION_VIEW,
+            Uri.parse("https://whatsapp.com/channel/0029Vb6mtUXDjiOZZOGkCw00")
+    );
+    startActivity(intent);
+}
+
+private void setupNavigation() {
         findViewById(R.id.visitWebsite).setOnClickListener(v ->
                 startActivity(new Intent(
                         Intent.ACTION_VIEW,
@@ -194,6 +202,15 @@ public class MainActivity extends AppCompatActivity {
                         MainActivity.this,
                         NewsActivity.class
                 ))
+        );
+
+        findViewById(R.id.socialFacebook).setOnClickListener(v ->
+                startActivity(new Intent(Intent.ACTION_VIEW,
+                        Uri.parse("https://www.facebook.com/profile.php?id=61574232046522")))
+        );
+
+        findViewById(R.id.socialWhatsapp).setOnClickListener(v ->
+                openWhatsappChannel()
         );
 
         findViewById(R.id.footerTerms).setOnClickListener(v ->
