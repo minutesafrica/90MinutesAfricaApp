@@ -79,8 +79,7 @@ public class MainActivity extends AppCompatActivity {
                 ))
         );
 
-        findViewById(R.id.navMenu).setOnTouchListener((v, event) -> { if (event.getAction() == android.view.MotionEvent.ACTION_UP) { android.widget.Toast.makeText(MainActivity.this, "TOUCH RECEIVED", android.widget.Toast.LENGTH_SHORT).show(); v.performClick(); } return true; });
-        findViewById(R.id.navMenu).setOnClickListener(v -> { android.widget.Toast.makeText(MainActivity.this, "NAV MENU CLICKED", android.widget.Toast.LENGTH_SHORT).show();
+        findViewById(R.id.navMenu).setOnClickListener(v -> {
             View menuView = getLayoutInflater().inflate(
                     R.layout.popup_nav_menu,
                     null
@@ -491,9 +490,20 @@ public class MainActivity extends AppCompatActivity {
                 Typeface.BOLD
         );
         title.setSingleLine(true);
-        title.setEllipsize(android.text.TextUtils.TruncateAt.MARQUEE);
-        title.setMarqueeRepeatLimit(-1);
-        title.setSelected(true);
+        title.setEllipsize(null);
+        title.setSelected(false);
+        title.post(() -> {
+            android.view.animation.TranslateAnimation animation = new android.view.animation.TranslateAnimation(
+                    android.view.animation.Animation.RELATIVE_TO_PARENT, 1.0f,
+                    android.view.animation.Animation.RELATIVE_TO_PARENT, -1.0f,
+                    0f, 0f
+            );
+            animation.setDuration(15000);
+            animation.setInterpolator(new android.view.animation.LinearInterpolator());
+            animation.setRepeatCount(android.view.animation.Animation.INFINITE);
+            animation.setRepeatMode(android.view.animation.Animation.RESTART);
+            title.startAnimation(animation);
+        });
 
         title.setPadding(
                 0, 6, 0, 0
