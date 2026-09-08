@@ -64,11 +64,11 @@ public class MainActivity extends AppCompatActivity {
 
         setupNavigation();
 
-        loadNews();
+        // loadNews();
 
-        loadFixtures();
+        // loadFixtures();
 
-        loadLive();
+        // loadLive();
     }
 
     private void setupNavigation() {
