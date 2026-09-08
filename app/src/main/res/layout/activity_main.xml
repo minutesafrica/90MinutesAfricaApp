@@ -198,7 +198,6 @@
                 android:orientation="vertical"
                 android:layout_marginTop="10dp"/>
 
-        </LinearLayout>
     
     <LinearLayout
         android:id="@+id/mainFooter"
@@ -287,6 +286,7 @@
 
     </LinearLayout>
 
+        </LinearLayout>
 </ScrollView>
 
     
