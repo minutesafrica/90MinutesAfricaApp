@@ -4,6 +4,13 @@ import android.content.Intent;
 import android.widget.Toast;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.widget.ImageView;
+
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -328,10 +335,35 @@ public class MainActivity extends AppCompatActivity {
         LinearLayout card =
                 createCard();
 
+        card.setPadding(
+                18, 18, 18, 18
+        );
+
+        card.setBackgroundResource(
+                R.drawable.bg_news_card
+        );
+        card.setPadding(
+                18, 18, 18, 18
+        );
+
+        TextView badge =
+                createText(
+                        "BREAKING",
+                        10,
+                        "#E30613"
+                );
+
+        badge.setTypeface(
+                null,
+                Typeface.BOLD
+        );
+
+        card.addView(badge);
+
         TextView title =
                 createText(
                         item.getTitle(),
-                        18,
+                        19,
                         "#FFFFFF"
                 );
 
@@ -340,11 +372,17 @@ public class MainActivity extends AppCompatActivity {
                 Typeface.BOLD
         );
 
+        title.setPadding(
+                0, 6, 0, 0
+        );
+
+        card.addView(title);
+
         TextView excerpt =
                 createText(
                         item.getExcerpt(),
-                        13,
-                        "#AAAAAA"
+                        14,
+                        "#999999"
                 );
 
         LinearLayout.LayoutParams params =
@@ -355,8 +393,25 @@ public class MainActivity extends AppCompatActivity {
 
         excerpt.setLayoutParams(params);
 
-        card.addView(title);
         card.addView(excerpt);
+
+        TextView readMore =
+                createText(
+                        "SOMA HABARI  →",
+                        12,
+                        "#E30613"
+                );
+
+        readMore.setTypeface(
+                null,
+                Typeface.BOLD
+        );
+
+        readMore.setPadding(
+                0, 12, 0, 0
+        );
+
+        card.addView(readMore);
 
         card.setOnClickListener(
                 v -> openArticle(item)
@@ -373,16 +428,87 @@ public class MainActivity extends AppCompatActivity {
         LinearLayout card =
                 createCard();
 
+        String imageUrl = item.getImageUrl();
+
+        if (imageUrl != null && !imageUrl.trim().isEmpty()) {
+
+            ImageView image =
+                    new ImageView(this);
+
+            image.setLayoutParams(
+                    new LinearLayout.LayoutParams(
+                            -1,
+                            200
+                    )
+            );
+
+            image.setScaleType(
+                    ImageView.ScaleType.CENTER_CROP
+            );
+
+            card.addView(image);
+
+            new Thread(() -> {
+                try {
+                    URL url = new URL(imageUrl);
+                    HttpURLConnection connection =
+                            (HttpURLConnection) url.openConnection();
+
+                    connection.setConnectTimeout(15000);
+                    connection.setReadTimeout(15000);
+
+                    InputStream input =
+                            connection.getInputStream();
+
+                    Bitmap bitmap =
+                            BitmapFactory.decodeStream(input);
+
+                    input.close();
+                    connection.disconnect();
+
+                    runOnUiThread(() -> {
+                        if (bitmap != null) {
+                            image.setImageBitmap(bitmap);
+                        }
+                    });
+
+                } catch (Exception ignored) {
+                }
+            }).start();
+        }
+
+        TextView category =
+                createText(
+                        item.getCategory(),
+                        10,
+                        "#E30613"
+                );
+
+        category.setTypeface(
+                null,
+                Typeface.BOLD
+        );
+
+        category.setPadding(
+                0, 14, 0, 0
+        );
+
+        card.addView(category);
+
         TextView title =
                 createText(
                         item.getTitle(),
-                        17,
+                        19,
                         "#FFFFFF"
                 );
 
         title.setTypeface(
                 null,
                 Typeface.BOLD
+        );
+
+        title.setPadding(
+                0, 6, 0, 0
         );
 
         card.addView(title);
@@ -396,8 +522,8 @@ public class MainActivity extends AppCompatActivity {
             TextView excerptView =
                     createText(
                             excerpt,
-                            13,
-                            "#AAAAAA"
+                            14,
+                            "#999999"
                     );
 
             excerptView.setPadding(
@@ -406,6 +532,24 @@ public class MainActivity extends AppCompatActivity {
 
             card.addView(excerptView);
         }
+
+        TextView readMore =
+                createText(
+                        "SOMA HABARI  →",
+                        12,
+                        "#E30613"
+                );
+
+        readMore.setTypeface(
+                null,
+                Typeface.BOLD
+        );
+
+        readMore.setPadding(
+                0, 12, 0, 0
+        );
+
+        card.addView(readMore);
 
         TextView meta =
                 createText(
@@ -506,11 +650,19 @@ public class MainActivity extends AppCompatActivity {
         LinearLayout card =
                 createCard();
 
+        card.setBackgroundResource(
+                R.drawable.bg_fixture_card
+        );
+
+        card.setPadding(
+                16, 16, 16, 16
+        );
+
         TextView competitionView =
                 createText(
                         competition,
                         12,
-                        "#D4AF37"
+                        "#E30613"
                 );
 
         competitionView.setTypeface(
@@ -520,7 +672,7 @@ public class MainActivity extends AppCompatActivity {
 
         TextView teams =
                 createText(
-                        home + "  vs  " + away,
+                        home + "    vs    " + away,
                         16,
                         "#FFFFFF"
                 );
@@ -541,7 +693,7 @@ public class MainActivity extends AppCompatActivity {
                                         ? ""
                                         : "  •  " + time),
                         12,
-                        "#AAAAAA"
+                        "#999999"
                 );
 
         dateView.setGravity(
@@ -605,16 +757,28 @@ public class MainActivity extends AppCompatActivity {
 
         LinearLayout card = createCard();
 
+        card.setBackgroundResource(
+                R.drawable.bg_live_card
+        );
+
+        card.setPadding(
+                16, 16, 16, 16
+        );
+
         TextView live =
                 createText(
-                        "LIVE",
-                        12,
-                        "#FF4444"
+                        "LIVE NOW",
+                        11,
+                        "#E53935"
                 );
 
         live.setTypeface(
                 null,
                 Typeface.BOLD
+        );
+
+        live.setPadding(
+                0, 0, 0, 8
         );
 
         live.setGravity(
@@ -640,8 +804,8 @@ public class MainActivity extends AppCompatActivity {
         TextView comp =
                 createText(
                         competition,
-                        12,
-                        "#AAAAAA"
+                        11,
+                        "#999999"
                 );
 
         comp.setGravity(
@@ -667,6 +831,49 @@ public class MainActivity extends AppCompatActivity {
 
             card.addView(title);
         }
+
+        TextView watch =
+                createText(
+                        "WATCH LIVE  →",
+                        12,
+                        "#FFFFFF"
+                );
+
+        watch.setTypeface(
+                null,
+                Typeface.BOLD
+        );
+
+        watch.setGravity(
+                Gravity.CENTER
+        );
+
+        watch.setPadding(
+                14, 12, 14, 12
+        );
+
+        watch.setBackgroundResource(
+                R.drawable.bg_red_button
+        );
+
+        card.addView(watch);
+
+        TextView viewers =
+                createText(
+                        "LIVE STREAM",
+                        11,
+                        "#999999"
+                );
+
+        viewers.setGravity(
+                Gravity.CENTER
+        );
+
+        viewers.setPadding(
+                0, 10, 0, 0
+        );
+
+        card.addView(viewers);
 
         if (!streamUrl.isEmpty()) {
 
@@ -745,12 +952,13 @@ public class MainActivity extends AppCompatActivity {
                 new GradientDrawable();
 
         background.setColor(
-                Color.rgb(21, 21, 21)
+                Color.rgb(16, 16, 16)
         );
 
-        background.setCornerRadius(20);
+        background.setCornerRadius(16);
 
         card.setBackground(background);
+        card.setElevation(2f);
 
         LinearLayout.LayoutParams params =
                 new LinearLayout.LayoutParams(
@@ -759,7 +967,7 @@ public class MainActivity extends AppCompatActivity {
                 );
 
         params.setMargins(
-                0, 0, 0, 10
+                0, 0, 0, 12
         );
 
         card.setLayoutParams(params);
@@ -783,6 +991,8 @@ public class MainActivity extends AppCompatActivity {
         );
 
         view.setTextSize(size);
+        view.setIncludeFontPadding(false);
+        view.setLineSpacing(2f, 1.05f);
 
         view.setTextColor(
                 Color.parseColor(color)

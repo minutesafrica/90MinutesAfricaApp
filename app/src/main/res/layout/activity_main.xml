@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#080808">
+    android:background="@color/bg_dark">
 
+    <!-- HEADER -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="64dp"
+        android:layout_height="70dp"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:background="#111111">
+        android:paddingStart="18dp"
+        android:paddingEnd="12dp"
+        android:background="@color/bg_header">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -26,19 +26,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="90' MINUTES"
-                android:textColor="#D4AF37"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textColor="@color/red_primary"
+                android:textSize="21sp"
+                android:textStyle="bold"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="AFRICA"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/white"
                 android:textSize="10sp"
                 android:textStyle="bold"
-                android:letterSpacing="0.2" />
-
+                android:letterSpacing="0.25"/>
         </LinearLayout>
 
         <TextView
@@ -46,13 +45,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="NOTIFY"
-            android:textColor="#D4AF37"
+            android:textColor="@color/white"
             android:textSize="11sp"
             android:textStyle="bold"
-            android:padding="10dp"
+            android:padding="12dp"
+            android:background="@drawable/bg_card"
             android:clickable="true"
-            android:focusable="true" />
-
+            android:focusable="true"/>
     </LinearLayout>
 
     <ScrollView
@@ -67,115 +66,123 @@
             android:orientation="vertical"
             android:padding="16dp">
 
+            <!-- BREAKING NEWS -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="BREAKING NEWS"
-                android:textColor="#D4AF37"
+                android:textColor="@color/red_primary"
                 android:textSize="12sp"
                 android:textStyle="bold"
-                android:layout_marginBottom="8dp" />
+                android:letterSpacing="0.08"
+                android:layout_marginBottom="10dp"/>
 
             <LinearLayout
                 android:id="@+id/breakingContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical" />
+                android:orientation="vertical"
+                android:background="@drawable/bg_card"
+                android:padding="4dp"/>
 
+            <!-- HABARI MPYA -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:layout_marginTop="24dp">
+                android:layout_marginTop="28dp"
+                android:layout_marginBottom="12dp">
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Habari Mpya"
-                    android:textColor="#FFFFFF"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
+                    android:textColor="@color/white"
+                    android:textSize="21sp"
+                    android:textStyle="bold"/>
 
                 <TextView
                     android:id="@+id/viewAllNews"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Zote →"
-                    android:textColor="#D4AF37"
+                    android:textColor="@color/red_primary"
                     android:textSize="13sp"
                     android:textStyle="bold"
+                    android:padding="8dp"
                     android:clickable="true"
-                    android:focusable="true" />
-
+                    android:focusable="true"/>
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/latestNewsContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="12dp" />
+                android:orientation="vertical"/>
 
+            <!-- RATIBA -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="RATIBA ZA LEO"
-                android:textColor="#D4AF37"
+                android:textColor="@color/red_primary"
                 android:textSize="17sp"
                 android:textStyle="bold"
-                android:layout_marginTop="24dp" />
+                android:layout_marginTop="28dp"/>
 
             <LinearLayout
                 android:id="@+id/fixturesContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginTop="10dp" />
+                android:layout_marginTop="10dp"/>
 
+            <!-- LIVE -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="LIVE SASA"
-                android:textColor="#D4AF37"
+                android:textColor="@color/red_primary"
                 android:textSize="17sp"
                 android:textStyle="bold"
-                android:layout_marginTop="24dp" />
+                android:layout_marginTop="28dp"/>
 
             <LinearLayout
                 android:id="@+id/liveContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginTop="10dp" />
+                android:layout_marginTop="10dp"/>
 
+            <!-- TRENDING -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="TRENDING"
-                android:textColor="#D4AF37"
+                android:textColor="@color/red_primary"
                 android:textSize="17sp"
                 android:textStyle="bold"
-                android:layout_marginTop="24dp" />
+                android:layout_marginTop="28dp"/>
 
             <LinearLayout
                 android:id="@+id/trendingContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginTop="10dp" />
+                android:layout_marginTop="10dp"/>
 
         </LinearLayout>
-
     </ScrollView>
 
+    <!-- BOTTOM NAVIGATION -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:orientation="horizontal"
         android:gravity="center"
-        android:background="#111111">
+        android:background="@color/bg_header">
 
         <TextView
             android:id="@+id/navHome"
@@ -184,9 +191,9 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="HOME"
-            android:textColor="#D4AF37"
+            android:textColor="@color/red_primary"
             android:textSize="11sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/navNews"
@@ -195,10 +202,10 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="NEWS"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/white"
             android:textSize="11sp"
             android:clickable="true"
-            android:focusable="true" />
+            android:focusable="true"/>
 
         <TextView
             android:id="@+id/navMatches"
@@ -207,10 +214,10 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="MATCHES"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/white"
             android:textSize="11sp"
             android:clickable="true"
-            android:focusable="true" />
+            android:focusable="true"/>
 
         <TextView
             android:id="@+id/navTable"
@@ -219,10 +226,10 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="TABLE"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/white"
             android:textSize="11sp"
             android:clickable="true"
-            android:focusable="true" />
+            android:focusable="true"/>
 
         <TextView
             android:id="@+id/navMore"
@@ -231,11 +238,10 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="MORE"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/white"
             android:textSize="11sp"
             android:clickable="true"
-            android:focusable="true" />
-
+            android:focusable="true"/>
     </LinearLayout>
 
 </LinearLayout>
