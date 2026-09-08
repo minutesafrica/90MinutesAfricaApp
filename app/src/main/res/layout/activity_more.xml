@@ -269,12 +269,12 @@
             android:text="YouTube"
             android:textColor="@color/white"
             android:textSize="15sp"
-            android:textStyle="bold" />
             android:id="@+id/moreWhatsApp"
             android:text="WhatsApp Channel"
             android:textColor="@color/text_secondary"
             android:textSize="13sp"
             android:gravity="center"
+            android:textStyle="bold" />
             android:layout_marginTop="10dp" />
 
         <TextView
