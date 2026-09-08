@@ -9,6 +9,10 @@ public class LiveService {
         void onError(String error);
     }
 
+    public static void getLiveFixtures(Callback callback) {
+        getLiveMatches(callback);
+    }
+
     public static void getLiveMatches(Callback callback) {
 
         new Thread(() -> {
