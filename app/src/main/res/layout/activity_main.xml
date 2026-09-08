@@ -66,6 +66,19 @@
             android:orientation="vertical"
             android:padding="16dp">
 
+            <TextView
+                android:id="@+id/visitWebsite"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginBottom="18dp"
+                android:gravity="center"
+                android:text="TEMBELEA WEBSITE"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:background="@drawable/bg_card"
+                android:clickable="true"
+                android:focusable="true"/>
             <!-- BREAKING NEWS -->
             <TextView
                 android:layout_width="wrap_content"
@@ -174,74 +187,96 @@
                 android:layout_marginTop="10dp"/>
 
         </LinearLayout>
-    </ScrollView>
-
-    <!-- BOTTOM NAVIGATION -->
+    
     <LinearLayout
+        android:id="@+id/mainFooter"
         android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:orientation="horizontal"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:gravity="center"
+        android:padding="24dp"
+        android:layout_marginTop="24dp"
         android:background="@color/bg_header">
 
         <TextView
-            android:id="@+id/navHome"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="HOME"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="90' MINUTES AFRICA"
             android:textColor="@color/red_primary"
-            android:textSize="11sp"
-            android:textStyle="bold"/>
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp" />
 
         <TextView
-            android:id="@+id/navNews"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:id="@+id/footerTerms"
+            android:layout_width="wrap_content"
+            android:layout_height="44dp"
             android:gravity="center"
-            android:text="NEWS"
+            android:text="Terms &amp; Conditions"
             android:textColor="@color/white"
-            android:textSize="11sp"
+            android:textSize="14sp"
             android:clickable="true"
-            android:focusable="true"/>
+            android:focusable="true" />
 
         <TextView
-            android:id="@+id/navMatches"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:id="@+id/footerPrivacy"
+            android:layout_width="wrap_content"
+            android:layout_height="44dp"
             android:gravity="center"
-            android:text="MATCHES"
+            android:text="Privacy Policy"
             android:textColor="@color/white"
-            android:textSize="11sp"
+            android:textSize="14sp"
             android:clickable="true"
-            android:focusable="true"/>
+            android:focusable="true" />
 
         <TextView
-            android:id="@+id/navTable"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:id="@+id/footerCookie"
+            android:layout_width="wrap_content"
+            android:layout_height="44dp"
             android:gravity="center"
-            android:text="TABLE"
+            android:text="Cookie Policy"
             android:textColor="@color/white"
-            android:textSize="11sp"
+            android:textSize="14sp"
             android:clickable="true"
-            android:focusable="true"/>
+            android:focusable="true" />
 
         <TextView
-            android:id="@+id/navMore"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:id="@+id/footerDisclaimer"
+            android:layout_width="wrap_content"
+            android:layout_height="44dp"
             android:gravity="center"
-            android:text="MORE"
+            android:text="Disclaimer"
             android:textColor="@color/white"
-            android:textSize="11sp"
+            android:textSize="14sp"
             android:clickable="true"
-            android:focusable="true"/>
+            android:focusable="true" />
+
+        <TextView
+            android:id="@+id/footerAbout"
+            android:layout_width="wrap_content"
+            android:layout_height="44dp"
+            android:gravity="center"
+            android:text="About Us"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:clickable="true"
+            android:focusable="true" />
+
+        <TextView
+            android:id="@+id/footerContact"
+            android:layout_width="wrap_content"
+            android:layout_height="44dp"
+            android:gravity="center"
+            android:text="Contact Us"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:clickable="true"
+            android:focusable="true" />
+
     </LinearLayout>
+
+</ScrollView>
+
+    
 
 </LinearLayout>

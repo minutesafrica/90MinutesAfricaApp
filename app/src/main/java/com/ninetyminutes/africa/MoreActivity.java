@@ -77,6 +77,13 @@ public class MoreActivity extends AppCompatActivity {
                 v -> openLink(
                         "https://whatsapp.com/channel/0029Vb6mtUXDjiOZZOGkCw00"
                 ));
+
+        findViewById(R.id.moreTanzania).setOnClickListener(v -> openCategory("Tanzania"));
+        findViewById(R.id.moreKimataifa).setOnClickListener(v -> openCategory("Kimataifa"));
+        findViewById(R.id.moreVilabu).setOnClickListener(v -> openCategory("Vilabu"));
+        findViewById(R.id.moreMashindano).setOnClickListener(v -> openCategory("Mashindano"));
+        findViewById(R.id.moreUsajili).setOnClickListener(v -> openCategory("Usajili"));
+        findViewById(R.id.moreWachezaji).setOnClickListener(v -> openCategory("Wachezaji"));
     }
 
     private void openLink(String url) {
@@ -88,23 +95,6 @@ public class MoreActivity extends AppCompatActivity {
         } catch (Exception ignored) {
         }
 
-        findViewById(R.id.moreTanzania).setOnClickListener(
-                v -> openCategory("Tanzania"));
-
-        findViewById(R.id.moreKimataifa).setOnClickListener(
-                v -> openCategory("Kimataifa"));
-
-        findViewById(R.id.moreVilabu).setOnClickListener(
-                v -> openCategory("Vilabu"));
-
-        findViewById(R.id.moreMashindano).setOnClickListener(
-                v -> openCategory("Mashindano"));
-
-        findViewById(R.id.moreUsajili).setOnClickListener(
-                v -> openCategory("Usajili"));
-
-        findViewById(R.id.moreWachezaji).setOnClickListener(
-                v -> openCategory("Wachezaji"));
     }
 
     private void openCategory(String category) {

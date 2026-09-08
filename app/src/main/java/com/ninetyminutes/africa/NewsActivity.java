@@ -49,32 +49,8 @@ public class NewsActivity extends AppCompatActivity {
                     incomingCategory.toUpperCase(Locale.ROOT);
         }
 
-        setupCategories();
         setupSearch();
         loadNews();
-    }
-
-    private void setupCategories() {
-
-        findViewById(R.id.categoryAll).setOnClickListener(v -> {
-            selectedCategory = "ALL";
-            displayNews();
-        });
-
-        findViewById(R.id.categoryTanzania).setOnClickListener(v -> {
-            selectedCategory = "TANZANIA";
-            displayNews();
-        });
-
-        findViewById(R.id.categoryAfrica).setOnClickListener(v -> {
-            selectedCategory = "AFRICA";
-            displayNews();
-        });
-
-        findViewById(R.id.categoryWorld).setOnClickListener(v -> {
-            selectedCategory = "WORLD";
-            displayNews();
-        });
     }
 
     private void setupSearch() {

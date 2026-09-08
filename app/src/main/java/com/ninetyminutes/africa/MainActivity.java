@@ -15,6 +15,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.PopupWindow;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -71,59 +72,176 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupNavigation() {
-
-        findViewById(R.id.navNews).setOnClickListener(
-                v -> startActivity(
-                        new Intent(
-                                MainActivity.this,
-                                NewsActivity.class
-                        )
-                )
+        findViewById(R.id.visitWebsite).setOnClickListener(v ->
+                startActivity(new Intent(
+                        Intent.ACTION_VIEW,
+                        android.net.Uri.parse("https://90minutesafrica.online")
+                ))
         );
 
-        findViewById(R.id.navMatches).setOnClickListener(
-                v -> startActivity(
-                        new Intent(
-                                MainActivity.this,
-                                MatchesActivity.class
-                        )
-                )
+        findViewById(R.id.navMenu).setOnClickListener(v -> {
+            View menuView = getLayoutInflater().inflate(
+                    R.layout.popup_nav_menu,
+                    null
+            );
+
+            PopupWindow popup = new PopupWindow(
+                    menuView,
+                    dp(240),
+                    android.view.ViewGroup.LayoutParams.WRAP_CONTENT,
+                    true
+            );
+
+            popup.setBackgroundDrawable(
+                    new android.graphics.drawable.ColorDrawable(
+                            Color.TRANSPARENT
+                    )
+            );
+            popup.setOutsideTouchable(true);
+            popup.setElevation(dp(12));
+
+            menuView.findViewById(R.id.menuHome).setOnClickListener(item -> {
+                popup.dismiss();
+                startActivity(new Intent(
+                        MainActivity.this,
+                        MainActivity.class
+                ));
+            });
+
+            menuView.findViewById(R.id.menuNews).setOnClickListener(item -> {
+                popup.dismiss();
+                startActivity(new Intent(
+                        MainActivity.this,
+                        NewsActivity.class
+                ));
+            });
+
+            menuView.findViewById(R.id.menuMatches).setOnClickListener(item -> {
+                popup.dismiss();
+                startActivity(new Intent(
+                        MainActivity.this,
+                        MatchesActivity.class
+                ));
+            });
+
+            menuView.findViewById(R.id.menuResults).setOnClickListener(item -> {
+                popup.dismiss();
+                startActivity(new Intent(
+                        MainActivity.this,
+                        ResultsActivity.class
+                ));
+            });
+
+            menuView.findViewById(R.id.menuTable).setOnClickListener(item -> {
+                popup.dismiss();
+                startActivity(new Intent(
+                        MainActivity.this,
+                        TableActivity.class
+                ));
+            });
+
+            String[] categories = {
+                    "Tanzania",
+                    "Kimataifa",
+                    "Vilabu",
+                    "Mashindano",
+                    "Usajili",
+                    "Wachezaji"
+            };
+
+            int[] ids = {
+                    R.id.menuTanzania,
+                    R.id.menuKimataifa,
+                    R.id.menuVilabu,
+                    R.id.menuMashindano,
+                    R.id.menuUsajili,
+                    R.id.menuWachezaji
+            };
+
+            for (int i = 0; i < ids.length; i++) {
+                final String category = categories[i];
+
+                menuView.findViewById(ids[i]).setOnClickListener(item -> {
+                    Intent intent = new Intent(
+                            MainActivity.this,
+                            NewsActivity.class
+                    );
+                    intent.putExtra(
+                            "selected_category",
+                            category
+                    );
+                    popup.dismiss();
+                    startActivity(intent);
+                });
+            }
+
+            popup.showAsDropDown(
+                    v,
+                    -dp(192),
+                    dp(6)
+            );
+        });
+
+        findViewById(R.id.navNotifications).setOnClickListener(v ->
+                startActivity(new Intent(
+                        MainActivity.this,
+                        NotificationsActivity.class
+                ))
         );
 
-        findViewById(R.id.navTable).setOnClickListener(
-                v -> startActivity(
-                        new Intent(
-                                MainActivity.this,
-                                TableActivity.class
-                        )
-                )
+        findViewById(R.id.viewAllNews).setOnClickListener(v ->
+                startActivity(new Intent(
+                        MainActivity.this,
+                        NewsActivity.class
+                ))
         );
 
-        findViewById(R.id.navMore).setOnClickListener(
-                v -> startActivity(
-                        new Intent(
-                                MainActivity.this,
-                                MoreActivity.class
-                        )
-                )
+        findViewById(R.id.footerTerms).setOnClickListener(v ->
+                startActivity(new Intent(
+                        MainActivity.this,
+                        TermsActivity.class
+                ))
         );
 
-        findViewById(R.id.navNotifications).setOnClickListener(
-                v -> startActivity(
-                        new Intent(
-                                MainActivity.this,
-                                NotificationsActivity.class
-                        )
-                )
+        findViewById(R.id.footerPrivacy).setOnClickListener(v ->
+                startActivity(new Intent(
+                        MainActivity.this,
+                        PrivacyPolicyActivity.class
+                ))
         );
 
-        findViewById(R.id.viewAllNews).setOnClickListener(
-                v -> startActivity(
-                        new Intent(
-                                MainActivity.this,
-                                NewsActivity.class
-                        )
-                )
+        findViewById(R.id.footerCookie).setOnClickListener(v ->
+                startActivity(new Intent(
+                        MainActivity.this,
+                        CookiePolicyActivity.class
+                ))
+        );
+
+        findViewById(R.id.footerDisclaimer).setOnClickListener(v ->
+                startActivity(new Intent(
+                        MainActivity.this,
+                        DisclaimerActivity.class
+                ))
+        );
+
+        findViewById(R.id.footerAbout).setOnClickListener(v ->
+                startActivity(new Intent(
+                        MainActivity.this,
+                        AboutActivity.class
+                ))
+        );
+
+        findViewById(R.id.footerContact).setOnClickListener(v ->
+                startActivity(new Intent(
+                        MainActivity.this,
+                        ContactActivity.class
+                ))
+        );
+    }
+
+    private int dp(int value) {
+        return (int) (
+                value * getResources().getDisplayMetrics().density + 0.5f
         );
     }
 
@@ -371,6 +489,10 @@ public class MainActivity extends AppCompatActivity {
                 null,
                 Typeface.BOLD
         );
+        title.setSingleLine(true);
+        title.setEllipsize(android.text.TextUtils.TruncateAt.MARQUEE);
+        title.setMarqueeRepeatLimit(-1);
+        title.setSelected(true);
 
         title.setPadding(
                 0, 6, 0, 0
@@ -438,7 +560,7 @@ public class MainActivity extends AppCompatActivity {
             image.setLayoutParams(
                     new LinearLayout.LayoutParams(
                             -1,
-                            200
+                            180
                     )
             );
 
