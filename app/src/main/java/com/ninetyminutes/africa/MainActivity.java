@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         trendingContainer =
                 findViewById(R.id.trendingContainer);
 
-        setupNavigation();
+        // setupNavigation();
 
         // loadNews();
 
