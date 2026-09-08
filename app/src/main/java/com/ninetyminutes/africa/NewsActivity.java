@@ -2,6 +2,12 @@ package com.ninetyminutes.africa;
 
 import android.content.Intent;
 import android.os.Bundle;
+import java.net.URL;
+import java.net.HttpURLConnection;
+import java.io.InputStream;
+import android.widget.ImageView;
+import android.graphics.BitmapFactory;
+import android.graphics.Bitmap;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
