@@ -637,7 +637,7 @@ public class ArticleDetailActivity extends AppCompatActivity {
                     nameView.setTextColor(
                             android.graphics.Color
                                     .parseColor(
-                                            "#D4AF37"
+                                            "#E30613"
                                     )
                     );
                     nameView.setTextSize(15);

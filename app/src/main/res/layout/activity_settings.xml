@@ -3,7 +3,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#080808">
+    android:background="#050505">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,7 +16,7 @@
             android:layout_height="64dp"
             android:gravity="center_vertical"
             android:text="90' MINUTES AFRICA"
-            android:textColor="#D4AF37"
+            android:textColor="#E30613"
             android:textSize="21sp"
             android:textStyle="bold" />
 

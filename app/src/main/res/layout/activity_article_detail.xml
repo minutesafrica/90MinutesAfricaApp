@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#080808">
+    android:background="#050505">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,20 +19,20 @@
             android:layout_height="48dp"
             android:gravity="center"
             android:text="‹"
-            android:textColor="#D4AF37"
+            android:textColor="#FFFFFF"
             android:textSize="34sp"
             android:clickable="true"
-            android:focusable="true" />
+            android:focusable="true"/>
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:gravity="center"
             android:text="90' MINUTES AFRICA"
             android:textColor="#FFFFFF"
             android:textSize="18sp"
-            android:textStyle="bold"
-            android:gravity="center" />
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/articleShare"
@@ -42,11 +40,10 @@
             android:layout_height="48dp"
             android:gravity="center"
             android:text="↗"
-            android:textColor="#D4AF37"
+            android:textColor="#E30613"
             android:textSize="24sp"
             android:clickable="true"
-            android:focusable="true" />
-
+            android:focusable="true"/>
     </LinearLayout>
 
     <ScrollView
@@ -58,63 +55,66 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="18dp">
 
             <ImageView
                 android:id="@+id/articleImage"
                 android:layout_width="match_parent"
-                android:layout_height="220dp"
+                android:layout_height="240dp"
                 android:scaleType="centerCrop"
-                android:background="#222222"
-                android:contentDescription="Picha ya habari" />
+                android:background="#101010"
+                android:contentDescription="Picha ya habari"/>
 
             <TextView
                 android:id="@+id/articleCategory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
                 android:text="FOOTBALL"
-                android:textColor="#D4AF37"
-                android:textSize="12sp"
+                android:textColor="#E30613"
+                android:textSize="11sp"
                 android:textStyle="bold"
-                android:layout_marginTop="18dp" />
+                android:letterSpacing="0.08"/>
 
             <TextView
                 android:id="@+id/articleTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:text="Habari kuu ya soka"
                 android:textColor="#FFFFFF"
-                android:textSize="24sp"
+                android:textSize="30sp"
                 android:textStyle="bold"
-                android:layout_marginTop="8dp" />
+                android:lineSpacingExtra="2dp"/>
 
             <TextView
                 android:id="@+id/articleMeta"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="90' MINUTES AFRICA • Leo • Views 0"
-                android:textColor="#888888"
-                android:textSize="12sp"
-                android:layout_marginTop="10dp" />
+                android:layout_marginTop="12dp"
+                android:text="Na 90' MINUTES AFRICA • Leo"
+                android:textColor="#999999"
+                android:textSize="12sp"/>
 
             <TextView
                 android:id="@+id/articleExcerpt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#AAAAAA"
-                android:textSize="15sp"
-                android:lineSpacingExtra="4dp"
-                android:layout_marginTop="16dp" />
+                android:layout_marginTop="20dp"
+                android:textColor="#DDDDDD"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:lineSpacingExtra="5dp"/>
 
             <TextView
                 android:id="@+id/articleContent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
                 android:text="Soma habari kamili hapa."
-                android:textColor="#DDDDDD"
-                android:textSize="16sp"
-                android:lineSpacingExtra="6dp"
-                android:layout_marginTop="18dp" />
+                android:textColor="#CCCCCC"
+                android:textSize="17sp"
+                android:lineSpacingExtra="7dp"/>
 
             <LinearLayout
                 android:id="@+id/newsStats"
@@ -122,8 +122,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginTop="24dp"
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp">
+                android:paddingTop="14dp"
+                android:paddingBottom="14dp">
 
                 <TextView
                     android:id="@+id/articleViews"
@@ -132,7 +132,7 @@
                     android:layout_weight="1"
                     android:text="Views 0"
                     android:textColor="#999999"
-                    android:textSize="13sp" />
+                    android:textSize="13sp"/>
 
                 <TextView
                     android:id="@+id/articleShares"
@@ -140,8 +140,7 @@
                     android:layout_height="wrap_content"
                     android:text="Shares 0"
                     android:textColor="#999999"
-                    android:textSize="13sp" />
-
+                    android:textSize="13sp"/>
             </LinearLayout>
 
             <LinearLayout
@@ -153,90 +152,89 @@
                 <Button
                     android:id="@+id/articleLike"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="48dp"
                     android:layout_weight="1"
                     android:text="Like 0"
                     android:textColor="#FFFFFF"
-                    android:backgroundTint="#1E1E1E"
-                    android:textAllCaps="false" />
+                    android:backgroundTint="#151515"
+                    android:textAllCaps="false"/>
 
                 <Button
                     android:id="@+id/articleComment"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="48dp"
                     android:layout_weight="1"
+                    android:layout_marginStart="8dp"
                     android:text="Comment 0"
                     android:textColor="#FFFFFF"
-                    android:backgroundTint="#1E1E1E"
-                    android:textAllCaps="false"
-                    android:layout_marginStart="8dp" />
+                    android:backgroundTint="#151515"
+                    android:textAllCaps="false"/>
 
                 <Button
                     android:id="@+id/articleShareButton"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="48dp"
                     android:layout_weight="1"
+                    android:layout_marginStart="8dp"
                     android:text="Share"
                     android:textColor="#FFFFFF"
-                    android:backgroundTint="#D4AF37"
-                    android:textAllCaps="false"
-                    android:layout_marginStart="8dp" />
-
+                    android:backgroundTint="#E30613"
+                    android:textAllCaps="false"/>
             </LinearLayout>
 
             <TextView
                 android:id="@+id/commentsTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="16dp"
                 android:text="Maoni ya Wasomaji"
                 android:textColor="#FFFFFF"
                 android:textSize="20sp"
-                android:textStyle="bold"
-                android:layout_marginTop="30dp"
-                android:layout_marginBottom="16dp" />
+                android:textStyle="bold"/>
 
             <EditText
                 android:id="@+id/commentName"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="52dp"
                 android:hint="Jina lako"
                 android:maxLength="50"
                 android:singleLine="true"
                 android:textColor="#FFFFFF"
                 android:textColorHint="#777777"
-                android:backgroundTint="#444444" />
+                android:backgroundTint="#333333"/>
 
             <EditText
                 android:id="@+id/commentText"
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
+                android:layout_marginTop="10dp"
                 android:hint="Andika maoni yako..."
                 android:maxLength="500"
                 android:gravity="top"
                 android:inputType="textMultiLine"
                 android:textColor="#FFFFFF"
                 android:textColorHint="#777777"
-                android:backgroundTint="#444444"
-                android:layout_marginTop="10dp" />
+                android:backgroundTint="#333333"/>
 
             <Button
                 android:id="@+id/sendComment"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
+                android:layout_marginTop="10dp"
                 android:text="Tuma Comment"
-                android:textColor="#080808"
-                android:backgroundTint="#D4AF37"
-                android:textAllCaps="false"
-                android:layout_marginTop="10dp" />
+                android:textColor="#FFFFFF"
+                android:backgroundTint="#E30613"
+                android:textAllCaps="false"/>
 
             <TextView
                 android:id="@+id/commentsEmpty"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
                 android:text="Hakuna comment bado. Kuwa wa kwanza kutoa maoni!"
                 android:textColor="#777777"
-                android:textSize="14sp"
-                android:layout_marginTop="20dp" />
+                android:textSize="14sp"/>
 
             <LinearLayout
                 android:id="@+id/commentsContainer"
@@ -244,10 +242,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_marginTop="12dp"
-                android:layout_marginBottom="30dp" />
-
+                android:layout_marginBottom="30dp"/>
         </LinearLayout>
-
     </ScrollView>
-
 </LinearLayout>

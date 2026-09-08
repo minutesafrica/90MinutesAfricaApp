@@ -64,7 +64,6 @@ public class MatchesActivity extends AppCompatActivity {
     }
 
     private void addMatchCard(JSONObject match) throws Exception {
-
         String home = match.optString("home_team", "Home");
         String away = match.optString("away_team", "Away");
         String competition = match.optString("competition", "");
@@ -76,94 +75,78 @@ public class MatchesActivity extends AppCompatActivity {
 
         LinearLayout card = new LinearLayout(this);
         card.setOrientation(LinearLayout.VERTICAL);
-        card.setPadding(28, 24, 28, 24);
+        card.setPadding(16, 16, 16, 16);
 
-        android.graphics.drawable.GradientDrawable background =
+        android.graphics.drawable.GradientDrawable bg =
                 new android.graphics.drawable.GradientDrawable();
-
-        background.setColor(android.graphics.Color.rgb(21, 21, 21));
-        background.setCornerRadius(20);
-
-        card.setBackground(background);
+        bg.setColor(0xFF101010);
+        bg.setCornerRadius(16);
+        bg.setStroke(1, 0xFF262626);
+        card.setBackground(bg);
 
         LinearLayout.LayoutParams cardParams =
-                new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT
-                );
-
-        cardParams.setMargins(0, 0, 0, 18);
+                new LinearLayout.LayoutParams(-1, -2);
+        cardParams.setMargins(0, 0, 0, 16);
         card.setLayoutParams(cardParams);
 
         TextView competitionView = createText(
-                competition,
+                competition.toUpperCase(),
                 12,
-                "#D4AF37"
+                "#E30613"
         );
+        competitionView.setTypeface(null, 1);
 
         TextView dateView = createText(
                 date + (time.isEmpty() ? "" : "  •  " + time),
                 13,
-                "#AAAAAA"
+                "#999999"
         );
+        dateView.setPadding(0, 5, 0, 0);
 
         TextView teamsView = createText(
-                home + "  vs  " + away,
-                18,
+                home + "    vs    " + away,
+                16,
                 "#FFFFFF"
         );
-        teamsView.setTypeface(null, android.graphics.Typeface.BOLD);
+        teamsView.setTypeface(null, 1);
+        teamsView.setGravity(android.view.Gravity.CENTER);
+        teamsView.setPadding(0, 16, 0, 16);
 
         card.addView(competitionView);
         card.addView(dateView);
-
-        LinearLayout.LayoutParams teamParams =
-                new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT
-                );
-        teamParams.setMargins(0, 14, 0, 10);
-        teamsView.setLayoutParams(teamParams);
-
         card.addView(teamsView);
 
-        if (!venue.isEmpty()) {
-            TextView venueView = createText(
-                    "Uwanja: " + venue,
-                    12,
-                    "#AAAAAA"
+        if (!venue.trim().isEmpty()) {
+            View divider = new View(this);
+            divider.setBackgroundColor(0xFF222222);
+            card.addView(
+                    divider,
+                    new LinearLayout.LayoutParams(-1, 1)
             );
+
+            TextView venueView = createText(
+                    venue,
+                    12,
+                    "#888888"
+            );
+            venueView.setPadding(0, 10, 0, 0);
             card.addView(venueView);
         }
 
-        String finalStatus;
-
-        if (isLive) {
-            finalStatus = "LIVE";
-        } else if (!status.isEmpty()) {
-            finalStatus = status;
-        } else {
-            finalStatus = "Inakuja";
-        }
+        String finalStatus =
+                isLive
+                        ? "LIVE"
+                        : (status.isEmpty() ? "INAKUJA" : status);
 
         TextView statusView = createText(
-                finalStatus,
-                12,
-                isLive ? "#FF4444" : "#D4AF37"
+                finalStatus.toUpperCase(),
+                11,
+                isLive ? "#E53935" : "#999999"
         );
-
-        statusView.setTypeface(null, android.graphics.Typeface.BOLD);
-
-        LinearLayout.LayoutParams statusParams =
-                new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.WRAP_CONTENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT
-                );
-        statusParams.setMargins(0, 8, 0, 0);
-        statusView.setLayoutParams(statusParams);
+        statusView.setTypeface(null, 1);
+        statusView.setPadding(0, 10, 0, 0);
 
         card.addView(statusView);
-
         matchesContainer.addView(card);
     }
 

@@ -4,7 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#080808">
+    android:background="#050505">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="90' MINUTES AFRICA"
-            android:textColor="#D4AF37"
+            android:textColor="#E30613"
             android:textSize="22sp"
             android:textStyle="bold"
             android:paddingBottom="20dp" />
@@ -24,7 +24,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="MATOKEO"
+            android:text="MATOKEO YA MECHI"
             android:textColor="#FFFFFF"
             android:textSize="24sp"
             android:textStyle="bold" />
@@ -32,7 +32,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Matokeo ya mechi kutoka Tanzania, Afrika na dunia."
+            android:text="Matokeo ya mechi Tanzania, Afrika na duniani."
             android:textColor="#AAAAAA"
             android:textSize="14sp"
             android:paddingTop="6dp"

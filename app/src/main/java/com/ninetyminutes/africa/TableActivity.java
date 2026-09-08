@@ -232,7 +232,7 @@ public class TableActivity extends AppCompatActivity {
                 row,
                 String.valueOf(points),
                 1,
-                "#D4AF37",
+                "#E30613",
                 Gravity.CENTER,
                 true
         );

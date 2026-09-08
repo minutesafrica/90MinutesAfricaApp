@@ -114,10 +114,14 @@ public class ResultsActivity extends AppCompatActivity {
                 new GradientDrawable();
 
         background.setColor(
-                Color.rgb(21, 21, 21)
+                Color.rgb(16, 16, 16)
         );
 
-        background.setCornerRadius(20);
+        background.setCornerRadius(16);
+        background.setStroke(
+                1,
+                Color.rgb(38, 38, 38)
+        );
 
         card.setBackground(background);
 
@@ -128,16 +132,16 @@ public class ResultsActivity extends AppCompatActivity {
                 );
 
         cardParams.setMargins(
-                0, 0, 0, 12
+                0, 0, 0, 16
         );
 
         card.setLayoutParams(cardParams);
 
         TextView competitionView =
                 createText(
-                        competition,
+                        competition.toUpperCase(),
                         12,
-                        "#D4AF37"
+                        "#E30613"
                 );
 
         competitionView.setTypeface(
@@ -147,82 +151,65 @@ public class ResultsActivity extends AppCompatActivity {
 
         TextView teamsView =
                 createText(
-                        home + "    " +
-                        homeScore +
-                        "  -  " +
-                        awayScore +
-                        "    " +
-                        away,
-                        17,
+                        home + "    " + homeScore
+                                + "  -  "
+                                + awayScore + "    " + away,
+                        16,
                         "#FFFFFF"
                 );
-
-        teamsView.setGravity(
-                Gravity.CENTER
-        );
 
         teamsView.setTypeface(
                 null,
                 Typeface.BOLD
         );
 
-        LinearLayout.LayoutParams teamsParams =
-                new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT
-                );
-
-        teamsParams.setMargins(
-                0, 14, 0, 0
+        teamsView.setGravity(
+                Gravity.CENTER
         );
 
-        teamsView.setLayoutParams(
-                teamsParams
+        teamsView.setPadding(
+                0, 16, 0, 16
         );
 
         TextView infoView =
                 createText(
-                        status +
-                        (date.isEmpty()
+                        status.toUpperCase()
+                                + (date.isEmpty()
                                 ? ""
                                 : "  •  " + date),
-                        13,
-                        "#AAAAAA"
+                        12,
+                        "#999999"
                 );
 
         infoView.setGravity(
                 Gravity.CENTER
         );
 
-        LinearLayout.LayoutParams infoParams =
+        View divider =
+                new View(this);
+
+        divider.setBackgroundColor(
+                0xFF222222
+        );
+
+        card.addView(competitionView);
+        card.addView(teamsView);
+
+        card.addView(
+                divider,
                 new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT
-                );
-
-        infoParams.setMargins(
-                0, 8, 0, 0
+                        -1,
+                        1
+                )
         );
 
-        infoView.setLayoutParams(
-                infoParams
+        infoView.setPadding(
+                0, 10, 0, 0
         );
 
-        card.addView(
-                competitionView
-        );
+        card.addView(infoView);
 
-        card.addView(
-                teamsView
-        );
-
-        card.addView(
-                infoView
-        );
-
-        resultsContainer.addView(
-                card
-        );
+        resultsContainer.addView(card);
     }
 
     private TextView createText(

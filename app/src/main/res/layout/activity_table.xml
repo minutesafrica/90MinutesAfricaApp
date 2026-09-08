@@ -4,7 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#080808">
+    android:background="#050505">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="90' MINUTES AFRICA"
-            android:textColor="#D4AF37"
+            android:textColor="#E30613"
             android:textSize="20sp"
             android:textStyle="bold"
             android:paddingBottom="20dp" />
@@ -25,14 +25,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="MSIMAMO WA LIGI"
-            android:textColor="#D4AF37"
+            android:textColor="#E30613"
             android:textSize="23sp"
             android:textStyle="bold" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="NBC Premier League"
+            android:text="NBC PREMIER LEAGUE"
             android:textColor="#AAAAAA"
             android:textSize="14sp"
             android:layout_marginTop="6dp"
@@ -50,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
                 android:text="TIMU"
-                android:textColor="#D4AF37"
+                android:textColor="#E30613"
                 android:textSize="12sp"
                 android:textStyle="bold"
                 android:paddingStart="12dp" />
@@ -100,7 +100,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="PTS"
-                android:textColor="#D4AF37"
+                android:textColor="#E30613"
                 android:textStyle="bold"
                 android:gravity="center" />
 

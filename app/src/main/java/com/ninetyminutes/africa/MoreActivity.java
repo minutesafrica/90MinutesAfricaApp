@@ -49,5 +49,73 @@ public class MoreActivity extends AppCompatActivity {
             Intent intent = new Intent(MoreActivity.this, ContactActivity.class);
             startActivity(intent);
         });
+        
+        findViewById(R.id.moreCookie).setOnClickListener(v -> {
+            startActivity(new Intent(
+                    MoreActivity.this,
+                    CookiePolicyActivity.class
+            ));
+        });
+
+        findViewById(R.id.moreDisclaimer).setOnClickListener(v -> {
+            startActivity(new Intent(
+                    MoreActivity.this,
+                    DisclaimerActivity.class
+            ));
+        });
+        
+        findViewById(R.id.moreFacebook).setOnClickListener(
+                v -> openLink("https://facebook.com/"));
+
+        findViewById(R.id.moreInstagram).setOnClickListener(
+                v -> openLink("https://instagram.com/"));
+
+        findViewById(R.id.moreYouTube).setOnClickListener(
+                v -> openLink("https://youtube.com/"));
+
+        findViewById(R.id.moreWhatsApp).setOnClickListener(
+                v -> openLink(
+                        "https://whatsapp.com/channel/0029Vb6mtUXDjiOZZOGkCw00"
+                ));
+    }
+
+    private void openLink(String url) {
+        try {
+            startActivity(new Intent(
+                    Intent.ACTION_VIEW,
+                    android.net.Uri.parse(url)
+            ));
+        } catch (Exception ignored) {
+        }
+
+        findViewById(R.id.moreTanzania).setOnClickListener(
+                v -> openCategory("Tanzania"));
+
+        findViewById(R.id.moreKimataifa).setOnClickListener(
+                v -> openCategory("Kimataifa"));
+
+        findViewById(R.id.moreVilabu).setOnClickListener(
+                v -> openCategory("Vilabu"));
+
+        findViewById(R.id.moreMashindano).setOnClickListener(
+                v -> openCategory("Mashindano"));
+
+        findViewById(R.id.moreUsajili).setOnClickListener(
+                v -> openCategory("Usajili"));
+
+        findViewById(R.id.moreWachezaji).setOnClickListener(
+                v -> openCategory("Wachezaji"));
+    }
+
+    private void openCategory(String category) {
+        Intent intent =
+                new Intent(MoreActivity.this, NewsActivity.class);
+
+        intent.putExtra(
+                "selected_category",
+                category
+        );
+
+        startActivity(intent);
     }
 }

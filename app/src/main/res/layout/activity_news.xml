@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#080808">
+    android:background="#050505">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="90' MINUTES AFRICA"
-            android:textColor="#D4AF37"
+            android:textColor="#E30613"
             android:textSize="19sp"
             android:textStyle="bold" />
 
@@ -39,7 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="HABARI ZOTE"
-                android:textColor="#D4AF37"
+                android:textColor="#E30613"
                 android:textSize="22sp"
                 android:textStyle="bold" />
 
@@ -77,10 +77,10 @@
                         android:paddingStart="18dp"
                         android:paddingEnd="18dp"
                         android:text="ZOTE"
-                        android:textColor="#080808"
+                        android:textColor="#050505"
                         android:textSize="13sp"
                         android:textStyle="bold"
-                        android:background="#D4AF37" />
+                        android:background="#E30613" />
 
                     <TextView
                         android:id="@+id/categoryTanzania"

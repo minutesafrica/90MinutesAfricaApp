@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#080808">
+    android:background="#050505">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="90' MINUTES AFRICA"
-            android:textColor="#D4AF37"
+            android:textColor="#E30613"
             android:textSize="19sp"
             android:textStyle="bold" />
 
@@ -39,8 +39,8 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="🔒 PRIVACY POLICY"
-                android:textColor="#D4AF37"
+                android:text="PRIVACY POLICY"
+                android:textColor="#E30613"
                 android:textSize="22sp"
                 android:textStyle="bold" />
 
@@ -57,7 +57,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="1. TAARIFA TUNAZOKUSANYA"
-                android:textColor="#D4AF37"
+                android:textColor="#E30613"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:layout_marginTop="24dp" />
@@ -66,7 +66,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Kwa kutegemea vipengele unavyotumia, programu inaweza kushughulikia taarifa kama vile mipangilio ya programu, taarifa za matumizi na taarifa unazochagua kutupatia."
-                android:textColor="#AAAAAA"
+                android:textColor="#999999"
                 android:textSize="14sp"
                 android:lineSpacingExtra="5dp"
                 android:layout_marginTop="8dp" />
@@ -75,7 +75,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="2. JINSI TUNAVYOTUMIA TAARIFA"
-                android:textColor="#D4AF37"
+                android:textColor="#E30613"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:layout_marginTop="22dp" />
@@ -84,7 +84,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Taarifa zinaweza kutumika kuboresha huduma, kutoa maudhui na taarifa za soka, kuboresha utendaji wa programu, pamoja na kusaidia usalama na utatuzi wa matatizo."
-                android:textColor="#AAAAAA"
+                android:textColor="#999999"
                 android:textSize="14sp"
                 android:lineSpacingExtra="5dp"
                 android:layout_marginTop="8dp" />
@@ -93,7 +93,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="3. COOKIES NA TEKNOLOJIA ZA UFUATILIAJI"
-                android:textColor="#D4AF37"
+                android:textColor="#E30613"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:layout_marginTop="22dp" />
@@ -102,7 +102,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Huduma za mtandaoni zinazotumiwa na programu zinaweza kutumia cookies au teknolojia zinazofanana kwa ajili ya utendaji, takwimu na kuboresha uzoefu wa mtumiaji."
-                android:textColor="#AAAAAA"
+                android:textColor="#999999"
                 android:textSize="14sp"
                 android:lineSpacingExtra="5dp"
                 android:layout_marginTop="8dp" />
@@ -111,7 +111,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="4. USALAMA WA TAARIFA"
-                android:textColor="#D4AF37"
+                android:textColor="#E30613"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:layout_marginTop="22dp" />
@@ -120,7 +120,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Tunachukua hatua zinazofaa kulinda taarifa dhidi ya matumizi yasiyoruhusiwa, upotevu au uharibifu. Hata hivyo, hakuna mfumo wa kidijitali unaoweza kuhakikishwa kuwa salama kwa asilimia 100."
-                android:textColor="#AAAAAA"
+                android:textColor="#999999"
                 android:textSize="14sp"
                 android:lineSpacingExtra="5dp"
                 android:layout_marginTop="8dp" />
@@ -129,7 +129,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="5. HUDUMA ZA WENGINE"
-                android:textColor="#D4AF37"
+                android:textColor="#E30613"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:layout_marginTop="22dp" />
@@ -138,7 +138,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Programu inaweza kutumia huduma za wahusika wengine kwa vipengele kama takwimu, matangazo, hifadhi ya data au huduma za mtandaoni. Huduma hizo zinaweza kuwa na sera zao za faragha."
-                android:textColor="#AAAAAA"
+                android:textColor="#999999"
                 android:textSize="14sp"
                 android:lineSpacingExtra="5dp"
                 android:layout_marginTop="8dp" />
@@ -147,7 +147,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="6. MABADILIKO YA SERA"
-                android:textColor="#D4AF37"
+                android:textColor="#E30613"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:layout_marginTop="22dp" />
@@ -156,7 +156,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Tunaweza kusasisha sera hii mara kwa mara ili kuakisi mabadiliko ya huduma au mahitaji ya kisheria. Toleo jipya litaonyeshwa ndani ya programu au kwenye ukurasa husika."
-                android:textColor="#AAAAAA"
+                android:textColor="#999999"
                 android:textSize="14sp"
                 android:lineSpacingExtra="5dp"
                 android:layout_marginTop="8dp" />
@@ -165,7 +165,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="7. WASILIANA NASI"
-                android:textColor="#D4AF37"
+                android:textColor="#E30613"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:layout_marginTop="22dp" />
@@ -174,7 +174,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Kwa maswali kuhusu sera hii au faragha ya mtumiaji, tumia sehemu ya Contact Us ndani ya programu."
-                android:textColor="#AAAAAA"
+                android:textColor="#999999"
                 android:textSize="14sp"
                 android:lineSpacingExtra="5dp"
                 android:layout_marginTop="8dp"

@@ -127,7 +127,7 @@ public class NotificationsActivity extends AppCompatActivity {
                 );
 
                 card.setBackgroundColor(
-                        Color.parseColor("#151515")
+                        Color.parseColor("#101010")
                 );
 
                 LinearLayout.LayoutParams params =
@@ -153,7 +153,7 @@ public class NotificationsActivity extends AppCompatActivity {
                 );
 
                 typeView.setTextColor(
-                        Color.parseColor("#D4AF37")
+                        Color.parseColor("#E30613")
                 );
 
                 typeView.setTextSize(11);

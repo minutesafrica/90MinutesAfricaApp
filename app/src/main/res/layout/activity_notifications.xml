@@ -1,41 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#080808">
+    android:background="#050505">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:orientation="horizontal"
+        android:layout_height="64dp"
         android:gravity="center_vertical"
-        android:paddingStart="18dp"
-        android:paddingEnd="18dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
         android:background="#111111">
 
         <TextView
             android:id="@+id/notificationBack"
-            android:layout_width="45dp"
-            android:layout_height="match_parent"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:gravity="center"
             android:text="‹"
-            android:textColor="#D4AF37"
+            android:textColor="#FFFFFF"
             android:textSize="32sp"/>
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:gravity="center"
             android:text="NOTIFICATIONS"
             android:textColor="#FFFFFF"
             android:textSize="18sp"
-            android:textStyle="bold"
-            android:paddingStart="10dp"/>
+            android:textStyle="bold"/>
 
+        <TextView
+            android:layout_width="48dp"
+            android:layout_height="32dp"
+            android:gravity="center"
+            android:text="NEW"
+            android:textColor="#FFFFFF"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            android:background="#E30613"/>
     </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="16dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="10dp"
+        android:text="TAARIFA MPYA"
+        android:textColor="#E30613"
+        android:textSize="12sp"
+        android:textStyle="bold"/>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -48,8 +65,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp"/>
-
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="20dp"/>
     </ScrollView>
 
 </LinearLayout>

@@ -1,104 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#080808">
+    android:background="#050505">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="16dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:background="#111111"
+            android:layout_height="56dp"
             android:gravity="center_vertical"
-            android:paddingStart="12dp"
-            android:paddingEnd="12dp">
+            android:background="#111111">
 
             <ImageButton
                 android:id="@+id/liveBack"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@android:drawable/ic_menu_close_clear_cancel"
                 android:background="@android:color/transparent"
-                android:contentDescription="Rudi"
-                android:src="@android:drawable/ic_menu_revert" />
+                android:tint="#FFFFFF"
+                android:contentDescription="Back" />
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="center"
-                android:text="LIVE FOOTBALL"
-                android:textColor="#D4AF37"
+                android:text="90' MINUTES AFRICA"
+                android:textColor="#FFFFFF"
                 android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:gravity="center" />
 
-            <View
-                android:layout_width="45dp"
-                android:layout_height="45dp" />
-
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:gravity="center"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:text="LIVE"
+                android:textColor="#FFFFFF"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:background="#E53935" />
         </LinearLayout>
 
         <TextView
             android:id="@+id/liveTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="18dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginTop="20dp"
             android:text="LIVE FOOTBALL"
             android:textColor="#FFFFFF"
-            android:textSize="20sp"
+            android:textSize="22sp"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/liveMatch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="6dp"
-            android:layout_marginEnd="16dp"
-            android:textColor="#AAAAAA"
-            android:textSize="14sp" />
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="230dp"
-            android:layout_marginTop="16dp"
-            android:background="#000000">
-
-            <androidx.media3.ui.PlayerView
-                android:id="@+id/playerView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#000000"
-                app:use_controller="true" />
-
-            <WebView
-                android:id="@+id/webView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#000000"
-                android:visibility="gone" />
-
-        </FrameLayout>
+            android:layout_marginTop="8dp"
+            android:text="Home  vs  Away"
+            android:textColor="#DDDDDD"
+            android:textSize="17sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/liveStatus"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:gravity="center"
+            android:layout_marginTop="6dp"
             android:text="Inaunganisha LIVE..."
-            android:textColor="#D4AF37"
-            android:textSize="14sp"
+            android:textColor="#E53935"
+            android:textSize="12sp"
             android:textStyle="bold" />
 
-    </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:padding="8dp"
+            android:orientation="vertical"
+            android:background="#0B0B0B">
 
+            <androidx.media3.ui.PlayerView
+                android:id="@+id/playerView"
+                android:layout_width="match_parent"
+                android:layout_height="220dp"
+                android:background="#000000"
+                app:resize_mode="fit"
+                app:use_controller="true" />
+
+            <WebView
+                android:id="@+id/webView"
+                android:layout_width="match_parent"
+                android:layout_height="220dp"
+                android:visibility="gone"
+                android:background="#000000" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:text="LIVE STREAM"
+            android:textColor="#999999"
+            android:textSize="11sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:text="Tazama matangazo ya moja kwa moja kupitia 90' MINUTES AFRICA."
+            android:textColor="#777777"
+            android:textSize="13sp"
+            android:lineSpacingExtra="3dp" />
+
+    </LinearLayout>
 </ScrollView>
