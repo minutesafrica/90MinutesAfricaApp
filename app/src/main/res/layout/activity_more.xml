@@ -261,21 +261,24 @@
 
         <TextView
             android:id="@+id/moreYouTube"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/bg_card"
-            android:padding="16dp"
-            android:text="YouTube"
-            android:textColor="@color/white"
-            android:textSize="15sp"
-            android:id="@+id/moreWhatsApp"
-            android:text="WhatsApp Channel"
-            android:textColor="@color/text_secondary"
-            android:textSize="13sp"
-            android:gravity="center"
-            android:textStyle="bold" />
-            android:layout_marginTop="10dp" />
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:padding="16dp"
+              android:text="YouTube"
+              android:textColor="@color/white"
+              android:textSize="15sp"
+              android:textStyle="bold" />
+
+          <TextView
+              android:id="@+id/moreWhatsApp"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:padding="16dp"
+              android:text="WhatsApp Channel"
+              android:textColor="@color/text_secondary"
+              android:textSize="13sp"
+              android:gravity="center"
+              android:layout_marginTop="10dp" />
 
         <TextView
             android:layout_width="match_parent"
