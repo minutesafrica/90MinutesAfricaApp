@@ -62,13 +62,13 @@ public class MainActivity extends AppCompatActivity {
         trendingContainer =
                 findViewById(R.id.trendingContainer);
 
-        // setupNavigation();
+        setupNavigation();
 
-        // loadNews();
+        loadNews();
 
-        // loadFixtures();
+        loadFixtures();
 
-        // loadLive();
+        loadLive();
     }
 
     private void setupNavigation() {
@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
                 ))
         );
 
-        findViewById(R.id.navMenu).setOnClickListener(v -> {
+        findViewById(R.id.navMenu).setOnClickListener(v -> { android.widget.Toast.makeText(MainActivity.this, "NAV MENU CLICKED", android.widget.Toast.LENGTH_SHORT).show();
             View menuView = getLayoutInflater().inflate(
                     R.layout.popup_nav_menu,
                     null
