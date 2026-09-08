@@ -20,6 +20,51 @@
 
         </activity>
 
+        <activity
+            android:name=".NewsActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ArticleDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MatchesActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ResultsActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".TableActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".MoreActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".SettingsActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".NotificationsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AboutActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".PrivacyPolicyActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".TermsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ContactActivity"
+            android:exported="false" />
+
     </application>
 
 </manifest>

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#080808">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:gravity="center_vertical"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:background="#111111">
+
+        <TextView
+            android:id="@+id/articleBack"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:gravity="center"
+            android:text="‹"
+            android:textColor="#D4AF37"
+            android:textSize="34sp"
+            android:clickable="true"
+            android:focusable="true" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="90' MINUTES AFRICA"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/articleShare"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:gravity="center"
+            android:text="↗"
+            android:textColor="#D4AF37"
+            android:textSize="24sp"
+            android:clickable="true"
+            android:focusable="true" />
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/articleImage"
+                android:layout_width="match_parent"
+                android:layout_height="220dp"
+                android:gravity="center"
+                android:text="PICHA YA HABARI"
+                android:textColor="#777777"
+                android:textSize="16sp"
+                android:background="#222222" />
+
+            <TextView
+                android:id="@+id/articleCategory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="FOOTBALL"
+                android:textColor="#D4AF37"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:layout_marginTop="18dp" />
+
+            <TextView
+                android:id="@+id/articleTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Habari kuu ya soka"
+                android:textColor="#FFFFFF"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:layout_marginTop="8dp" />
+
+            <TextView
+                android:id="@+id/articleMeta"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="90' Minutes Africa • Leo • 👁 0"
+                android:textColor="#888888"
+                android:textSize="12sp"
+                android:layout_marginTop="10dp" />
+
+            <TextView
+                android:id="@+id/articleContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Soma habari kamili hapa. Maudhui ya habari yataunganishwa na mfumo wa habari baadaye."
+                android:textColor="#DDDDDD"
+                android:textSize="16sp"
+                android:lineSpacingExtra="6dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="30dp" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

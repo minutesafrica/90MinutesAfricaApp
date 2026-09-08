@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#080808">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:gravity="center_vertical"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:background="#111111">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="90' MINUTES AFRICA"
+            android:textColor="#D4AF37"
+            android:textSize="19sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="📩 CONTACT US"
+                android:textColor="#D4AF37"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Una swali, maoni, taarifa au pendekezo? Wasiliana na timu ya 90’ MINUTES AFRICA."
+                android:textColor="#CCCCCC"
+                android:textSize="14sp"
+                android:lineSpacingExtra="5dp"
+                android:layout_marginTop="14dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="JINA"
+                android:textColor="#D4AF37"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:layout_marginTop="24dp" />
+
+            <EditText
+                android:id="@+id/contactName"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:hint="Andika jina lako"
+                android:textColor="#FFFFFF"
+                android:textColorHint="#777777"
+                android:background="#151515"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:inputType="textPersonName"
+                android:layout_marginTop="8dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="BARUA PEPE"
+                android:textColor="#D4AF37"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:layout_marginTop="18dp" />
+
+            <EditText
+                android:id="@+id/contactEmail"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:hint="Andika barua pepe"
+                android:textColor="#FFFFFF"
+                android:textColorHint="#777777"
+                android:background="#151515"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:inputType="textEmailAddress"
+                android:layout_marginTop="8dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="UJUMBE"
+                android:textColor="#D4AF37"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:layout_marginTop="18dp" />
+
+            <EditText
+                android:id="@+id/contactMessage"
+                android:layout_width="match_parent"
+                android:layout_height="130dp"
+                android:hint="Andika ujumbe wako..."
+                android:textColor="#FFFFFF"
+                android:textColorHint="#777777"
+                android:background="#151515"
+                android:padding="14dp"
+                android:gravity="top"
+                android:inputType="textMultiLine"
+                android:layout_marginTop="8dp" />
+
+            <TextView
+                android:id="@+id/contactSend"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:text="📨 TUMA UJUMBE"
+                android:textColor="#080808"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:background="#D4AF37"
+                android:clickable="true"
+                android:focusable="true" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tutajitahidi kujibu ujumbe wako kwa wakati."
+                android:textColor="#777777"
+                android:textSize="12sp"
+                android:gravity="center"
+                android:layout_marginTop="14dp"
+                android:layout_marginBottom="30dp" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

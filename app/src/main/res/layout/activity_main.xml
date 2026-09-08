@@ -244,40 +244,52 @@
             android:textSize="11sp" />
 
         <TextView
+            android:id="@+id/navNews"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
             android:text="📰\nNews"
             android:textColor="#FFFFFF"
-            android:textSize="11sp" />
+            android:textSize="11sp"
+            android:clickable="true"
+            android:focusable="true" />
 
         <TextView
+            android:id="@+id/navMatches"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
             android:text="⚽\nMatches"
             android:textColor="#FFFFFF"
-            android:textSize="11sp" />
+            android:textSize="11sp"
+            android:clickable="true"
+            android:focusable="true" />
 
         <TextView
+            android:id="@+id/navTable"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
             android:text="📊\nTable"
             android:textColor="#FFFFFF"
-            android:textSize="11sp" />
+            android:textSize="11sp"
+            android:clickable="true"
+            android:focusable="true" />
 
         <TextView
+            android:id="@+id/navMore"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
             android:text="☰\nMore"
             android:textColor="#FFFFFF"
-            android:textSize="11sp" />
+            android:textSize="11sp"
+            android:clickable="true"
+            android:focusable="true" />
 
     </LinearLayout>
 

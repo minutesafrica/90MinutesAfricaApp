@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#080808">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:gravity="center_vertical"
+            android:text="90' MINUTES AFRICA"
+            android:textColor="#D4AF37"
+            android:textSize="21sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="☰  MORE"
+            android:textColor="#FFFFFF"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="18dp" />
+
+        <!-- Notifications -->
+        <TextView
+            android:id="@+id/moreNotifications"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:gravity="center_vertical"
+            android:paddingStart="16dp"
+            android:text="🔔   Notifications"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:background="#151515"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_marginBottom="10dp" />
+
+        <!-- Settings -->
+        <TextView
+            android:id="@+id/moreSettings"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:gravity="center_vertical"
+            android:paddingStart="16dp"
+            android:text="⚙️   Settings"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:background="#151515"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_marginBottom="10dp" />
+
+        <!-- About -->
+        <TextView
+            android:id="@+id/moreAbout"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:gravity="center_vertical"
+            android:paddingStart="16dp"
+            android:text="ℹ️   About 90’ Minutes Africa"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:background="#151515"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_marginBottom="10dp" />
+
+        <!-- Privacy -->
+        <TextView
+            android:id="@+id/morePrivacy"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:gravity="center_vertical"
+            android:paddingStart="16dp"
+            android:text="🔒   Privacy Policy"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:background="#151515"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_marginBottom="10dp" />
+
+        <!-- Terms -->
+        <TextView
+            android:id="@+id/moreTerms"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:gravity="center_vertical"
+            android:paddingStart="16dp"
+            android:text="📜   Terms &amp; Conditions"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:background="#151515"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_marginBottom="10dp" />
+
+        <!-- Contact -->
+        <TextView
+            android:id="@+id/moreContact"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:gravity="center_vertical"
+            android:paddingStart="16dp"
+            android:text="📩   Contact Us"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:background="#151515"
+            android:clickable="true"
+            android:focusable="true" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="90’ MINUTES AFRICA\nFootball. News. Passion."
+            android:textColor="#777777"
+            android:textSize="12sp"
+            android:gravity="center"
+            android:layout_marginTop="35dp"
+            android:paddingBottom="20dp" />
+
+    </LinearLayout>
+
+</ScrollView>
