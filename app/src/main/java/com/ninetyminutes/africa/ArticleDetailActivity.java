@@ -874,7 +874,7 @@ public class ArticleDetailActivity extends AppCompatActivity {
                 Intent.EXTRA_TEXT,
                 title +
                 "\n\n" +
-                "Angalia habari hii kutoka " +
+                "Taarifa kamili soma kupitia " +
                 "90' MINUTES AFRICA."
         );
 
