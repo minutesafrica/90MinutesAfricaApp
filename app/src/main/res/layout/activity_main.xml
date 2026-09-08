@@ -41,6 +41,18 @@
         </LinearLayout>
 
         <TextView
+    android:id="@+id/navMenu"
+    android:layout_width="48dp"
+    android:layout_height="48dp"
+    android:gravity="center"
+    android:text="☰"
+    android:textColor="@color/white"
+    android:textSize="24sp"
+    android:textStyle="bold"
+    android:clickable="true"
+    android:focusable="true" />
+
+<TextView
             android:id="@+id/navNotifications"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
