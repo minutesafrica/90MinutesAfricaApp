@@ -1,6 +1,7 @@
 package com.ninetyminutes.africa;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.widget.Toast;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -510,11 +511,11 @@ private void setupNavigation() {
         title.setEllipsize(null);
         title.setSelected(false);
         title.post(() -> {
-            android.view.animation.TranslateAnimation animation = new android.view.animation.TranslateAnimation(
-                    android.view.animation.Animation.RELATIVE_TO_PARENT, 1.0f,
-                    android.view.animation.Animation.RELATIVE_TO_PARENT, -1.0f,
-                    0f, 0f
-            );
+            android.view.animation.TranslateAnimation animation =
+                    new android.view.animation.TranslateAnimation(
+                            1.0f, -1.0f,
+                            0f, 0f
+                    );
             animation.setDuration(15000);
             animation.setInterpolator(new android.view.animation.LinearInterpolator());
             animation.setRepeatCount(android.view.animation.Animation.INFINITE);
