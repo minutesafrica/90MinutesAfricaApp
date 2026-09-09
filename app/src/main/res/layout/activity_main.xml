@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,18 +8,19 @@
     <!-- HEADER -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="68dp"
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:paddingStart="18dp"
-        android:paddingEnd="12dp"
+        android:paddingEnd="10dp"
         android:background="@color/bg_header">
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:gravity="center_vertical">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -34,81 +34,196 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="AFRICA"
-                android:textColor="@color/white"
+                android:textColor="#FFFFFF"
                 android:textSize="10sp"
                 android:textStyle="bold"
-                android:letterSpacing="0.25"/>
+                android:letterSpacing="0.18"/>
         </LinearLayout>
 
         <TextView
-    android:id="@+id/navMenu"
-    android:layout_width="48dp"
-    android:layout_height="48dp"
-    android:gravity="center"
-    android:text="☰"
-    android:textColor="@color/white"
-    android:textSize="24sp"
-    android:textStyle="bold"
-    android:clickable="true"
-    android:focusable="true" />
-
-<TextView
-            android:id="@+id/navNotifications"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="NOTIFY"
-            android:textColor="@color/white"
-            android:textSize="11sp"
-            android:textStyle="bold"
-            android:padding="12dp"
-            android:background="@drawable/bg_card"
+            android:id="@+id/navMenu"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            android:gravity="center"
+            android:text="☰"
+            android:textColor="#FFFFFF"
+            android:textSize="28sp"
             android:clickable="true"
             android:focusable="true"/>
+
     </LinearLayout>
 
+    <!-- WEBSITE -->
+    <Button
+        android:id="@+id/visitWebsite"
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="10dp"
+        android:text="TEMBELEA WEBSITE"
+        android:textSize="12sp"
+        android:textStyle="bold"/>
+
+    <!-- HOME CONTENT -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:paddingBottom="24dp">
 
-            <TextView
-                android:id="@+id/visitWebsite"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginBottom="18dp"
-                android:gravity="center"
-                android:text="TEMBELEA WEBSITE"
-                android:textColor="@color/white"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                android:background="@drawable/bg_card"
-                android:clickable="true"
-                android:focusable="true"/>
             <!-- BREAKING NEWS -->
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="22dp"
                 android:text="BREAKING NEWS"
-                android:textColor="@color/red_primary"
-                android:textSize="12sp"
+                android:textColor="#FFFFFF"
+                android:textSize="13sp"
                 android:textStyle="bold"
-                android:letterSpacing="0.08"
-                android:layout_marginBottom="10dp"/>
+                android:letterSpacing="0.08"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/red_primary"/>
 
             <LinearLayout
                 android:id="@+id/breakingContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:background="@drawable/bg_card"
-                android:padding="4dp"/>
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="10dp"/>
+
+            <!-- FEATURED / TOP STORY -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="22dp"
+                android:text="HABARI KUU"
+                android:textColor="#FFFFFF"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.08"/>
+
+            <LinearLayout
+                android:id="@+id/featuredNewsContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="10dp"/>
+
+            <!-- SPORT LIVE -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="22dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="SPORT LIVE"
+                    android:textColor="#FFFFFF"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.08"/>
+
+                <TextView
+                    android:id="@+id/viewAllLive"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="→"
+                    android:textColor="@color/red_primary"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:clickable="true"
+                    android:focusable="true"/>
+            </LinearLayout>
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:id="@+id/liveContainer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"/>
+            </HorizontalScrollView>
+
+            <!-- RATIBA -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="22dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="RATIBA"
+                    android:textColor="#FFFFFF"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.08"/>
+
+                <TextView
+                    android:id="@+id/viewAllFixtures"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="→"
+                    android:textColor="@color/red_primary"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:clickable="true"
+                    android:focusable="true"/>
+            </LinearLayout>
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:id="@+id/fixturesContainer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"/>
+            </HorizontalScrollView>
 
             <!-- HABARI MPYA -->
             <LinearLayout
@@ -116,27 +231,28 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:layout_marginTop="28dp"
-                android:layout_marginBottom="12dp">
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="22dp">
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Habari Mpya"
-                    android:textColor="@color/white"
-                    android:textSize="21sp"
-                    android:textStyle="bold"/>
+                    android:text="HABARI MPYA"
+                    android:textColor="#FFFFFF"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.08"/>
 
                 <TextView
                     android:id="@+id/viewAllNews"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Zote →"
+                    android:text="→"
                     android:textColor="@color/red_primary"
-                    android:textSize="13sp"
+                    android:textSize="22sp"
                     android:textStyle="bold"
-                    android:padding="8dp"
                     android:clickable="true"
                     android:focusable="true"/>
             </LinearLayout>
@@ -145,204 +261,120 @@
                 android:id="@+id/latestNewsContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"/>
-
-            <!-- RATIBA -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="RATIBA ZA LEO"
-                android:textColor="@color/red_primary"
-                android:textSize="17sp"
-                android:textStyle="bold"
-                android:layout_marginTop="28dp"/>
-
-            <LinearLayout
-                android:id="@+id/fixturesContainer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginTop="10dp"/>
-
-            <!-- LIVE -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="LIVE SASA"
-                android:textColor="@color/red_primary"
-                android:textSize="17sp"
-                android:textStyle="bold"
-                android:layout_marginTop="28dp"/>
-
-            <LinearLayout
-                android:id="@+id/liveContainer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
                 android:layout_marginTop="10dp"/>
 
             <!-- TRENDING -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="TRENDING"
-                android:textColor="@color/red_primary"
-                android:textSize="17sp"
-                android:textStyle="bold"
-                android:layout_marginTop="28dp"/>
-
             <LinearLayout
                 android:id="@+id/trendingContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:layout_marginStart="16dp"
+                android:layoutEnd="16dp"
                 android:layout_marginTop="10dp"/>
 
-    
+            <!-- NOTIFICATIONS -->
+            <TextView
+                android:id="@+id/navNotifications"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:visibility="gone"
+                android:text="NOTIFY"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- FOOTER -->
     <LinearLayout
-        android:id="@+id/mainFooter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:gravity="center"
-        android:padding="24dp"
-        android:layout_marginTop="24dp"
+        android:padding="16dp"
         android:background="@color/bg_header">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="90' MINUTES AFRICA"
-            android:textColor="@color/red_primary"
-            android:textSize="16sp"
+            android:textColor="#FFFFFF"
             android:textStyle="bold"
-            android:layout_marginBottom="16dp" />
+            android:textSize="14sp"/>
 
         <TextView
             android:id="@+id/footerTerms"
             android:layout_width="wrap_content"
-            android:layout_height="44dp"
-            android:gravity="center"
-            android:text="Terms &amp; Conditions"
-            android:textColor="@color/white"
-            android:textSize="14sp"
-            android:clickable="true"
-            android:focusable="true" />
+            android:layout_height="wrap_content"
+            android:text="Terms & Conditions"
+            android:textColor="#AAAAAA"
+            android:paddingTop="8dp"
+            android:clickable="true"/>
 
         <TextView
             android:id="@+id/footerPrivacy"
             android:layout_width="wrap_content"
-            android:layout_height="44dp"
-            android:gravity="center"
+            android:layout_height="wrap_content"
             android:text="Privacy Policy"
-            android:textColor="@color/white"
-            android:textSize="14sp"
-            android:clickable="true"
-            android:focusable="true" />
+            android:textColor="#AAAAAA"
+            android:paddingTop="6dp"
+            android:clickable="true"/>
 
         <TextView
             android:id="@+id/footerCookie"
             android:layout_width="wrap_content"
-            android:layout_height="44dp"
-            android:gravity="center"
+            android:layout_height="wrap_content"
             android:text="Cookie Policy"
-            android:textColor="@color/white"
-            android:textSize="14sp"
-            android:clickable="true"
-            android:focusable="true" />
+            android:textColor="#AAAAAA"
+            android:paddingTop="6dp"
+            android:clickable="true"/>
 
         <TextView
             android:id="@+id/footerDisclaimer"
             android:layout_width="wrap_content"
-            android:layout_height="44dp"
-            android:gravity="center"
+            android:layout_height="wrap_content"
             android:text="Disclaimer"
-            android:textColor="@color/white"
-            android:textSize="14sp"
-            android:clickable="true"
-            android:focusable="true" />
+            android:textColor="#AAAAAA"
+            android:paddingTop="6dp"
+            android:clickable="true"/>
 
         <TextView
             android:id="@+id/footerAbout"
             android:layout_width="wrap_content"
-            android:layout_height="44dp"
-            android:gravity="center"
+            android:layout_height="wrap_content"
             android:text="About Us"
-            android:textColor="@color/white"
-            android:textSize="14sp"
-            android:clickable="true"
-            android:focusable="true" />
+            android:textColor="#AAAAAA"
+            android:paddingTop="6dp"
+            android:clickable="true"/>
 
         <TextView
             android:id="@+id/footerContact"
             android:layout_width="wrap_content"
-            android:layout_height="44dp"
-            android:gravity="center"
-            android:text="Contact Us"
-            android:textColor="@color/white"
-            android:textSize="14sp"
-            android:clickable="true"
-            android:focusable="true" />
-        <LinearLayout
-            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="16dp">
+            android:text="Contact Us"
+            android:textColor="#AAAAAA"
+            android:paddingTop="6dp"
+            android:clickable="true"/>
 
-            <TextView
-                android:id="@+id/socialFacebook"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:gravity="center"
-                android:text="f"
-                android:textColor="@color/white"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:clickable="true"
-                android:focusable="true" />
+        <TextView
+            android:id="@+id/socialFacebook"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Facebook"
+            android:textColor="#AAAAAA"
+            android:paddingTop="8dp"
+            android:clickable="true"/>
 
-            <TextView
-                android:id="@+id/socialInstagram"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:gravity="center"
-                android:text="◎"
-                android:textColor="@color/white"
-                android:textSize="24sp"
-                android:clickable="true"
-                android:focusable="true" />
-
-            <TextView
-                android:id="@+id/socialWhatsapp"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:gravity="center"
-                android:text="WA"
-                android:textColor="@color/white"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                android:clickable="true"
-                android:focusable="true" />
-
-            <TextView
-                android:id="@+id/socialYoutube"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:gravity="center"
-                android:text="▶"
-                android:textColor="@color/white"
-                android:textSize="20sp"
-                android:clickable="true"
-                android:focusable="true" />
+        <TextView
+            android:id="@+id/socialWhatsapp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="WhatsApp"
+            android:textColor="#AAAAAA"
+            android:paddingTop="6dp"
+            android:clickable="true"/>
 
     </LinearLayout>
-
-        </LinearLayout>
-        </LinearLayout>
-</ScrollView>
-
-    
 
 </LinearLayout>
