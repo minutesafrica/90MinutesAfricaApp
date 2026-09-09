@@ -1,155 +1,159 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="240dp"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="12dp"
-    android:background="@drawable/bg_card">
 
-    <TextView
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="#0B0B0B">
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="NAVIGATION"
-        android:textColor="@color/red_primary"
-        android:textSize="12sp"
-        android:textStyle="bold"
-        android:padding="10dp" />
+        android:orientation="vertical"
+        android:paddingTop="22dp"
+        android:paddingBottom="24dp"
+        android:paddingStart="14dp"
+        android:paddingEnd="14dp">
 
-    <TextView
-        android:id="@+id/menuHome"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:gravity="center_vertical"
-        android:paddingStart="18dp"
-        android:text="HOME"
-        android:textColor="@color/white"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        android:clickable="true"
-        android:focusable="true" />
+        <!-- MENU HEADER -->
 
-    <TextView
-        android:id="@+id/menuNews"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:gravity="center_vertical"
-        android:paddingStart="18dp"
-        android:text="NEWS"
-        android:textColor="@color/white"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        android:clickable="true"
-        android:focusable="true" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:gravity="center_vertical"
+            android:paddingStart="12dp"
+            android:paddingEnd="4dp"
+            android:background="#111111">
 
-    <TextView
-        android:id="@+id/menuMatches"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:gravity="center_vertical"
-        android:paddingStart="18dp"
-        android:text="MATCHES"
-        android:textColor="@color/white"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        android:clickable="true"
-        android:focusable="true" />
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/menuResults"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:gravity="center_vertical"
-        android:paddingStart="18dp"
-        android:text="RESULTS"
-        android:textColor="@color/white"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        android:clickable="true"
-        android:focusable="true" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="90' MINUTES"
+                    android:textColor="#E30613"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/menuTable"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:gravity="center_vertical"
-        android:paddingStart="18dp"
-        android:text="TABLE"
-        android:textColor="@color/white"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        android:clickable="true"
-        android:focusable="true" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="AFRICA"
+                    android:textColor="#FFFFFF"
+                    android:textSize="9sp"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.22" />
 
-    <TextView
-        android:id="@+id/menuTanzania"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:gravity="center_vertical"
-        android:paddingStart="18dp"
-        android:text="Tanzania"
-        android:textColor="@color/white"
-        android:textSize="14sp"
-        android:clickable="true"
-        android:focusable="true" />
+            </LinearLayout>
 
-    <TextView
-        android:id="@+id/menuKimataifa"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:gravity="center_vertical"
-        android:paddingStart="18dp"
-        android:text="Kimataifa"
-        android:textColor="@color/white"
-        android:textSize="14sp"
-        android:clickable="true"
-        android:focusable="true" />
+            <TextView
+                android:id="@+id/menuClose"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:gravity="center"
+                android:text="×"
+                android:textColor="#FFFFFF"
+                android:textSize="30sp"
+                android:clickable="true"
+                android:focusable="true" />
 
-    <TextView
-        android:id="@+id/menuVilabu"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:gravity="center_vertical"
-        android:paddingStart="18dp"
-        android:text="Vilabu"
-        android:textColor="@color/white"
-        android:textSize="14sp"
-        android:clickable="true"
-        android:focusable="true" />
+        </LinearLayout>
 
-    <TextView
-        android:id="@+id/menuMashindano"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:gravity="center_vertical"
-        android:paddingStart="18dp"
-        android:text="Mashindano"
-        android:textColor="@color/white"
-        android:textSize="14sp"
-        android:clickable="true"
-        android:focusable="true" />
+        <!-- NAVIGATION -->
 
-    <TextView
-        android:id="@+id/menuUsajili"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:gravity="center_vertical"
-        android:paddingStart="18dp"
-        android:text="Usajili"
-        android:textColor="@color/white"
-        android:textSize="14sp"
-        android:clickable="true"
-        android:focusable="true" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="MENU"
+            android:textColor="#E30613"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.12"
+            android:paddingStart="12dp"
+            android:paddingTop="22dp"
+            android:paddingBottom="8dp" />
 
-    <TextView
-        android:id="@+id/menuWachezaji"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:gravity="center_vertical"
-        android:paddingStart="18dp"
-        android:text="Wachezaji"
-        android:textColor="@color/white"
-        android:textSize="14sp"
-        android:clickable="true"
-        android:focusable="true" />
+        <TextView
+            android:id="@+id/menuHome"
+            style="@style/NavMenuItem"
+            android:text="🏠  Home" />
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/menuMatches"
+            style="@style/NavMenuItem"
+            android:text="⚽  Sport Live" />
+
+        <TextView
+            android:id="@+id/menuTanzania"
+            style="@style/NavMenuItem"
+            android:text="🇹🇿  Tanzania" />
+
+        <TextView
+            android:id="@+id/menuKimataifa"
+            style="@style/NavMenuItem"
+            android:text="🌍  Kimataifa" />
+
+        <TextView
+            android:id="@+id/menuUsajili"
+            style="@style/NavMenuItem"
+            android:text="🔄  Usajili" />
+
+        <TextView
+            android:id="@+id/menuVilabu"
+            style="@style/NavMenuItem"
+            android:text="🌍  Vilabu" />
+
+        <TextView
+            android:id="@+id/menuMashindano"
+            style="@style/NavMenuItem"
+            android:text="🏆  Mashindano" />
+
+        <TextView
+            android:id="@+id/menuWachezaji"
+            style="@style/NavMenuItem"
+            android:text="👤  Wachezaji" />
+
+        <TextView
+            android:id="@+id/menuResults"
+            style="@style/NavMenuItem"
+            android:text="🏁  Matokeo" />
+
+        <TextView
+            android:id="@+id/menuTable"
+            style="@style/NavMenuItem"
+            android:text="🏆  Msimamo" />
+
+        <TextView
+            android:id="@+id/menuTrending"
+            style="@style/NavMenuItem"
+            android:text="🔥  Trending" />
+
+        <TextView
+            android:id="@+id/menuFixtures"
+            style="@style/NavMenuItem"
+            android:text="📅  Ratiba" />
+
+        <!-- FOOTER -->
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="20dp"
+            android:background="#242424" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="90' MINUTES AFRICA"
+            android:textColor="#777777"
+            android:textSize="10sp"
+            android:gravity="center"
+            android:paddingTop="18dp" />
+
+    </LinearLayout>
+
+</ScrollView>

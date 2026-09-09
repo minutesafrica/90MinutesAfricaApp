@@ -81,16 +81,14 @@ public class MainActivity extends AppCompatActivity {
 }
 
 private void setupNavigation() {
-
         findViewById(R.id.visitWebsite).setOnClickListener(v ->
                 startActivity(new Intent(
                         Intent.ACTION_VIEW,
-                        Uri.parse("https://90minutesafrica.online")
+                        android.net.Uri.parse("https://90minutesafrica.online")
                 ))
         );
 
         findViewById(R.id.navMenu).setOnClickListener(v -> {
-
             View menuView = getLayoutInflater().inflate(
                     R.layout.popup_nav_menu,
                     null
@@ -98,8 +96,8 @@ private void setupNavigation() {
 
             PopupWindow popup = new PopupWindow(
                     menuView,
-                    dp(300),
-                    android.view.ViewGroup.LayoutParams.MATCH_PARENT,
+                    dp(240),
+                    android.view.ViewGroup.LayoutParams.WRAP_CONTENT,
                     true
             );
 
@@ -108,57 +106,26 @@ private void setupNavigation() {
                             Color.TRANSPARENT
                     )
             );
-
             popup.setOutsideTouchable(true);
-            popup.setElevation(dp(20));
+            popup.setElevation(dp(12));
 
-            menuView.findViewById(R.id.menuClose).setOnClickListener(
-                    item -> popup.dismiss()
-            );
-
-            menuView.findViewById(R.id.menuHome).setOnClickListener(
-                    item -> popup.dismiss()
-            );
-
-            menuView.findViewById(R.id.menuMatches).setOnClickListener(item -> {
+            menuView.findViewById(R.id.menuHome).setOnClickListener(item -> {
                 popup.dismiss();
                 startActivity(new Intent(
                         MainActivity.this,
-                        LiveActivity.class
+                        MainActivity.class
                 ));
             });
 
-            menuView.findViewById(R.id.menuTanzania).setOnClickListener(item -> {
+            menuView.findViewById(R.id.menuNews).setOnClickListener(item -> {
                 popup.dismiss();
-                openCategory("Tanzania");
+                startActivity(new Intent(
+                        MainActivity.this,
+                        NewsActivity.class
+                ));
             });
 
-            menuView.findViewById(R.id.menuKimataifa).setOnClickListener(item -> {
-                popup.dismiss();
-                openCategory("Kimataifa");
-            });
-
-            menuView.findViewById(R.id.menuUsajili).setOnClickListener(item -> {
-                popup.dismiss();
-                openCategory("Usajili");
-            });
-
-            menuView.findViewById(R.id.menuVilabu).setOnClickListener(item -> {
-                popup.dismiss();
-                openCategory("Vilabu");
-            });
-
-            menuView.findViewById(R.id.menuMashindano).setOnClickListener(item -> {
-                popup.dismiss();
-                openCategory("Mashindano");
-            });
-
-            menuView.findViewById(R.id.menuWachezaji).setOnClickListener(item -> {
-                popup.dismiss();
-                openCategory("Wachezaji");
-            });
-
-            menuView.findViewById(R.id.menuFixtures).setOnClickListener(item -> {
+            menuView.findViewById(R.id.menuMatches).setOnClickListener(item -> {
                 popup.dismiss();
                 startActivity(new Intent(
                         MainActivity.this,
@@ -182,19 +149,45 @@ private void setupNavigation() {
                 ));
             });
 
-            menuView.findViewById(R.id.menuTrending).setOnClickListener(item -> {
-                popup.dismiss();
-                startActivity(new Intent(
-                        MainActivity.this,
-                        NewsActivity.class
-                ));
-            });
+            String[] categories = {
+                    "Tanzania",
+                    "Kimataifa",
+                    "Vilabu",
+                    "Mashindano",
+                    "Usajili",
+                    "Wachezaji"
+            };
 
-            popup.showAtLocation(
-                    findViewById(android.R.id.content),
-                    Gravity.RIGHT | Gravity.TOP,
-                    0,
-                    0
+            int[] ids = {
+                    R.id.menuTanzania,
+                    R.id.menuKimataifa,
+                    R.id.menuVilabu,
+                    R.id.menuMashindano,
+                    R.id.menuUsajili,
+                    R.id.menuWachezaji
+            };
+
+            for (int i = 0; i < ids.length; i++) {
+                final String category = categories[i];
+
+                menuView.findViewById(ids[i]).setOnClickListener(item -> {
+                    Intent intent = new Intent(
+                            MainActivity.this,
+                            NewsActivity.class
+                    );
+                    intent.putExtra(
+                            "selected_category",
+                            category
+                    );
+                    popup.dismiss();
+                    startActivity(intent);
+                });
+            }
+
+            popup.showAsDropDown(
+                    v,
+                    -dp(192),
+                    dp(6)
             );
         });
 
@@ -213,12 +206,8 @@ private void setupNavigation() {
         );
 
         findViewById(R.id.socialFacebook).setOnClickListener(v ->
-                startActivity(new Intent(
-                        Intent.ACTION_VIEW,
-                        Uri.parse(
-                                "https://www.facebook.com/profile.php?id=61574232046522"
-                        )
-                ))
+                startActivity(new Intent(Intent.ACTION_VIEW,
+                        Uri.parse("https://www.facebook.com/profile.php?id=61574232046522")))
         );
 
         findViewById(R.id.socialWhatsapp).setOnClickListener(v ->
@@ -266,21 +255,6 @@ private void setupNavigation() {
                         ContactActivity.class
                 ))
         );
-    }
-
-    private void openCategory(String category) {
-
-        Intent intent = new Intent(
-                MainActivity.this,
-                NewsActivity.class
-        );
-
-        intent.putExtra(
-                "selected_category",
-                category
-        );
-
-        startActivity(intent);
     }
 
     private int dp(int value) {
