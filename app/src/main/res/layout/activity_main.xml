@@ -273,7 +273,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_marginStart="16dp"
-                android:layoutEnd="16dp"
+                android:layout_marginEnd="16dp"
                 android:layout_marginTop="10dp"/>
 
             <!-- NOTIFICATIONS -->
