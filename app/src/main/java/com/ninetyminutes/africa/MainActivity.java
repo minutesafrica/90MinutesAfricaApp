@@ -1,5 +1,8 @@
 package com.ninetyminutes.africa;
 
+import android.animation.ObjectAnimator;
+import android.animation.Animator;
+import android.animation.AnimatorSet;
 import android.content.Intent;
 import android.net.Uri;
 import android.widget.Toast;
@@ -82,12 +85,27 @@ public class MainActivity extends AppCompatActivity {
 
 private void setupNavigation() {
 
-        findViewById(R.id.visitWebsite).setOnClickListener(v ->
+        TextView websiteButton = findViewById(R.id.visitWebsite);
+
+        websiteButton.setOnClickListener(v ->
                 startActivity(new Intent(
                         Intent.ACTION_VIEW,
                         Uri.parse("https://90minutesafrica.online")
                 ))
         );
+
+        ObjectAnimator websitePulse = ObjectAnimator.ofFloat(
+                websiteButton,
+                "alpha",
+                1.0f,
+                0.55f,
+                1.0f
+        );
+
+        websitePulse.setDuration(1800);
+        websitePulse.setRepeatCount(ObjectAnimator.INFINITE);
+        websitePulse.setRepeatMode(ObjectAnimator.RESTART);
+        websitePulse.start();
 
         findViewById(R.id.navMenu).setOnClickListener(v -> {
 
@@ -205,6 +223,20 @@ private void setupNavigation() {
                 ))
         );
 
+        findViewById(R.id.viewAllLive).setOnClickListener(v ->
+                startActivity(new Intent(
+                        MainActivity.this,
+                        LiveActivity.class
+                ))
+        );
+
+        findViewById(R.id.viewAllFixtures).setOnClickListener(v ->
+                startActivity(new Intent(
+                        MainActivity.this,
+                        MatchesActivity.class
+                ))
+        );
+
         findViewById(R.id.viewAllNews).setOnClickListener(v ->
                 startActivity(new Intent(
                         MainActivity.this,
@@ -266,57 +298,8 @@ private void setupNavigation() {
                         ContactActivity.class
                 ))
         );
-    }
 
-    private void openCategory(String category) {
-
-        Intent intent = new Intent(
-                MainActivity.this,
-                NewsActivity.class
-        );
-
-        intent.putExtra(
-                "selected_category",
-                category
-        );
-
-        startActivity(intent);
-    }
-
-    private int dp(int value) {
-        return (int) (
-                value * getResources().getDisplayMetrics().density + 0.5f
-        );
-    }
-
-    private void loadNews() {
-
-        NewsService.getNews(
-                new NewsService.Callback() {
-
-                    @Override
-                    public void onSuccess(List<NewsItem> news) {
-
-                        runOnUiThread(() -> {
-
-                            breakingContainer.removeAllViews();
-
-                            latestNewsContainer.removeAllViews();
-
-                            trendingContainer.removeAllViews();
-
-                            if (news == null ||
-                                    news.isEmpty()) {
-
-                                addMessage(
-                                        latestNewsContainer,
-                                        "Hakuna habari kwa sasa."
-                                );
-
-                                return;
-                            }
-
-                            NewsItem breaking = null;
+        NewsItem breaking = null;
 
                             for (NewsItem item : news) {
 
@@ -333,6 +316,7 @@ private void setupNavigation() {
 
                             if (breaking != null) {
                                 addBreakingCard(breaking);
+                                addFeaturedCard(breaking);
                             }
 
                             int limit =
@@ -498,14 +482,11 @@ private void setupNavigation() {
                 createCard();
 
         card.setPadding(
-                18, 18, 18, 18
+                18, 14, 18, 14
         );
 
         card.setBackgroundResource(
                 R.drawable.bg_news_card
-        );
-        card.setPadding(
-                18, 18, 18, 18
         );
 
         TextView badge =
@@ -525,7 +506,7 @@ private void setupNavigation() {
         TextView title =
                 createText(
                         item.getTitle(),
-                        19,
+                        17,
                         "#FFFFFF"
                 );
 
@@ -533,68 +514,120 @@ private void setupNavigation() {
                 null,
                 Typeface.BOLD
         );
+
         title.setSingleLine(true);
         title.setEllipsize(null);
         title.setSelected(false);
+        title.setPadding(0, 6, 0, 0);
+
         title.post(() -> {
             android.view.animation.TranslateAnimation animation =
                     new android.view.animation.TranslateAnimation(
                             1.0f, -1.0f,
                             0f, 0f
                     );
+
             animation.setDuration(15000);
-            animation.setInterpolator(new android.view.animation.LinearInterpolator());
-            animation.setRepeatCount(android.view.animation.Animation.INFINITE);
-            animation.setRepeatMode(android.view.animation.Animation.RESTART);
+            animation.setInterpolator(
+                    new android.view.animation.LinearInterpolator()
+            );
+            animation.setRepeatCount(
+                    android.view.animation.Animation.INFINITE
+            );
+            animation.setRepeatMode(
+                    android.view.animation.Animation.RESTART
+            );
+
             title.startAnimation(animation);
         });
 
-        title.setPadding(
-                0, 6, 0, 0
-        );
-
         card.addView(title);
 
-        TextView excerpt =
+        breakingContainer.addView(card);
+    }
+
+    private void addFeaturedCard(
+            NewsItem item
+    ) {
+
+        LinearLayout card =
+                createCard();
+
+        card.setPadding(
+                0, 0, 0, 14
+        );
+
+        card.setBackgroundResource(
+                R.drawable.bg_news_card
+        );
+
+        String imageUrl =
+                item.getImageUrl();
+
+        if (imageUrl != null &&
+                !imageUrl.trim().isEmpty()) {
+
+            ImageView image =
+                    new ImageView(this);
+
+            image.setLayoutParams(
+                    new LinearLayout.LayoutParams(
+                            -1,
+                            220
+                    )
+            );
+
+            image.setScaleType(
+                    ImageView.ScaleType.CENTER_CROP
+            );
+
+            loadImage(
+                    image,
+                    imageUrl
+            );
+
+            card.addView(image);
+        }
+
+        TextView category =
                 createText(
-                        item.getExcerpt(),
-                        14,
-                        "#999999"
-                );
-
-        LinearLayout.LayoutParams params =
-                new LinearLayout.LayoutParams(
-                        -1,
-                        -2
-                );
-
-        excerpt.setLayoutParams(params);
-
-        card.addView(excerpt);
-
-        TextView readMore =
-                createText(
-                        "SOMA HABARI  →",
-                        12,
+                        "HABARI KUU",
+                        10,
                         "#E30613"
                 );
 
-        readMore.setTypeface(
+        category.setTypeface(
                 null,
                 Typeface.BOLD
         );
 
-        readMore.setPadding(
-                0, 12, 0, 0
+        category.setPadding(
+                16, 14, 16, 4
         );
 
-        card.addView(readMore);
+        card.addView(category);
 
-        card.setOnClickListener(
-                v -> openArticle(item)
+        TextView title =
+                createText(
+                        item.getTitle(),
+                        20,
+                        "#FFFFFF"
+                );
+
+        title.setTypeface(
+                null,
+                Typeface.BOLD
         );
 
-        breakingContainer.addView(card);
+        title.setPadding(
+                16, 4, 16, 0
+        );
+
+        card.addView(title);
+
+        card.setOnClickListener(v -> openArticle(item));
+
+        featuredNewsContainer.addView(card);
     }
 
     private void addNewsCard(
@@ -605,9 +638,11 @@ private void setupNavigation() {
         LinearLayout card =
                 createCard();
 
-        String imageUrl = item.getImageUrl();
+        String imageUrl =
+                item.getImageUrl();
 
-        if (imageUrl != null && !imageUrl.trim().isEmpty()) {
+        if (imageUrl != null &&
+                !imageUrl.trim().isEmpty()) {
 
             ImageView image =
                     new ImageView(this);
@@ -625,34 +660,10 @@ private void setupNavigation() {
 
             card.addView(image);
 
-            new Thread(() -> {
-                try {
-                    URL url = new URL(imageUrl);
-                    HttpURLConnection connection =
-                            (HttpURLConnection) url.openConnection();
-
-                    connection.setConnectTimeout(15000);
-                    connection.setReadTimeout(15000);
-
-                    InputStream input =
-                            connection.getInputStream();
-
-                    Bitmap bitmap =
-                            BitmapFactory.decodeStream(input);
-
-                    input.close();
-                    connection.disconnect();
-
-                    runOnUiThread(() -> {
-                        if (bitmap != null) {
-                            image.setImageBitmap(bitmap);
-                        }
-                    });
-
-                } catch (Exception ignored) {
-                }
-            }).start();
-        }
+            loadImage(
+                    image,
+                    imageUrl
+            );
 
         TextView category =
                 createText(
@@ -675,7 +686,7 @@ private void setupNavigation() {
         TextView title =
                 createText(
                         item.getTitle(),
-                        19,
+                        18,
                         "#FFFFFF"
                 );
 
@@ -690,44 +701,6 @@ private void setupNavigation() {
 
         card.addView(title);
 
-        String excerpt =
-                item.getExcerpt();
-
-        if (excerpt != null &&
-                !excerpt.trim().isEmpty()) {
-
-            TextView excerptView =
-                    createText(
-                            excerpt,
-                            14,
-                            "#999999"
-                    );
-
-            excerptView.setPadding(
-                    0, 8, 0, 0
-            );
-
-            card.addView(excerptView);
-        }
-
-        TextView readMore =
-                createText(
-                        "SOMA HABARI  →",
-                        12,
-                        "#E30613"
-                );
-
-        readMore.setTypeface(
-                null,
-                Typeface.BOLD
-        );
-
-        readMore.setPadding(
-                0, 12, 0, 0
-        );
-
-        card.addView(readMore);
-
         TextView meta =
                 createText(
                         formatDate(
@@ -738,7 +711,7 @@ private void setupNavigation() {
                 );
 
         meta.setPadding(
-                0, 8, 0, 0
+                0, 10, 0, 0
         );
 
         card.addView(meta);
@@ -827,18 +800,40 @@ private void setupNavigation() {
         LinearLayout card =
                 createCard();
 
-        card.setBackgroundResource(
-                R.drawable.bg_fixture_card
+        LinearLayout.LayoutParams cardParams =
+                new LinearLayout.LayoutParams(
+                        260,
+                        -2
+                );
+
+        cardParams.setMargins(
+                0, 0, 12, 0
+        );
+
+        card.setLayoutParams(
+                cardParams
+        );
+
+        card.setOrientation(
+                LinearLayout.VERTICAL
+        );
+
+        card.setGravity(
+                Gravity.CENTER
         );
 
         card.setPadding(
-                16, 16, 16, 16
+                16, 14, 16, 14
+        );
+
+        card.setBackgroundResource(
+                R.drawable.bg_fixture_card
         );
 
         TextView competitionView =
                 createText(
                         competition,
-                        12,
+                        11,
                         "#E30613"
                 );
 
@@ -847,9 +842,17 @@ private void setupNavigation() {
                 Typeface.BOLD
         );
 
+        competitionView.setGravity(
+                Gravity.CENTER
+        );
+
+        card.addView(
+                competitionView
+        );
+
         TextView teams =
                 createText(
-                        home + "    vs    " + away,
+                        home + "  vs  " + away,
                         16,
                         "#FFFFFF"
                 );
@@ -863,13 +866,20 @@ private void setupNavigation() {
                 Typeface.BOLD
         );
 
+        teams.setSingleLine(true);
+
+        teams.setPadding(
+                0, 8, 0, 8
+        );
+
+        card.addView(
+                teams
+        );
+
         TextView dateView =
                 createText(
-                        date +
-                                (time.isEmpty()
-                                        ? ""
-                                        : "  •  " + time),
-                        12,
+                        date,
+                        11,
                         "#999999"
                 );
 
@@ -878,23 +888,45 @@ private void setupNavigation() {
         );
 
         card.addView(
-                competitionView
-        );
-
-        card.addView(
-                teams
-        );
-
-        card.addView(
                 dateView
         );
 
-        fixturesContainer.addView(card);
+        if (!time.isEmpty()) {
+
+            TextView timeView =
+                    createText(
+                            time,
+                            14,
+                            "#FFFFFF"
+                    );
+
+            timeView.setTypeface(
+                    null,
+                    Typeface.BOLD
+            );
+
+            timeView.setGravity(
+                    Gravity.CENTER
+            );
+
+            timeView.setPadding(
+                    0, 5, 0, 0
+            );
+
+            card.addView(
+                    timeView
+            );
+        }
+
+        fixturesContainer.addView(
+                card
+        );
     }
 
     private void addLiveCard(
             JSONObject match
     ) {
+
         String home =
                 match.optString(
                         "home_team",
@@ -919,7 +951,12 @@ private void setupNavigation() {
                         ""
                 );
 
-        String matchId = match.optString("id", "");
+        String matchId =
+                match.optString(
+                        "id",
+                        ""
+                );
+
         String streamUrl =
                 match.optString(
                         "stream_url",
@@ -932,19 +969,42 @@ private void setupNavigation() {
                         "hls"
                 );
 
-        LinearLayout card = createCard();
+        LinearLayout card =
+                createCard();
+
+        LinearLayout.LayoutParams cardParams =
+                new LinearLayout.LayoutParams(
+                        260,
+                        -2
+                );
+
+        cardParams.setMargins(
+                0, 0, 12, 0
+        );
+
+        card.setLayoutParams(
+                cardParams
+        );
+
+        card.setOrientation(
+                LinearLayout.VERTICAL
+        );
+
+        card.setGravity(
+                Gravity.CENTER
+        );
+
+        card.setPadding(
+                16, 14, 16, 14
+        );
 
         card.setBackgroundResource(
                 R.drawable.bg_live_card
         );
 
-        card.setPadding(
-                16, 16, 16, 16
-        );
-
         TextView live =
                 createText(
-                        "LIVE NOW",
+                        "● LIVE NOW",
                         11,
                         "#E53935"
                 );
@@ -954,29 +1014,11 @@ private void setupNavigation() {
                 Typeface.BOLD
         );
 
-        live.setPadding(
-                0, 0, 0, 8
-        );
-
         live.setGravity(
                 Gravity.CENTER
         );
 
-        TextView teams =
-                createText(
-                        home + "  vs  " + away,
-                        17,
-                        "#FFFFFF"
-                );
-
-        teams.setGravity(
-                Gravity.CENTER
-        );
-
-        teams.setTypeface(
-                null,
-                Typeface.BOLD
-        );
+        card.addView(live);
 
         TextView comp =
                 createText(
@@ -989,21 +1031,49 @@ private void setupNavigation() {
                 Gravity.CENTER
         );
 
-        card.addView(live);
-        card.addView(teams);
+        comp.setPadding(
+                0, 6, 0, 10
+        );
+
         card.addView(comp);
+
+        TextView teams =
+                createText(
+                        home + "  vs  " + away,
+                        16,
+                        "#FFFFFF"
+                );
+
+        teams.setTypeface(
+                null,
+                Typeface.BOLD
+        );
+
+        teams.setGravity(
+                Gravity.CENTER
+        );
+
+        teams.setSingleLine(true);
+
+        card.addView(teams);
 
         if (!liveTitle.isEmpty()) {
 
             TextView title =
                     createText(
                             liveTitle,
-                            13,
+                            11,
                             "#AAAAAA"
                     );
 
             title.setGravity(
                     Gravity.CENTER
+            );
+
+            title.setSingleLine(true);
+
+            title.setPadding(
+                    0, 7, 0, 0
             );
 
             card.addView(title);
@@ -1012,7 +1082,7 @@ private void setupNavigation() {
         TextView watch =
                 createText(
                         "WATCH LIVE  →",
-                        12,
+                        11,
                         "#FFFFFF"
                 );
 
@@ -1026,31 +1096,28 @@ private void setupNavigation() {
         );
 
         watch.setPadding(
-                14, 12, 14, 12
+                12, 10, 12, 10
         );
 
         watch.setBackgroundResource(
                 R.drawable.bg_red_button
         );
 
-        card.addView(watch);
-
-        TextView viewers =
-                createText(
-                        "LIVE STREAM",
-                        11,
-                        "#999999"
+        LinearLayout.LayoutParams watchParams =
+                new LinearLayout.LayoutParams(
+                        -1,
+                        -2
                 );
 
-        viewers.setGravity(
-                Gravity.CENTER
+        watchParams.setMargins(
+                0, 12, 0, 0
         );
 
-        viewers.setPadding(
-                0, 10, 0, 0
+        watch.setLayoutParams(
+                watchParams
         );
 
-        card.addView(viewers);
+        card.addView(watch);
 
         if (!streamUrl.isEmpty()) {
 
@@ -1092,7 +1159,11 @@ private void setupNavigation() {
                         competition
                 );
 
-                intent.putExtra("match_id", matchId);
+                intent.putExtra(
+                        "match_id",
+                        matchId
+                );
+
                 startActivity(intent);
             });
 
@@ -1293,4 +1364,48 @@ private void setupNavigation() {
             return date;
         }
     }
+
+    private void loadImage(ImageView imageView, String imageUrl) {
+
+        new Thread(() -> {
+
+            try {
+
+                URL url = new URL(imageUrl);
+
+                HttpURLConnection connection =
+                        (HttpURLConnection) url.openConnection();
+
+                connection.setConnectTimeout(10000);
+                connection.setReadTimeout(10000);
+                connection.setDoInput(true);
+                connection.connect();
+
+                InputStream inputStream =
+                        connection.getInputStream();
+
+                Bitmap bitmap =
+                        BitmapFactory.decodeStream(inputStream);
+
+                inputStream.close();
+                connection.disconnect();
+
+                runOnUiThread(() -> {
+
+                    if (bitmap != null) {
+                        imageView.setImageBitmap(bitmap);
+                    }
+
+                });
+
+            } catch (Exception e) {
+
+                e.printStackTrace();
+
+            }
+
+        }).start();
+    }
+
+
 }

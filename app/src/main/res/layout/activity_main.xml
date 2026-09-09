@@ -54,16 +54,22 @@
     </LinearLayout>
 
     <!-- WEBSITE -->
-    <Button
+    <TextView
         android:id="@+id/visitWebsite"
         android:layout_width="match_parent"
-        android:layout_height="46dp"
+        android:layout_height="52dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginTop="10dp"
-        android:text="TEMBELEA WEBSITE"
-        android:textSize="12sp"
-        android:textStyle="bold"/>
+        android:gravity="center"
+        android:text="TEMBELEA WEBSITE   →"
+        android:textColor="#FFFFFF"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        android:letterSpacing="0.05"
+        android:background="@drawable/bg_website_button"
+        android:clickable="true"
+        android:focusable="true"/>
 
     <!-- HOME CONTENT -->
     <ScrollView
