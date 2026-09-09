@@ -307,7 +307,7 @@
             android:id="@+id/footerTerms"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Terms & Conditions"
+            android:text="Terms &amp; Conditions"
             android:textColor="#AAAAAA"
             android:paddingTop="8dp"
             android:clickable="true"/>
