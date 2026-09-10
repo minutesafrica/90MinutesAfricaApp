@@ -1113,6 +1113,154 @@ private void setupNavigation() {
         startActivity(intent);
     }
 
+
+    private void loadImageIntoView(String imageUrl, ImageView imageView) {
+        if (imageView == null || imageUrl == null || imageUrl.trim().isEmpty()) {
+            return;
+        }
+
+        new Thread(() -> {
+            try {
+                URL url = new URL(imageUrl);
+                java.net.HttpURLConnection connection =
+                        (java.net.HttpURLConnection) url.openConnection();
+
+                connection.setConnectTimeout(10000);
+                connection.setReadTimeout(10000);
+                connection.setDoInput(true);
+                connection.connect();
+
+                Bitmap bitmap =
+                        BitmapFactory.decodeStream(connection.getInputStream());
+
+                connection.disconnect();
+
+                if (bitmap != null) {
+                    imageView.post(() -> imageView.setImageBitmap(bitmap));
+                }
+
+            } catch (Exception ignored) {
+            }
+        }).start();
+    }
+
+    private void addBreakingCard(NewsItem news) {
+        if (breakingContainer == null || news == null) {
+            return;
+        }
+
+        breakingContainer.removeAllViews();
+
+        TextView title = new TextView(this);
+        title.setText(safeText(news.getTitle()));
+        title.setTextColor(Color.WHITE);
+        title.setTextSize(15);
+        title.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+        title.setSingleLine(true);
+        title.setEllipsize(android.text.TextUtils.TruncateAt.MARQUEE);
+        title.setMarqueeRepeatLimit(-1);
+        title.setSelected(true);
+        title.setPadding(16, 10, 16, 10);
+
+        GradientDrawable bg = new GradientDrawable();
+        bg.setColor(Color.rgb(18, 18, 18));
+        bg.setCornerRadius(12);
+        title.setBackground(bg);
+
+        breakingContainer.addView(title);
+    }
+
+    private void addNewsCard(LinearLayout container, NewsItem news) {
+        if (container == null || news == null) {
+            return;
+        }
+
+        LinearLayout card = new LinearLayout(this);
+        card.setOrientation(LinearLayout.HORIZONTAL);
+        card.setGravity(Gravity.CENTER_VERTICAL);
+        card.setPadding(12, 12, 12, 12);
+
+        GradientDrawable bg = new GradientDrawable();
+        bg.setColor(Color.rgb(16, 16, 16));
+        bg.setCornerRadius(14);
+        card.setBackground(bg);
+
+        ImageView image = new ImageView(this);
+        image.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
+        LinearLayout.LayoutParams imageParams =
+                new LinearLayout.LayoutParams(
+                        dp(105),
+                        dp(80)
+                );
+
+        card.addView(image, imageParams);
+
+        LinearLayout textBox = new LinearLayout(this);
+        textBox.setOrientation(LinearLayout.VERTICAL);
+        textBox.setPadding(12, 0, 0, 0);
+
+        TextView category = new TextView(this);
+        category.setText(safeText(news.getCategory()).toUpperCase(Locale.US));
+        category.setTextColor(Color.rgb(229, 57, 53));
+        category.setTextSize(11);
+        category.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+
+        TextView title = new TextView(this);
+        title.setText(safeText(news.getTitle()));
+        title.setTextColor(Color.WHITE);
+        title.setTextSize(15);
+        title.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+        title.setMaxLines(3);
+        title.setEllipsize(android.text.TextUtils.TruncateAt.END);
+
+        TextView time = new TextView(this);
+        time.setText(formatNewsTime(news.getCreatedAt()));
+        time.setTextColor(Color.GRAY);
+        time.setTextSize(11);
+        time.setPadding(0, 5, 0, 0);
+
+        textBox.addView(category);
+        textBox.addView(title);
+        textBox.addView(time);
+
+        LinearLayout.LayoutParams textParams =
+                new LinearLayout.LayoutParams(
+                        0,
+                        LinearLayout.LayoutParams.WRAP_CONTENT,
+                        1f
+                );
+
+        card.addView(textBox, textParams);
+
+        String imageUrl = news.getImageUrl();
+        if (imageUrl != null && !imageUrl.trim().isEmpty()) {
+            loadImageIntoView(imageUrl, image);
+        }
+
+        card.setOnClickListener(v -> {
+            Intent intent = new Intent(
+                    MainActivity.this,
+                    ArticleDetailActivity.class
+            );
+            intent.putExtra("news_id", news.getId());
+            startActivity(intent);
+        });
+
+        LinearLayout.LayoutParams cardParams =
+                new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                );
+
+        cardParams.setMargins(0, 0, 0, dp(10));
+        container.addView(card, cardParams);
+    }
+
+    private int dp(int value) {
+        return (int) (value * getResources().getDisplayMetrics().density + 0.5f);
+    }
+
     private String safeText(String value) {
         return value == null ? "" : value.trim();
     }
