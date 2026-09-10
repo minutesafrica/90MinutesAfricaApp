@@ -17,6 +17,10 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.view.Gravity;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.TranslateAnimation;
 import android.widget.PopupWindow;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -506,112 +510,77 @@ private void setupNavigation() {
         );
     }
 
-    private void addBreakingCard(
-            NewsItem item
-    ) {
+    private void addBreakingCard(NewsItem item) {
 
-        LinearLayout card =
-                createCard();
+    LinearLayout card = createCard();
 
-        card.setPadding(
-                18, 18, 18, 18
-        );
+    card.setPadding(0, 0, 0, 0);
+    card.setBackgroundResource(R.drawable.bg_news_card);
 
-        card.setBackgroundResource(
-                R.drawable.bg_news_card
-        );
-        card.setPadding(
-                18, 18, 18, 18
-        );
+    TextView header = createText("BREAKING NEWS", 10, "#E30613");
+    header.setTypeface(null, Typeface.BOLD);
+    header.setPadding(16, 12, 16, 8);
+    card.addView(header);
 
-        TextView badge =
-                createText(
-                        "BREAKING",
-                        10,
-                        "#E30613"
+    FrameLayout tickerArea = new FrameLayout(this);
+    tickerArea.setLayoutParams(
+            new LinearLayout.LayoutParams(-1, 48)
+    );
+    tickerArea.setClipChildren(true);
+    tickerArea.setClipToPadding(true);
+
+    TextView title = createText(
+            item.getTitle() != null
+                    ? item.getTitle()
+                    : "Hakuna breaking news kwa sasa.",
+            16,
+            "#FFFFFF"
+    );
+
+    title.setTypeface(null, Typeface.BOLD);
+    title.setSingleLine(true);
+    title.setEllipsize(null);
+    title.setPadding(16, 0, 16, 0);
+
+    FrameLayout.LayoutParams titleParams =
+            new FrameLayout.LayoutParams(-2, -1);
+
+    titleParams.gravity = Gravity.CENTER_VERTICAL;
+
+    tickerArea.addView(title, titleParams);
+    card.addView(tickerArea);
+
+    title.post(() -> {
+
+        int screenWidth = tickerArea.getWidth();
+        int textWidth = title.getWidth();
+
+        if (textWidth <= 0) return;
+
+        TranslateAnimation animation =
+                new TranslateAnimation(
+                        Animation.ABSOLUTE,
+                        screenWidth,
+                        Animation.ABSOLUTE,
+                        -textWidth,
+                        Animation.RELATIVE_TO_SELF,
+                        0f,
+                        Animation.RELATIVE_TO_SELF,
+                        0f
                 );
 
-        badge.setTypeface(
-                null,
-                Typeface.BOLD
-        );
+        animation.setDuration(15000);
+        animation.setInterpolator(new LinearInterpolator());
+        animation.setRepeatCount(Animation.INFINITE);
+        animation.setRepeatMode(Animation.RESTART);
 
-        card.addView(badge);
+        title.startAnimation(animation);
+    });
 
-        TextView title =
-                createText(
-                        item.getTitle(),
-                        19,
-                        "#FFFFFF"
-                );
+    card.setOnClickListener(v -> openArticle(item));
 
-        title.setTypeface(
-                null,
-                Typeface.BOLD
-        );
-        title.setSingleLine(true);
-        title.setEllipsize(null);
-        title.setSelected(false);
-        title.post(() -> {
-            android.view.animation.TranslateAnimation animation =
-                    new android.view.animation.TranslateAnimation(
-                            1.0f, -1.0f,
-                            0f, 0f
-                    );
-            animation.setDuration(15000);
-            animation.setInterpolator(new android.view.animation.LinearInterpolator());
-            animation.setRepeatCount(android.view.animation.Animation.INFINITE);
-            animation.setRepeatMode(android.view.animation.Animation.RESTART);
-            title.startAnimation(animation);
-        });
-
-        title.setPadding(
-                0, 6, 0, 0
-        );
-
-        card.addView(title);
-
-        TextView excerpt =
-                createText(
-                        item.getExcerpt(),
-                        14,
-                        "#999999"
-                );
-
-        LinearLayout.LayoutParams params =
-                new LinearLayout.LayoutParams(
-                        -1,
-                        -2
-                );
-
-        excerpt.setLayoutParams(params);
-
-        card.addView(excerpt);
-
-        TextView readMore =
-                createText(
-                        "SOMA HABARI  →",
-                        12,
-                        "#E30613"
-                );
-
-        readMore.setTypeface(
-                null,
-                Typeface.BOLD
-        );
-
-        readMore.setPadding(
-                0, 12, 0, 0
-        );
-
-        card.addView(readMore);
-
-        card.setOnClickListener(
-                v -> openArticle(item)
-        );
-
-        breakingContainer.addView(card);
-    }
+    breakingContainer.addView(card);
+}
 
     private void addNewsCard(
             LinearLayout container,
