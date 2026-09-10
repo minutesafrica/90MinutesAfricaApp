@@ -51,7 +51,7 @@
                 android:id="@+id/articleImage"
                 android:layout_width="match_parent"
                 android:layout_height="230dp"
-                android:scaleType="CENTER_CROP" />
+                android:scaleType="centerCrop" />
 
             <LinearLayout
                 android:layout_width="match_parent"
