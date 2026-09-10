@@ -5,12 +5,13 @@
     android:orientation="vertical"
     android:background="@color/bg_dark">
 
+    <!-- HEADER -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:background="@color/bg_header"
-        android:paddingStart="8dp"
-        android:paddingEnd="14dp">
+        android:paddingStart="6dp"
+        android:paddingEnd="10dp">
 
         <ImageButton
             android:id="@+id/articleBack"
@@ -34,13 +35,26 @@
             android:textStyle="bold"
             android:letterSpacing="0.04" />
 
+        <ImageButton
+            android:id="@+id/articleShare"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:background="@android:color/transparent"
+            android:contentDescription="Shiriki"
+            android:src="@android:drawable/ic_menu_share"
+            android:tint="@android:color/white"
+            android:padding="12dp" />
+
     </RelativeLayout>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        android:overScrollMode="never">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -50,21 +64,30 @@
             <ImageView
                 android:id="@+id/articleImage"
                 android:layout_width="match_parent"
-                android:layout_height="230dp"
-                android:scaleType="centerCrop" />
+                android:layout_height="245dp"
+                android:scaleType="centerCrop"
+                android:background="#111111" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="20dp">
+                android:paddingStart="20dp"
+                android:paddingTop="20dp"
+                android:paddingEnd="20dp"
+                android:paddingBottom="32dp">
 
                 <TextView
                     android:id="@+id/articleCategory"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="#E30613"
-                    android:textSize="11sp"
+                    android:background="#E30613"
+                    android:paddingStart="10dp"
+                    android:paddingTop="5dp"
+                    android:paddingEnd="10dp"
+                    android:paddingBottom="5dp"
+                    android:textColor="@android:color/white"
+                    android:textSize="10sp"
                     android:textStyle="bold"
                     android:letterSpacing="0.08" />
 
@@ -72,9 +95,9 @@
                     android:id="@+id/articleTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="12dp"
                     android:textColor="@android:color/white"
-                    android:textSize="25sp"
+                    android:textSize="27sp"
                     android:textStyle="bold"
                     android:lineSpacingExtra="3dp" />
 
@@ -83,24 +106,52 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:textColor="#888888"
+                    android:textColor="#8F8F8F"
                     android:textSize="12sp" />
+
+                <!-- STATS -->
+                <LinearLayout
+                    android:id="@+id/newsStats"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:id="@+id/articleViews"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Views 0"
+                        android:textColor="#999999"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/articleShares"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Shares 0"
+                        android:textColor="#999999"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="18dp"
-                    android:layout_marginBottom="18dp"
-                    android:background="#262626" />
+                    android:background="#292929" />
 
                 <TextView
                     android:id="@+id/articleExcerpt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="#BBBBBB"
+                    android:layout_marginTop="20dp"
+                    android:textColor="#D5D5D5"
                     android:textSize="16sp"
                     android:textStyle="bold"
-                    android:lineSpacingExtra="4dp" />
+                    android:lineSpacingExtra="5dp" />
 
                 <TextView
                     android:id="@+id/articleContent"
@@ -109,7 +160,112 @@
                     android:layout_marginTop="20dp"
                     android:textColor="#EEEEEE"
                     android:textSize="16sp"
-                    android:lineSpacingExtra="6dp" />
+                    android:lineSpacingExtra="7dp"
+                    android:textIsSelectable="true" />
+
+                <!-- ACTIONS -->
+                <LinearLayout
+                    android:id="@+id/actionButtons"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="28dp"
+                    android:orientation="horizontal"
+                    android:gravity="center">
+
+                    <Button
+                        android:id="@+id/articleLike"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:layout_weight="1"
+                        android:text="Like 0"
+                        android:textAllCaps="false"
+                        android:textColor="@android:color/white"
+                        android:backgroundTint="#252525" />
+
+                    <Button
+                        android:id="@+id/articleComment"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:layout_weight="1"
+                        android:layout_marginStart="8dp"
+                        android:text="Comment 0"
+                        android:textAllCaps="false"
+                        android:textColor="@android:color/white"
+                        android:backgroundTint="#252525" />
+
+                    <Button
+                        android:id="@+id/articleShareButton"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:layout_weight="1"
+                        android:layout_marginStart="8dp"
+                        android:text="Share"
+                        android:textAllCaps="false"
+                        android:textColor="@android:color/white"
+                        android:backgroundTint="#E30613" />
+
+                </LinearLayout>
+
+                <!-- COMMENTS -->
+                <TextView
+                    android:id="@+id/commentsTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:text="MAONI"
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.05" />
+
+                <EditText
+                    android:id="@+id/commentName"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="14dp"
+                    android:hint="Jina lako"
+                    android:singleLine="true"
+                    android:textColor="@android:color/white"
+                    android:textColorHint="#777777"
+                    android:backgroundTint="#444444" />
+
+                <EditText
+                    android:id="@+id/commentText"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="top"
+                    android:hint="Andika comment yako..."
+                    android:inputType="textMultiLine"
+                    android:textColor="@android:color/white"
+                    android:textColorHint="#777777"
+                    android:backgroundTint="#444444" />
+
+                <Button
+                    android:id="@+id/sendComment"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="10dp"
+                    android:text="Tuma Comment"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/white"
+                    android:backgroundTint="#E30613" />
+
+                <TextView
+                    android:id="@+id/commentsEmpty"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:text="Hakuna comment bado."
+                    android:textColor="#777777"
+                    android:textSize="14sp" />
+
+                <LinearLayout
+                    android:id="@+id/commentsContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical" />
 
             </LinearLayout>
 
