@@ -738,4 +738,23 @@
         android:textStyle="bold"
         android:backgroundTint="@color/red_primary" />
 
+
+        <TextView
+            android:id="@+id/navNotifications"
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/socialFacebook"
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/socialWhatsapp"
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            android:visibility="gone" />
+
 </LinearLayout>

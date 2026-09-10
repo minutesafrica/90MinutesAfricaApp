@@ -441,6 +441,141 @@ private void setupNavigation() {
         );
     }
 
+
+    private void addTrendingItem(
+            LinearLayout container,
+            int position,
+            NewsItem news
+    ) {
+        if (container == null || news == null) return;
+
+        LinearLayout row = new LinearLayout(this);
+        row.setOrientation(LinearLayout.HORIZONTAL);
+        row.setGravity(Gravity.CENTER_VERTICAL);
+        row.setPadding(dp(12), dp(10), dp(12), dp(10));
+
+        GradientDrawable background = new GradientDrawable();
+        background.setColor(Color.rgb(16, 16, 16));
+        background.setCornerRadius(dp(12));
+        row.setBackground(background);
+
+        TextView number = new TextView(this);
+        number.setText(String.valueOf(position));
+        number.setTextColor(Color.rgb(229, 57, 53));
+        number.setTextSize(20);
+        number.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+        number.setGravity(Gravity.CENTER);
+
+        row.addView(
+                number,
+                new LinearLayout.LayoutParams(dp(42), dp(42))
+        );
+
+        TextView title = new TextView(this);
+        title.setText(safeText(news.getTitle()));
+        title.setTextColor(Color.WHITE);
+        title.setTextSize(14);
+        title.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+        title.setMaxLines(2);
+        title.setEllipsize(android.text.TextUtils.TruncateAt.END);
+        title.setPadding(dp(12), 0, 0, 0);
+
+        row.addView(
+                title,
+                new LinearLayout.LayoutParams(
+                        0,
+                        LinearLayout.LayoutParams.WRAP_CONTENT,
+                        1f
+                )
+        );
+
+        row.setOnClickListener(v -> {
+            Intent intent = new Intent(
+                    MainActivity.this,
+                    ArticleDetailActivity.class
+            );
+            intent.putExtra("news_id", news.getId());
+            startActivity(intent);
+        });
+
+        LinearLayout.LayoutParams params =
+                new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                );
+
+        params.setMargins(0, 0, 0, dp(8));
+        container.addView(row, params);
+    }
+
+
+    private void addFixtureCard(JSONObject match) {
+        if (fixturesContainer == null || match == null) return;
+
+        try {
+            String home = match.optString("home_team", "Home");
+            String away = match.optString("away_team", "Away");
+            String time = match.optString("match_time", "");
+            String date = match.optString("match_date", "");
+            String competition = match.optString("competition", "");
+
+            LinearLayout card = new LinearLayout(this);
+            card.setOrientation(LinearLayout.VERTICAL);
+            card.setPadding(dp(14), dp(14), dp(14), dp(14));
+
+            GradientDrawable background = new GradientDrawable();
+            background.setColor(Color.rgb(16, 16, 16));
+            background.setCornerRadius(dp(14));
+            card.setBackground(background);
+
+            TextView competitionText = new TextView(this);
+            competitionText.setText(safeText(competition));
+            competitionText.setTextColor(Color.rgb(229, 57, 53));
+            competitionText.setTextSize(11);
+            competitionText.setTypeface(
+                    Typeface.DEFAULT,
+                    Typeface.BOLD
+            );
+
+            TextView teams = new TextView(this);
+            teams.setText(home + "  VS  " + away);
+            teams.setTextColor(Color.WHITE);
+            teams.setTextSize(15);
+            teams.setTypeface(
+                    Typeface.DEFAULT,
+                    Typeface.BOLD
+            );
+            teams.setPadding(0, dp(8), 0, dp(8));
+
+            TextView info = new TextView(this);
+
+            String displayTime =
+                    time.length() >= 5
+                            ? time.substring(0, 5)
+                            : time;
+
+            info.setText(date + " • " + displayTime);
+            info.setTextColor(Color.GRAY);
+            info.setTextSize(12);
+
+            card.addView(competitionText);
+            card.addView(teams);
+            card.addView(info);
+
+            LinearLayout.LayoutParams params =
+                    new LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.MATCH_PARENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT
+                    );
+
+            params.setMargins(0, 0, 0, dp(10));
+
+            fixturesContainer.addView(card, params);
+
+        } catch (Exception ignored) {
+        }
+    }
+
     private void loadFixtures() {
         FootballService.getFixtures(
                 new FootballService.Callback() {
@@ -1256,12 +1391,7 @@ private void setupNavigation() {
         cardParams.setMargins(0, 0, 0, dp(10));
         container.addView(card, cardParams);
     }
-
-    private int dp(int value) {
-        return (int) (value * getResources().getDisplayMetrics().density + 0.5f);
-    }
-
-    private String safeText(String value) {
+private String safeText(String value) {
         return value == null ? "" : value.trim();
     }
 
