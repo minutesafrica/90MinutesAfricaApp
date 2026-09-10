@@ -1113,6 +1113,59 @@ private void setupNavigation() {
         startActivity(intent);
     }
 
+    private String safeText(String value) {
+        return value == null ? "" : value.trim();
+    }
+
+    private String formatNewsTime(String date) {
+        if (date == null || date.trim().isEmpty()) {
+            return "";
+        }
+
+        try {
+            SimpleDateFormat input =
+                    new SimpleDateFormat(
+                            "yyyy-MM-dd'T'HH:mm:ss",
+                            Locale.US
+                    );
+
+            Date parsed = input.parse(date);
+
+            if (parsed == null) {
+                return "";
+            }
+
+            long diff = System.currentTimeMillis() - parsed.getTime();
+
+            if (diff < 60000) {
+                return "Dakika 1 iliyopita";
+            }
+
+            long minutes = diff / 60000;
+
+            if (minutes < 60) {
+                return "Dakika " + minutes + " zilizopita";
+            }
+
+            long hours = minutes / 60;
+
+            if (hours < 24) {
+                return "Saa " + hours + " zilizopita";
+            }
+
+            long days = hours / 24;
+
+            if (days == 1) {
+                return "Jana";
+            }
+
+            return days + " siku zilizopita";
+
+        } catch (Exception e) {
+            return "";
+        }
+    }
+
     private String formatDate(
             String date
     ) {
