@@ -1,18 +1,17 @@
 package com.ninetyminutes.africa;
 
 import android.content.Intent;
-import android.os.Bundle;
-import java.net.URL;
-import java.net.HttpURLConnection;
-import java.io.InputStream;
-import android.widget.ImageView;
-import android.graphics.BitmapFactory;
 import android.graphics.Bitmap;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
-import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,78 +19,71 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.ninetyminutes.africa.network.NewsService;
 
-import java.util.ArrayList;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.List;
-import java.util.Locale;
 
 public class NewsActivity extends AppCompatActivity {
 
     private LinearLayout newsContainer;
-    private EditText newsSearch;
+    private ProgressBar progressBar;
 
-    private final List<NewsItem> allNews = new ArrayList<>();
-    private String selectedCategory = "ALL";
+    private final int RED = Color.rgb(227, 6, 19);
+    private final int WHITE = Color.WHITE;
+    private final int MUTED = Color.rgb(153, 153, 153);
+    private final int CARD = Color.rgb(16, 16, 16);
+    private final int BORDER = Color.rgb(38, 38, 38);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_news);
 
         newsContainer = findViewById(R.id.newsContainer);
-        newsSearch = findViewById(R.id.newsSearch);
 
-        String incomingCategory =
-                getIntent().getStringExtra("selected_category");
-
-        if (incomingCategory != null &&
-                !incomingCategory.trim().isEmpty()) {
-            selectedCategory =
-                    incomingCategory.toUpperCase(Locale.ROOT);
-        }
-
-        setupSearch();
+        showLoading();
         loadNews();
+
+        findViewById(R.id.newsMenu).setOnClickListener(v -> finish());
     }
 
-    private void setupSearch() {
-
-        newsSearch.addTextChangedListener(new TextWatcher() {
-
-            @Override
-            public void beforeTextChanged(
-                    CharSequence s,
-                    int start,
-                    int count,
-                    int after) {
-            }
-
-            @Override
-            public void onTextChanged(
-                    CharSequence s,
-                    int start,
-                    int before,
-                    int count) {
-
-                displayNews();
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        });
-    }
-
-    private void loadNews() {
+    private void showLoading() {
 
         newsContainer.removeAllViews();
 
-        TextView loading = new TextView(this);
-        loading.setText("Inapakia habari...");
-        loading.setTextColor(0xFFD4AF37);
-        loading.setTextSize(16);
-        loading.setPadding(20, 30, 20, 30);
+        progressBar = new ProgressBar(this);
 
-        newsContainer.addView(loading);
+        LinearLayout.LayoutParams params =
+                new LinearLayout.LayoutParams(
+                        dp(42),
+                        dp(42)
+                );
+
+        params.gravity = Gravity.CENTER;
+        params.topMargin = dp(40);
+        params.bottomMargin = dp(20);
+
+        newsContainer.addView(progressBar, params);
+
+        TextView loading = new TextView(this);
+
+        loading.setText("Inapakia habari...");
+        loading.setTextColor(MUTED);
+        loading.setTextSize(14);
+        loading.setGravity(Gravity.CENTER);
+
+        newsContainer.addView(
+                loading,
+                new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                )
+        );
+    }
+
+    private void loadNews() {
 
         NewsService.getNews(new NewsService.Callback() {
 
@@ -100,10 +92,18 @@ public class NewsActivity extends AppCompatActivity {
 
                 runOnUiThread(() -> {
 
-                    allNews.clear();
-                    allNews.addAll(news);
+                    newsContainer.removeAllViews();
 
-                    displayNews();
+                    if (news == null || news.isEmpty()) {
+                        showMessage("Hakuna habari mpya.");
+                        return;
+                    }
+
+                    int limit = Math.min(news.size(), 6);
+
+                    for (int i = 0; i < limit; i++) {
+                        addNewsCard(news.get(i));
+                    }
                 });
             }
 
@@ -114,20 +114,15 @@ public class NewsActivity extends AppCompatActivity {
 
                     newsContainer.removeAllViews();
 
-                    TextView errorText = new TextView(NewsActivity.this);
-                    errorText.setText(
-                            "Imeshindikana kupakia habari.\n\n"
-                                    + error
+                    showMessage(
+                            error == null || error.trim().isEmpty()
+                                    ? "Imeshindikana kupakia habari."
+                                    : error
                     );
-                    errorText.setTextColor(0xFFFF6666);
-                    errorText.setTextSize(15);
-                    errorText.setPadding(20, 30, 20, 30);
-
-                    newsContainer.addView(errorText);
 
                     Toast.makeText(
                             NewsActivity.this,
-                            "Tatizo la kuunganisha na server",
+                            "Imeshindikana kupakia habari.",
                             Toast.LENGTH_LONG
                     ).show();
                 });
@@ -135,201 +130,322 @@ public class NewsActivity extends AppCompatActivity {
         });
     }
 
-    private void displayNews() {
+    private void addNewsCard(NewsItem item) {
 
-        newsContainer.removeAllViews();
-
-        String searchText =
-                newsSearch.getText()
-                        .toString()
-                        .trim()
-                        .toLowerCase(Locale.ROOT);
-
-        int count = 0;
-
-        for (NewsItem news : allNews) {
-
-            boolean categoryMatch =
-                    selectedCategory.equals("ALL")
-                            || news.getCategory()
-                            .toUpperCase(Locale.ROOT)
-                            .contains(selectedCategory);
-
-            boolean searchMatch =
-                    searchText.isEmpty()
-                            || news.getTitle()
-                            .toLowerCase(Locale.ROOT)
-                            .contains(searchText)
-                            || news.getExcerpt()
-                            .toLowerCase(Locale.ROOT)
-                            .contains(searchText);
-
-            if (categoryMatch && searchMatch) {
-
-                addNewsCard(news);
-                count++;
-            }
-        }
-
-        if (count == 0) {
-
-            TextView empty = new TextView(this);
-            empty.setText("Hakuna habari zilizopatikana.");
-            empty.setTextColor(0xFFAAAAAA);
-            empty.setTextSize(15);
-            empty.setPadding(20, 40, 20, 40);
-
-            newsContainer.addView(empty);
-        }
-    }
-
-    private void addNewsCard(NewsItem news) {
         LinearLayout card = new LinearLayout(this);
+
         card.setOrientation(LinearLayout.VERTICAL);
-        card.setPadding(16, 16, 16, 16);
+        card.setBackgroundColor(CARD);
+        card.setPadding(0, 0, 0, 0);
 
-        android.graphics.drawable.GradientDrawable bg =
-                new android.graphics.drawable.GradientDrawable();
-        bg.setColor(0xFF101010);
-        bg.setCornerRadius(16);
-        bg.setStroke(1, 0xFF262626);
-        card.setBackground(bg);
+        LinearLayout.LayoutParams cardParams =
+                new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                );
 
-        LinearLayout.LayoutParams params =
-                new LinearLayout.LayoutParams(-1, -2);
-        params.setMargins(0, 0, 0, 16);
-        card.setLayoutParams(params);
+        cardParams.setMargins(
+                0,
+                0,
+                0,
+                dp(18)
+        );
 
-        String imageUrl = news.getImageUrl();
+        newsContainer.addView(card, cardParams);
 
-        if (imageUrl != null && !imageUrl.trim().isEmpty()) {
-            ImageView image = new ImageView(this);
-            image.setLayoutParams(
-                    new LinearLayout.LayoutParams(-1, 200)
+        ImageView image = new ImageView(this);
+
+        image.setLayoutParams(
+                new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        dp(180)
+                )
+        );
+
+        image.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
+        card.addView(image);
+
+        LinearLayout content = new LinearLayout(this);
+
+        content.setOrientation(LinearLayout.VERTICAL);
+        content.setPadding(
+                dp(18),
+                dp(18),
+                dp(18),
+                dp(18)
+        );
+
+        card.addView(content);
+
+        TextView category = new TextView(this);
+
+        category.setText(
+                item.getCategory() == null
+                        ? ""
+                        : item.getCategory()
+        );
+
+        category.setTextColor(RED);
+        category.setTextSize(10);
+        category.setTypeface(
+                null,
+                Typeface.BOLD
+        );
+        category.setLetterSpacing(0.10f);
+
+        content.addView(category);
+
+        TextView title = new TextView(this);
+
+        title.setText(
+                item.getTitle() == null
+                        ? ""
+                        : item.getTitle()
+        );
+
+        title.setTextColor(WHITE);
+        title.setTextSize(19);
+        title.setTypeface(
+                null,
+                Typeface.BOLD
+        );
+
+        title.setLineSpacing(
+                0f,
+                1.25f
+        );
+
+        LinearLayout.LayoutParams titleParams =
+                new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                );
+
+        titleParams.topMargin = dp(10);
+
+        content.addView(title, titleParams);
+
+        TextView excerpt = new TextView(this);
+
+        excerpt.setText(
+                item.getExcerpt() == null
+                        ? ""
+                        : item.getExcerpt()
+        );
+
+        excerpt.setTextColor(MUTED);
+        excerpt.setTextSize(14);
+        excerpt.setLineSpacing(
+                0f,
+                1.5f
+        );
+
+        LinearLayout.LayoutParams excerptParams =
+                new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                );
+
+        excerptParams.topMargin = dp(10);
+        excerptParams.bottomMargin = dp(16);
+
+        content.addView(excerpt, excerptParams);
+
+        TextView readMore = new TextView(this);
+
+        readMore.setText("Soma zaidi →");
+        readMore.setTextColor(WHITE);
+        readMore.setTextSize(13);
+        readMore.setTypeface(
+                null,
+                Typeface.BOLD
+        );
+        readMore.setGravity(Gravity.CENTER);
+
+        readMore.setBackgroundResource(
+                R.drawable.bg_read_more
+        );
+
+        readMore.setPadding(
+                dp(14),
+                dp(9),
+                dp(14),
+                dp(9)
+        );
+
+        LinearLayout.LayoutParams readParams =
+                new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.WRAP_CONTENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                );
+
+        content.addView(readMore, readParams);
+
+        if (item.getImageUrl() != null &&
+                !item.getImageUrl().trim().isEmpty()) {
+
+            loadImage(
+                    image,
+                    item.getImageUrl()
             );
-            image.setScaleType(
-                    ImageView.ScaleType.CENTER_CROP
-            );
-            card.addView(image);
 
-            new Thread(() -> {
-                try {
-                    HttpURLConnection connection =
-                            (HttpURLConnection)
-                                    new URL(imageUrl).openConnection();
+        } else {
 
-                    connection.setConnectTimeout(15000);
-                    connection.setReadTimeout(15000);
-
-                    InputStream input =
-                            connection.getInputStream();
-
-                    Bitmap bitmap =
-                            BitmapFactory.decodeStream(input);
-
-                    input.close();
-                    connection.disconnect();
-
-                    runOnUiThread(() -> {
-                        if (bitmap != null) {
-                            image.setImageBitmap(bitmap);
-                        }
-                    });
-                } catch (Exception ignored) {
-                }
-            }).start();
+            image.setVisibility(View.GONE);
         }
 
-        TextView category = createNewsText(
-                news.getCategory().toUpperCase(Locale.ROOT),
-                10,
-                0xFFE30613
-        );
-        category.setTypeface(null, 1);
-        category.setPadding(0, 14, 0, 0);
+        View.OnClickListener openArticle =
+                v -> openArticle(item);
 
-        TextView title = createNewsText(
-                news.getTitle(),
-                19,
-                0xFFFFFFFF
-        );
-        title.setTypeface(null, 1);
-        title.setPadding(0, 6, 0, 0);
-
-        TextView excerpt = createNewsText(
-                news.getExcerpt(),
-                14,
-                0xFF999999
-        );
-        excerpt.setPadding(0, 8, 0, 0);
-
-        TextView readMore = createNewsText(
-                "SOMA HABARI  →",
-                12,
-                0xFFE30613
-        );
-        readMore.setTypeface(null, 1);
-        readMore.setPadding(0, 12, 0, 0);
-
-        TextView meta = createNewsText(
-                "90' MINUTES AFRICA  •  "
-                        + news.getAuthor()
-                        + "  •  "
-                        + news.getViews()
-                        + " views",
-                11,
-                0xFF777777
-        );
-        meta.setPadding(0, 8, 0, 0);
-
-        card.addView(category);
-        card.addView(title);
-
-        if (news.getExcerpt() != null &&
-                !news.getExcerpt().trim().isEmpty()) {
-            card.addView(excerpt);
-        }
-
-        card.addView(readMore);
-        card.addView(meta);
-
-        card.setOnClickListener(v -> openArticle(news));
-
-        newsContainer.addView(card);
+        card.setOnClickListener(openArticle);
+        readMore.setOnClickListener(openArticle);
     }
 
-    private TextView createNewsText(
-            String text,
-            int size,
-            int color
-    ) {
-        TextView view = new TextView(this);
-        view.setText(text == null ? "" : text);
-        view.setTextSize(size);
-        view.setTextColor(color);
-        view.setIncludeFontPadding(false);
-        view.setLineSpacing(2f, 1.05f);
-        return view;
-    }
+    private void openArticle(NewsItem item) {
 
-    private void openArticle(NewsItem news) {
         Intent intent =
                 new Intent(
                         NewsActivity.this,
                         ArticleDetailActivity.class
                 );
 
-        intent.putExtra("article_id", news.getId());
-        intent.putExtra("article_category", news.getCategory());
-        intent.putExtra("article_title", news.getTitle());
-        intent.putExtra("article_excerpt", news.getExcerpt());
-        intent.putExtra("article_content", news.getContent());
-        intent.putExtra("article_author", news.getAuthor());
-        intent.putExtra("article_image", news.getImageUrl());
-        intent.putExtra("article_created_at", news.getCreatedAt());
-        intent.putExtra("article_views", news.getViews());
+        intent.putExtra(
+                "article_id",
+                item.getId()
+        );
+
+        intent.putExtra(
+                "article_title",
+                item.getTitle()
+        );
+
+        intent.putExtra(
+                "article_category",
+                item.getCategory()
+        );
+
+        intent.putExtra(
+                "article_excerpt",
+                item.getExcerpt()
+        );
+
+        intent.putExtra(
+                "article_content",
+                item.getContent()
+        );
+
+        intent.putExtra(
+                "article_author",
+                item.getAuthor()
+        );
+
+        intent.putExtra(
+                "article_image",
+                item.getImageUrl()
+        );
+
+        intent.putExtra(
+                "article_created_at",
+                item.getCreatedAt()
+        );
+
+        intent.putExtra(
+                "article_views",
+                item.getViews()
+        );
 
         startActivity(intent);
     }
 
+    private void showMessage(String message) {
+
+        TextView text = new TextView(this);
+
+        text.setText(message);
+        text.setTextColor(MUTED);
+        text.setTextSize(15);
+        text.setGravity(Gravity.CENTER);
+        text.setPadding(
+                dp(20),
+                dp(40),
+                dp(20),
+                dp(40)
+        );
+
+        newsContainer.addView(
+                text,
+                new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                )
+        );
+    }
+
+    private void loadImage(
+            ImageView imageView,
+            String imageUrl
+    ) {
+
+        new Thread(() -> {
+
+            HttpURLConnection connection = null;
+            InputStream input = null;
+
+            try {
+
+                URL url = new URL(imageUrl);
+
+                connection =
+                        (HttpURLConnection)
+                                url.openConnection();
+
+                connection.setConnectTimeout(10000);
+                connection.setReadTimeout(10000);
+                connection.setInstanceFollowRedirects(true);
+
+                input = connection.getInputStream();
+
+                Bitmap bitmap =
+                        BitmapFactory.decodeStream(input);
+
+                if (bitmap != null) {
+
+                    runOnUiThread(() ->
+                            imageView.setImageBitmap(bitmap)
+                    );
+                }
+
+            } catch (Exception e) {
+
+                e.printStackTrace();
+
+            } finally {
+
+                try {
+
+                    if (input != null) {
+                        input.close();
+                    }
+
+                } catch (Exception ignored) {
+                }
+
+                if (connection != null) {
+                    connection.disconnect();
+                }
+            }
+
+        }).start();
+    }
+
+    private int dp(int value) {
+
+        return Math.round(
+                value *
+                        getResources()
+                                .getDisplayMetrics()
+                                .density
+        );
+    }
 }

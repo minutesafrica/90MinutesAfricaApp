@@ -17,6 +17,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.view.Gravity;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.TranslateAnimation;
@@ -29,6 +30,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.ninetyminutes.africa.LiveMatch;
 import com.ninetyminutes.africa.network.FootballService;
 import com.ninetyminutes.africa.network.LiveMatchService;
+import com.ninetyminutes.africa.network.LiveService;
 import com.ninetyminutes.africa.network.NewsService;
 import com.ninetyminutes.africa.network.SupabaseClient;
 
@@ -442,6 +444,7 @@ private void setupNavigation() {
     }
 
     private void loadFixtures() {
+
         FootballService.getFixtures(
                 new FootballService.Callback() {
 
@@ -452,154 +455,33 @@ private void setupNavigation() {
 
                             fixturesContainer.removeAllViews();
 
-                            if (data == null || data.length() == 0) {
+                            if (data.length() == 0) {
+
                                 addMessage(
                                         fixturesContainer,
                                         "Hakuna ratiba kwa sasa."
                                 );
+
                                 return;
                             }
 
-                            ArrayList<JSONObject> upcoming =
-                                    new ArrayList<>();
+                            int limit =
+                                    Math.min(5, data.length());
 
-                            long now = System.currentTimeMillis();
-
-                            for (int i = 0; i < data.length(); i++) {
+                            for (int i = 0;
+                                 i < limit;
+                                 i++) {
 
                                 try {
+
                                     JSONObject match =
                                             data.getJSONObject(i);
 
-                                    String matchDate =
-                                            match.optString(
-                                                    "match_date",
-                                                    ""
-                                            );
-
-                                    String matchTime =
-                                            match.optString(
-                                                    "match_time",
-                                                    "00:00"
-                                            );
-
-                                    if (matchDate.isEmpty()) {
-                                        continue;
-                                    }
-
-                                    java.text.SimpleDateFormat parser =
-                                            new java.text.SimpleDateFormat(
-                                                    "yyyy-MM-dd HH:mm",
-                                                    java.util.Locale.US
-                                            );
-
-                                    parser.setLenient(false);
-
-                                    java.util.Date date =
-                                            parser.parse(
-                                                    matchDate
-                                                            + " "
-                                                            + matchTime
-                                                                    .substring(
-                                                                            0,
-                                                                            Math.min(
-                                                                                    5,
-                                                                                    matchTime.length()
-                                                                            )
-                                                                    )
-                                            );
-
-                                    if (date != null
-                                            && date.getTime() > now) {
-
-                                        upcoming.add(match);
-                                    }
+                                    addFixtureCard(match);
 
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
-                            }
-
-                            upcoming.sort(
-                                    (a, b) -> {
-
-                                        try {
-
-                                            String aDate =
-                                                    a.optString(
-                                                            "match_date",
-                                                            ""
-                                                    )
-                                                    + " "
-                                                    + a.optString(
-                                                            "match_time",
-                                                            "00:00"
-                                                    )
-                                                    .substring(
-                                                            0,
-                                                            Math.min(
-                                                                    5,
-                                                                    a.optString(
-                                                                            "match_time",
-                                                                            "00:00"
-                                                                    ).length()
-                                                            )
-                                                    );
-
-                                            String bDate =
-                                                    b.optString(
-                                                            "match_date",
-                                                            ""
-                                                    )
-                                                    + " "
-                                                    + b.optString(
-                                                            "match_time",
-                                                            "00:00"
-                                                    )
-                                                    .substring(
-                                                            0,
-                                                            Math.min(
-                                                                    5,
-                                                                    b.optString(
-                                                                            "match_time",
-                                                                            "00:00"
-                                                                    ).length()
-                                                            )
-                                                    );
-
-                                            java.text.SimpleDateFormat parser =
-                                                    new java.text.SimpleDateFormat(
-                                                            "yyyy-MM-dd HH:mm",
-                                                            java.util.Locale.US
-                                                    );
-
-                                            return parser.parse(aDate)
-                                                    .compareTo(
-                                                            parser.parse(bDate)
-                                                    );
-
-                                        } catch (Exception e) {
-                                            return 0;
-                                        }
-                                    }
-                            );
-
-                            int limit =
-                                    Math.min(7, upcoming.size());
-
-                            if (limit == 0) {
-                                addMessage(
-                                        fixturesContainer,
-                                        "Hakuna ratiba kwa sasa."
-                                );
-                                return;
-                            }
-
-                            for (int i = 0; i < limit; i++) {
-
-                                addFixtureCard(
-                                        upcoming.get(i)
-                                );
                             }
                         });
                     }
@@ -616,6 +498,451 @@ private void setupNavigation() {
                     }
                 }
         );
+    }
+
+
+    private void loadResults() {
+
+        new Thread(() -> {
+
+            try {
+
+                String endpoint =
+                        "/rest/v1/results"
+                                + "?select=*"
+                                + "&order=match_date.desc";
+
+                String response =
+                        SupabaseClient.get(endpoint);
+
+                JSONArray results =
+                        new JSONArray(response);
+
+                runOnUiThread(() -> {
+
+                    resultsContainer.removeAllViews();
+                    standingsContainer.removeAllViews();
+
+                    if (results.length() == 0) {
+
+                        addMessage(
+                                resultsContainer,
+                                "Hakuna matokeo kwa sasa."
+                        );
+
+                        addMessage(
+                                standingsContainer,
+                                "Hakuna msimamo kwa sasa."
+                        );
+
+                        return;
+                    }
+
+                    int limit =
+                            Math.min(6, results.length());
+
+                    for (int i = 0; i < limit; i++) {
+
+                        try {
+                            addResultCard(
+                                    results.getJSONObject(i)
+                            );
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    loadStandingsFromResults(results);
+                });
+
+            } catch (Exception e) {
+
+                runOnUiThread(() -> {
+
+                    addMessage(
+                            resultsContainer,
+                            "Imeshindikana kupakia matokeo."
+                    );
+
+                    addMessage(
+                            standingsContainer,
+                            "Imeshindikana kupakia msimamo."
+                    );
+                });
+            }
+
+        }).start();
+    }
+
+    private void loadStandingsFromResults(JSONArray results) {
+
+        Map<String, StandingData> table =
+                new HashMap<>();
+
+        for (int i = 0; i < results.length(); i++) {
+
+            try {
+
+                JSONObject match =
+                        results.getJSONObject(i);
+
+                if (!"FT".equalsIgnoreCase(
+                        match.optString("status", "")
+                )) {
+                    continue;
+                }
+
+                String home =
+                        match.optString("home_team", "").trim();
+
+                String away =
+                        match.optString("away_team", "").trim();
+
+                if (home.isEmpty() || away.isEmpty()) {
+                    continue;
+                }
+
+                if (!match.has("home_score")
+                        || !match.has("away_score")) {
+                    continue;
+                }
+
+                int homeScore =
+                        match.optInt("home_score", Integer.MIN_VALUE);
+
+                int awayScore =
+                        match.optInt("away_score", Integer.MIN_VALUE);
+
+                if (homeScore == Integer.MIN_VALUE
+                        || awayScore == Integer.MIN_VALUE) {
+                    continue;
+                }
+
+                if (!table.containsKey(home)) {
+                    table.put(home, new StandingData(home));
+                }
+
+                if (!table.containsKey(away)) {
+                    table.put(away, new StandingData(away));
+                }
+
+                StandingData h = table.get(home);
+                StandingData a = table.get(away);
+
+                h.played++;
+                a.played++;
+
+                h.goalsFor += homeScore;
+                h.goalsAgainst += awayScore;
+
+                a.goalsFor += awayScore;
+                a.goalsAgainst += homeScore;
+
+                if (homeScore > awayScore) {
+
+                    h.won++;
+                    a.lost++;
+                    h.points += 3;
+
+                } else if (homeScore < awayScore) {
+
+                    a.won++;
+                    h.lost++;
+                    a.points += 3;
+
+                } else {
+
+                    h.drawn++;
+                    a.drawn++;
+                    h.points++;
+                    a.points++;
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        List<StandingData> standings =
+                new ArrayList<>(table.values());
+
+        java.util.Collections.sort(
+                standings,
+                (a, b) -> {
+
+                    int result =
+                            Integer.compare(
+                                    b.points,
+                                    a.points
+                            );
+
+                    if (result != 0) return result;
+
+                    result =
+                            Integer.compare(
+                                    b.goalDifference(),
+                                    a.goalDifference()
+                            );
+
+                    if (result != 0) return result;
+
+                    result =
+                            Integer.compare(
+                                    b.goalsFor,
+                                    a.goalsFor
+                            );
+
+                    if (result != 0) return result;
+
+                    return a.team.compareToIgnoreCase(b.team);
+                }
+        );
+
+        if (standings.isEmpty()) {
+
+            addMessage(
+                    standingsContainer,
+                    "Hakuna msimamo kwa sasa."
+            );
+
+            return;
+        }
+
+        for (int i = 0; i < standings.size(); i++) {
+
+            addStandingRow(
+                    standingsContainer,
+                    standings.get(i),
+                    i + 1
+            );
+        }
+    }
+
+    private static class StandingData {
+
+        String team;
+        int played;
+        int won;
+        int drawn;
+        int lost;
+        int goalsFor;
+        int goalsAgainst;
+        int points;
+
+        StandingData(String team) {
+            this.team = team;
+        }
+
+        int goalDifference() {
+            return goalsFor - goalsAgainst;
+        }
+    }
+
+    private void addResultCard(JSONObject match) {
+
+        LinearLayout card = createCard();
+
+        LinearLayout row =
+                new LinearLayout(this);
+
+        row.setOrientation(
+                LinearLayout.HORIZONTAL
+        );
+
+        row.setGravity(
+                Gravity.CENTER_VERTICAL
+        );
+
+        TextView home =
+                createText(
+                        match.optString("home_team", ""),
+                        11,
+                        "#FFFFFF"
+                );
+
+        home.setTypeface(null, Typeface.BOLD);
+        home.setGravity(Gravity.RIGHT | Gravity.CENTER_VERTICAL);
+        home.setSingleLine(true);
+
+        TextView score =
+                createText(
+                        match.optInt("home_score", 0)
+                                + " - "
+                                + match.optInt("away_score", 0),
+                        18,
+                        "#FFFFFF"
+                );
+
+        score.setTypeface(null, Typeface.BOLD);
+        score.setGravity(Gravity.CENTER);
+
+        TextView away =
+                createText(
+                        match.optString("away_team", ""),
+                        11,
+                        "#FFFFFF"
+                );
+
+        away.setTypeface(null, Typeface.BOLD);
+        away.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
+        away.setSingleLine(true);
+
+        LinearLayout.LayoutParams side =
+                new LinearLayout.LayoutParams(
+                        0,
+                        dp(48),
+                        1f
+                );
+
+        LinearLayout.LayoutParams center =
+                new LinearLayout.LayoutParams(
+                        dp(75),
+                        dp(48)
+                );
+
+        row.addView(home, side);
+        row.addView(score, center);
+        row.addView(away, side);
+
+        card.addView(row);
+
+        TextView status =
+                createText(
+                        match.optString(
+                                "status",
+                                "Full Time"
+                        ),
+                        9,
+                        "#777777"
+                );
+
+        status.setGravity(Gravity.CENTER);
+
+        card.addView(status);
+
+        resultsContainer.addView(card);
+    }
+
+    private void addStandingRow(
+            LinearLayout container,
+            StandingData team,
+            int position
+    ) {
+
+        LinearLayout row =
+                new LinearLayout(this);
+
+        row.setOrientation(
+                LinearLayout.HORIZONTAL
+        );
+
+        row.setGravity(
+                Gravity.CENTER_VERTICAL
+        );
+
+        row.setPadding(
+                dp(7),
+                0,
+                dp(7),
+                0
+        );
+
+        TextView pos =
+                createText(
+                        String.valueOf(position),
+                        12,
+                        "#FFFFFF"
+                );
+
+        pos.setTypeface(null, Typeface.BOLD);
+        pos.setGravity(Gravity.CENTER);
+
+        TextView name =
+                createText(
+                        team.team,
+                        12,
+                        "#FFFFFF"
+                );
+
+        name.setTypeface(null, Typeface.BOLD);
+        name.setSingleLine(true);
+        name.setEllipsize(
+                android.text.TextUtils.TruncateAt.END
+        );
+
+        TextView mp =
+                createText(
+                        String.valueOf(team.played),
+                        11,
+                        "#CCCCCC"
+                );
+
+        TextView w =
+                createText(
+                        String.valueOf(team.won),
+                        11,
+                        "#CCCCCC"
+                );
+
+        TextView d =
+                createText(
+                        String.valueOf(team.drawn),
+                        11,
+                        "#CCCCCC"
+                );
+
+        TextView l =
+                createText(
+                        String.valueOf(team.lost),
+                        11,
+                        "#CCCCCC"
+                );
+
+        TextView gd =
+                createText(
+                        (team.goalDifference() > 0 ? "+" : "")
+                                + team.goalDifference(),
+                        11,
+                        "#CCCCCC"
+                );
+
+        TextView pts =
+                createText(
+                        String.valueOf(team.points),
+                        12,
+                        "#FFFFFF"
+                );
+
+        pts.setTypeface(null, Typeface.BOLD);
+
+        TextView[] stats = {
+                pos, name, mp, w, d, l, gd, pts
+        };
+
+        float[] weights = {
+                0.55f, 2.4f, 0.65f, 0.65f,
+                0.65f, 0.65f, 0.75f, 0.75f
+        };
+
+        for (int i = 0; i < stats.length; i++) {
+
+            stats[i].setGravity(
+                    i == 1
+                            ? Gravity.CENTER_VERTICAL | Gravity.LEFT
+                            : Gravity.CENTER
+            );
+
+            row.addView(
+                    stats[i],
+                    new LinearLayout.LayoutParams(
+                            0,
+                            dp(50),
+                            weights[i]
+                    )
+            );
+        }
+
+        container.addView(row);
     }
 
     private void loadLive() {

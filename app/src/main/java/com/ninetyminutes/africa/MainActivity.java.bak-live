@@ -17,6 +17,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.view.Gravity;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.TranslateAnimation;
@@ -26,11 +27,9 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.ninetyminutes.africa.LiveMatch;
 import com.ninetyminutes.africa.network.FootballService;
-import com.ninetyminutes.africa.network.LiveMatchService;
+import com.ninetyminutes.africa.network.LiveService;
 import com.ninetyminutes.africa.network.NewsService;
-import com.ninetyminutes.africa.network.SupabaseClient;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -38,9 +37,6 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
@@ -50,8 +46,6 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayout fixturesContainer;
     private LinearLayout liveContainer;
     private LinearLayout trendingContainer;
-    private LinearLayout resultsContainer;
-    private LinearLayout standingsContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,9 +68,6 @@ public class MainActivity extends AppCompatActivity {
         trendingContainer =
                 findViewById(R.id.trendingContainer);
 
-        resultsContainer = findViewById(R.id.resultsContainer);
-        standingsContainer = findViewById(R.id.standingsContainer);
-
         setupNavigation();
 
         loadNews();
@@ -84,7 +75,6 @@ public class MainActivity extends AppCompatActivity {
         loadFixtures();
 
         loadLive();
-        loadResults();
     }
 
     private void openWhatsappChannel() {
@@ -128,8 +118,8 @@ private void setupNavigation() {
 
             PopupWindow popup = new PopupWindow(
                     menuView,
-                    dp(285),
-                    android.view.ViewGroup.LayoutParams.WRAP_CONTENT,
+                    dp(300),
+                    android.view.ViewGroup.LayoutParams.MATCH_PARENT,
                     true
             );
 
@@ -142,16 +132,50 @@ private void setupNavigation() {
             popup.setOutsideTouchable(true);
             popup.setElevation(dp(20));
 
-            menuView.findViewById(R.id.menuHome).setOnClickListener(item -> {
-                popup.dismiss();
-            });
+            menuView.findViewById(R.id.menuClose).setOnClickListener(
+                    item -> popup.dismiss()
+            );
 
-            menuView.findViewById(R.id.menuNews).setOnClickListener(item -> {
+            menuView.findViewById(R.id.menuHome).setOnClickListener(
+                    item -> popup.dismiss()
+            );
+
+            menuView.findViewById(R.id.menuMatches).setOnClickListener(item -> {
                 popup.dismiss();
                 startActivity(new Intent(
                         MainActivity.this,
-                        NewsActivity.class
+                        LiveActivity.class
                 ));
+            });
+
+            menuView.findViewById(R.id.menuTanzania).setOnClickListener(item -> {
+                popup.dismiss();
+                openCategory("Tanzania");
+            });
+
+            menuView.findViewById(R.id.menuKimataifa).setOnClickListener(item -> {
+                popup.dismiss();
+                openCategory("Kimataifa");
+            });
+
+            menuView.findViewById(R.id.menuUsajili).setOnClickListener(item -> {
+                popup.dismiss();
+                openCategory("Usajili");
+            });
+
+            menuView.findViewById(R.id.menuVilabu).setOnClickListener(item -> {
+                popup.dismiss();
+                openCategory("Vilabu");
+            });
+
+            menuView.findViewById(R.id.menuMashindano).setOnClickListener(item -> {
+                popup.dismiss();
+                openCategory("Mashindano");
+            });
+
+            menuView.findViewById(R.id.menuWachezaji).setOnClickListener(item -> {
+                popup.dismiss();
+                openCategory("Wachezaji");
             });
 
             menuView.findViewById(R.id.menuFixtures).setOnClickListener(item -> {
@@ -178,11 +202,19 @@ private void setupNavigation() {
                 ));
             });
 
+            menuView.findViewById(R.id.menuTrending).setOnClickListener(item -> {
+                popup.dismiss();
+                startActivity(new Intent(
+                        MainActivity.this,
+                        NewsActivity.class
+                ));
+            });
+
             popup.showAtLocation(
                     findViewById(android.R.id.content),
                     Gravity.RIGHT | Gravity.TOP,
                     0,
-                    dp(70)
+                    0
             );
         });
 
@@ -278,6 +310,7 @@ private void setupNavigation() {
     }
 
     private void loadNews() {
+
         NewsService.getNews(
                 new NewsService.Callback() {
 
@@ -287,83 +320,32 @@ private void setupNavigation() {
                         runOnUiThread(() -> {
 
                             breakingContainer.removeAllViews();
+
                             latestNewsContainer.removeAllViews();
+
                             trendingContainer.removeAllViews();
 
-                            if (news == null || news.isEmpty()) {
+                            if (news == null ||
+                                    news.isEmpty()) {
+
                                 addMessage(
                                         latestNewsContainer,
                                         "Hakuna habari kwa sasa."
                                 );
+
                                 return;
                             }
 
-                            // WEBSITE LOGIC:
-                            // featured = habari yenye featured=true,
-                            // ikiwa hakuna, tumia habari ya kwanza.
-                            NewsItem featured = null;
-
-                            for (NewsItem item : news) {
-                                if (item.isFeatured()) {
-                                    featured = item;
-                                    break;
-                                }
-                            }
-
-                            if (featured == null) {
-                                featured = news.get(0);
-                            }
-
-                            final NewsItem featuredArticle = featured;
-
-                            // HABARI KUU
-                            TextView featuredTitle =
-                                    findViewById(R.id.featuredNewsTitle);
-
-                            TextView featuredBadge =
-                                    findViewById(R.id.featuredNewsBadge);
-
-                            TextView featuredMeta =
-                                    findViewById(R.id.featuredNewsMeta);
-
-                            ImageView featuredImage =
-                                    findViewById(R.id.featuredNewsImage);
-
-                            featuredTitle.setText(
-                                    safeText(featuredArticle.getTitle())
-                            );
-
-                            featuredBadge.setText("TOP STORY");
-
-                            featuredMeta.setText(
-                                    safeText(featuredArticle.getCategory())
-                                            + " • "
-                                            + formatNewsTime(
-                                                    featuredArticle.getCreatedAt()
-                                            )
-                            );
-
-                            loadImageIntoView(
-                                    featuredArticle.getImageUrl(),
-                                    featuredImage
-                            );
-
-                            featuredTitle.setOnClickListener(
-                                    v -> openArticle(featuredArticle)
-                            );
-
-                            featuredImage.setOnClickListener(
-                                    v -> openArticle(featuredArticle)
-                            );
-
-                            // BREAKING NEWS
                             NewsItem breaking = null;
 
                             for (NewsItem item : news) {
-                                String title = item.getTitle();
 
-                                if (title != null
-                                        && !title.trim().isEmpty()) {
+                                String title =
+                                        item.getTitle();
+
+                                if (title != null &&
+                                        !title.trim().isEmpty()) {
+
                                     breaking = item;
                                     break;
                                 }
@@ -373,45 +355,25 @@ private void setupNavigation() {
                                 addBreakingCard(breaking);
                             }
 
-                            // HABARI MPYA
-                            int addedLatest = 0;
+                            int limit =
+                                    Math.min(6, news.size());
 
-                            for (NewsItem item : news) {
-
-                                if (featuredArticle.getId() != null
-                                        && featuredArticle.getId()
-                                        .equals(item.getId())) {
-                                    continue;
-                                }
+                            for (int i = 0;
+                                 i < limit;
+                                 i++) {
 
                                 addNewsCard(
                                         latestNewsContainer,
-                                        item
-                                );
-
-                                addedLatest++;
-
-                                if (addedLatest >= 6) {
-                                    break;
-                                }
-                            }
-
-                            // Ikiwa kuna habari moja tu,
-                            // ionyeshe pia kwenye HABARI MPYA.
-                            if (addedLatest == 0 && news.size() == 1) {
-                                addNewsCard(
-                                        latestNewsContainer,
-                                        news.get(0)
+                                        news.get(i)
                                 );
                             }
 
-                            // TRENDING
                             int trendingLimit =
                                     Math.min(3, news.size());
 
                             for (int i = 0;
-                                    i < trendingLimit;
-                                    i++) {
+                                 i < trendingLimit;
+                                 i++) {
 
                                 addTrendingItem(
                                         trendingContainer,
@@ -427,10 +389,6 @@ private void setupNavigation() {
 
                         runOnUiThread(() -> {
 
-                            breakingContainer.removeAllViews();
-
-                            latestNewsContainer.removeAllViews();
-
                             addMessage(
                                     latestNewsContainer,
                                     "Imeshindikana kupakia habari."
@@ -442,6 +400,7 @@ private void setupNavigation() {
     }
 
     private void loadFixtures() {
+
         FootballService.getFixtures(
                 new FootballService.Callback() {
 
@@ -452,154 +411,33 @@ private void setupNavigation() {
 
                             fixturesContainer.removeAllViews();
 
-                            if (data == null || data.length() == 0) {
+                            if (data.length() == 0) {
+
                                 addMessage(
                                         fixturesContainer,
                                         "Hakuna ratiba kwa sasa."
                                 );
+
                                 return;
                             }
 
-                            ArrayList<JSONObject> upcoming =
-                                    new ArrayList<>();
+                            int limit =
+                                    Math.min(5, data.length());
 
-                            long now = System.currentTimeMillis();
-
-                            for (int i = 0; i < data.length(); i++) {
+                            for (int i = 0;
+                                 i < limit;
+                                 i++) {
 
                                 try {
+
                                     JSONObject match =
                                             data.getJSONObject(i);
 
-                                    String matchDate =
-                                            match.optString(
-                                                    "match_date",
-                                                    ""
-                                            );
-
-                                    String matchTime =
-                                            match.optString(
-                                                    "match_time",
-                                                    "00:00"
-                                            );
-
-                                    if (matchDate.isEmpty()) {
-                                        continue;
-                                    }
-
-                                    java.text.SimpleDateFormat parser =
-                                            new java.text.SimpleDateFormat(
-                                                    "yyyy-MM-dd HH:mm",
-                                                    java.util.Locale.US
-                                            );
-
-                                    parser.setLenient(false);
-
-                                    java.util.Date date =
-                                            parser.parse(
-                                                    matchDate
-                                                            + " "
-                                                            + matchTime
-                                                                    .substring(
-                                                                            0,
-                                                                            Math.min(
-                                                                                    5,
-                                                                                    matchTime.length()
-                                                                            )
-                                                                    )
-                                            );
-
-                                    if (date != null
-                                            && date.getTime() > now) {
-
-                                        upcoming.add(match);
-                                    }
+                                    addFixtureCard(match);
 
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
-                            }
-
-                            upcoming.sort(
-                                    (a, b) -> {
-
-                                        try {
-
-                                            String aDate =
-                                                    a.optString(
-                                                            "match_date",
-                                                            ""
-                                                    )
-                                                    + " "
-                                                    + a.optString(
-                                                            "match_time",
-                                                            "00:00"
-                                                    )
-                                                    .substring(
-                                                            0,
-                                                            Math.min(
-                                                                    5,
-                                                                    a.optString(
-                                                                            "match_time",
-                                                                            "00:00"
-                                                                    ).length()
-                                                            )
-                                                    );
-
-                                            String bDate =
-                                                    b.optString(
-                                                            "match_date",
-                                                            ""
-                                                    )
-                                                    + " "
-                                                    + b.optString(
-                                                            "match_time",
-                                                            "00:00"
-                                                    )
-                                                    .substring(
-                                                            0,
-                                                            Math.min(
-                                                                    5,
-                                                                    b.optString(
-                                                                            "match_time",
-                                                                            "00:00"
-                                                                    ).length()
-                                                            )
-                                                    );
-
-                                            java.text.SimpleDateFormat parser =
-                                                    new java.text.SimpleDateFormat(
-                                                            "yyyy-MM-dd HH:mm",
-                                                            java.util.Locale.US
-                                                    );
-
-                                            return parser.parse(aDate)
-                                                    .compareTo(
-                                                            parser.parse(bDate)
-                                                    );
-
-                                        } catch (Exception e) {
-                                            return 0;
-                                        }
-                                    }
-                            );
-
-                            int limit =
-                                    Math.min(7, upcoming.size());
-
-                            if (limit == 0) {
-                                addMessage(
-                                        fixturesContainer,
-                                        "Hakuna ratiba kwa sasa."
-                                );
-                                return;
-                            }
-
-                            for (int i = 0; i < limit; i++) {
-
-                                addFixtureCard(
-                                        upcoming.get(i)
-                                );
                             }
                         });
                     }
@@ -620,28 +458,40 @@ private void setupNavigation() {
 
     private void loadLive() {
 
-        LiveMatchService.getLiveMatches(
-                new LiveMatchService.Callback() {
+        LiveService.getLiveFixtures(
+                new LiveService.Callback() {
 
                     @Override
-                    public void onSuccess(List<LiveMatch> matches) {
+                    public void onSuccess(JSONArray data) {
 
                         runOnUiThread(() -> {
 
                             liveContainer.removeAllViews();
 
-                            if (matches == null || matches.isEmpty()) {
+                            if (data.length() == 0) {
 
                                 addMessage(
                                         liveContainer,
-                                        "Hakuna mechi inayorushwa LIVE kwa sasa."
+                                        "Hakuna mechi LIVE kwa sasa."
                                 );
 
                                 return;
                             }
 
-                            for (LiveMatch match : matches) {
-                                addLiveCard(match);
+                            for (int i = 0;
+                                 i < data.length();
+                                 i++) {
+
+                                try {
+
+                                    JSONObject match =
+                                            data.getJSONObject(i);
+
+                                    addLiveCard(match);
+
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
                             }
                         });
                     }
@@ -660,7 +510,412 @@ private void setupNavigation() {
         );
     }
 
-    private void addLiveCard(LiveMatch match) {
+    private void addBreakingCard(NewsItem item) {
+
+    LinearLayout card = createCard();
+
+    card.setPadding(0, 0, 0, 0);
+    card.setBackgroundResource(R.drawable.bg_news_card);
+
+    TextView header = createText("BREAKING NEWS", 10, "#E30613");
+    header.setTypeface(null, Typeface.BOLD);
+    header.setPadding(16, 12, 16, 8);
+    card.addView(header);
+
+    FrameLayout tickerArea = new FrameLayout(this);
+    tickerArea.setLayoutParams(
+            new LinearLayout.LayoutParams(-1, 48)
+    );
+    tickerArea.setClipChildren(true);
+    tickerArea.setClipToPadding(true);
+
+    TextView title = createText(
+            item.getTitle() != null
+                    ? item.getTitle()
+                    : "Hakuna breaking news kwa sasa.",
+            16,
+            "#FFFFFF"
+    );
+
+    title.setTypeface(null, Typeface.BOLD);
+    title.setSingleLine(true);
+    title.setEllipsize(null);
+    title.setPadding(16, 0, 16, 0);
+
+    FrameLayout.LayoutParams titleParams =
+            new FrameLayout.LayoutParams(-2, -1);
+
+    titleParams.gravity = Gravity.CENTER_VERTICAL;
+
+    tickerArea.addView(title, titleParams);
+    card.addView(tickerArea);
+
+    title.post(() -> {
+
+        int screenWidth = tickerArea.getWidth();
+        int textWidth = title.getWidth();
+
+        if (textWidth <= 0) return;
+
+        TranslateAnimation animation =
+                new TranslateAnimation(
+                        Animation.ABSOLUTE,
+                        screenWidth,
+                        Animation.ABSOLUTE,
+                        -textWidth,
+                        Animation.RELATIVE_TO_SELF,
+                        0f,
+                        Animation.RELATIVE_TO_SELF,
+                        0f
+                );
+
+        animation.setDuration(15000);
+        animation.setInterpolator(new LinearInterpolator());
+        animation.setRepeatCount(Animation.INFINITE);
+        animation.setRepeatMode(Animation.RESTART);
+
+        title.startAnimation(animation);
+    });
+
+    card.setOnClickListener(v -> openArticle(item));
+
+    breakingContainer.addView(card);
+}
+
+    private void addNewsCard(
+            LinearLayout container,
+            NewsItem item
+    ) {
+
+        LinearLayout card =
+                createCard();
+
+        String imageUrl = item.getImageUrl();
+
+        if (imageUrl != null && !imageUrl.trim().isEmpty()) {
+
+            ImageView image =
+                    new ImageView(this);
+
+            image.setLayoutParams(
+                    new LinearLayout.LayoutParams(
+                            -1,
+                            180
+                    )
+            );
+
+            image.setScaleType(
+                    ImageView.ScaleType.CENTER_CROP
+            );
+
+            card.addView(image);
+
+            new Thread(() -> {
+                try {
+                    URL url = new URL(imageUrl);
+                    HttpURLConnection connection =
+                            (HttpURLConnection) url.openConnection();
+
+                    connection.setConnectTimeout(15000);
+                    connection.setReadTimeout(15000);
+
+                    InputStream input =
+                            connection.getInputStream();
+
+                    Bitmap bitmap =
+                            BitmapFactory.decodeStream(input);
+
+                    input.close();
+                    connection.disconnect();
+
+                    runOnUiThread(() -> {
+                        if (bitmap != null) {
+                            image.setImageBitmap(bitmap);
+                        }
+                    });
+
+                } catch (Exception ignored) {
+                }
+            }).start();
+        }
+
+        TextView category =
+                createText(
+                        item.getCategory(),
+                        10,
+                        "#E30613"
+                );
+
+        category.setTypeface(
+                null,
+                Typeface.BOLD
+        );
+
+        category.setPadding(
+                0, 14, 0, 0
+        );
+
+        card.addView(category);
+
+        TextView title =
+                createText(
+                        item.getTitle(),
+                        19,
+                        "#FFFFFF"
+                );
+
+        title.setTypeface(
+                null,
+                Typeface.BOLD
+        );
+
+        title.setPadding(
+                0, 6, 0, 0
+        );
+
+        card.addView(title);
+
+        String excerpt =
+                item.getExcerpt();
+
+        if (excerpt != null &&
+                !excerpt.trim().isEmpty()) {
+
+            TextView excerptView =
+                    createText(
+                            excerpt,
+                            14,
+                            "#999999"
+                    );
+
+            excerptView.setPadding(
+                    0, 8, 0, 0
+            );
+
+            card.addView(excerptView);
+        }
+
+        TextView readMore =
+                createText(
+                        "SOMA HABARI  →",
+                        12,
+                        "#E30613"
+                );
+
+        readMore.setTypeface(
+                null,
+                Typeface.BOLD
+        );
+
+        readMore.setPadding(
+                0, 12, 0, 0
+        );
+
+        card.addView(readMore);
+
+        TextView meta =
+                createText(
+                        formatDate(
+                                item.getCreatedAt()
+                        ),
+                        12,
+                        "#777777"
+                );
+
+        meta.setPadding(
+                0, 8, 0, 0
+        );
+
+        card.addView(meta);
+
+        card.setOnClickListener(
+                v -> openArticle(item)
+        );
+
+        container.addView(card);
+    }
+
+    private void addTrendingItem(
+            LinearLayout container,
+            int number,
+            NewsItem item
+    ) {
+
+        TextView view =
+                createText(
+                        number + ". " + item.getTitle(),
+                        14,
+                        "#FFFFFF"
+                );
+
+        view.setPadding(
+                16, 14, 16, 14
+        );
+
+        view.setBackgroundColor(
+                Color.rgb(21, 21, 21)
+        );
+
+        LinearLayout.LayoutParams params =
+                new LinearLayout.LayoutParams(
+                        -1,
+                        -2
+                );
+
+        params.setMargins(
+                0, 0, 0, 6
+        );
+
+        view.setLayoutParams(params);
+
+        view.setOnClickListener(
+                v -> openArticle(item)
+        );
+
+        container.addView(view);
+    }
+
+    private void addFixtureCard(
+            JSONObject match
+    ) {
+
+        String home =
+                match.optString(
+                        "home_team",
+                        "Home"
+                );
+
+        String away =
+                match.optString(
+                        "away_team",
+                        "Away"
+                );
+
+        String competition =
+                match.optString(
+                        "competition",
+                        "Mechi"
+                );
+
+        String date =
+                match.optString(
+                        "match_date",
+                        ""
+                );
+
+        String time =
+                match.optString(
+                        "match_time",
+                        ""
+                );
+
+        LinearLayout card =
+                createCard();
+
+        card.setBackgroundResource(
+                R.drawable.bg_fixture_card
+        );
+
+        card.setPadding(
+                16, 16, 16, 16
+        );
+
+        TextView competitionView =
+                createText(
+                        competition,
+                        12,
+                        "#E30613"
+                );
+
+        competitionView.setTypeface(
+                null,
+                Typeface.BOLD
+        );
+
+        TextView teams =
+                createText(
+                        home + "    vs    " + away,
+                        16,
+                        "#FFFFFF"
+                );
+
+        teams.setGravity(
+                Gravity.CENTER
+        );
+
+        teams.setTypeface(
+                null,
+                Typeface.BOLD
+        );
+
+        TextView dateView =
+                createText(
+                        date +
+                                (time.isEmpty()
+                                        ? ""
+                                        : "  •  " + time),
+                        12,
+                        "#999999"
+                );
+
+        dateView.setGravity(
+                Gravity.CENTER
+        );
+
+        card.addView(
+                competitionView
+        );
+
+        card.addView(
+                teams
+        );
+
+        card.addView(
+                dateView
+        );
+
+        fixturesContainer.addView(card);
+    }
+
+    private void addLiveCard(
+            JSONObject match
+    ) {
+        String home =
+                match.optString(
+                        "home_team",
+                        "Home"
+                );
+
+        String away =
+                match.optString(
+                        "away_team",
+                        "Away"
+                );
+
+        String competition =
+                match.optString(
+                        "competition",
+                        "LIVE"
+                );
+
+        String liveTitle =
+                match.optString(
+                        "live_title",
+                        ""
+                );
+
+        String matchId = match.optString("id", "");
+        String streamUrl =
+                match.optString(
+                        "stream_url",
+                        ""
+                );
+
+        String streamType =
+                match.optString(
+                        "stream_type",
+                        "hls"
+                );
 
         LinearLayout card = createCard();
 
@@ -669,40 +924,38 @@ private void setupNavigation() {
         );
 
         card.setPadding(
-                16,
-                16,
-                16,
-                16
+                16, 16, 16, 16
         );
 
-        TextView live = createText(
-                "● LIVE",
-                11,
-                "#FF3B30"
-        );
+        TextView live =
+                createText(
+                        "LIVE NOW",
+                        11,
+                        "#E53935"
+                );
 
         live.setTypeface(
                 null,
                 Typeface.BOLD
         );
 
+        live.setPadding(
+                0, 0, 0, 8
+        );
+
         live.setGravity(
                 Gravity.CENTER
         );
 
-        live.setPadding(
-                0,
-                0,
-                0,
-                8
-        );
+        TextView teams =
+                createText(
+                        home + "  vs  " + away,
+                        17,
+                        "#FFFFFF"
+                );
 
-        TextView teams = createText(
-                match.getHomeTeam()
-                        + "   VS   "
-                        + match.getAwayTeam(),
-                17,
-                "#FFFFFF"
+        teams.setGravity(
+                Gravity.CENTER
         );
 
         teams.setTypeface(
@@ -710,28 +963,12 @@ private void setupNavigation() {
                 Typeface.BOLD
         );
 
-        teams.setGravity(
-                Gravity.CENTER
-        );
-
-        teams.setPadding(
-                0,
-                8,
-                0,
-                8
-        );
-
-        String competition = match.getCompetition();
-
-        if (competition == null) {
-            competition = "";
-        }
-
-        TextView comp = createText(
-                competition,
-                11,
-                "#999999"
-        );
+        TextView comp =
+                createText(
+                        competition,
+                        11,
+                        "#999999"
+                );
 
         comp.setGravity(
                 Gravity.CENTER
@@ -741,36 +978,28 @@ private void setupNavigation() {
         card.addView(teams);
         card.addView(comp);
 
-        String liveTitle = match.getLiveTitle();
+        if (!liveTitle.isEmpty()) {
 
-        if (liveTitle != null &&
-                !liveTitle.trim().isEmpty()) {
-
-            TextView title = createText(
-                    liveTitle,
-                    13,
-                    "#AAAAAA"
-            );
+            TextView title =
+                    createText(
+                            liveTitle,
+                            13,
+                            "#AAAAAA"
+                    );
 
             title.setGravity(
                     Gravity.CENTER
             );
 
-            title.setPadding(
-                    0,
-                    6,
-                    0,
-                    0
-            );
-
             card.addView(title);
         }
 
-        TextView watch = createText(
-                "▶  TAZAMA LIVE",
-                12,
-                "#FFFFFF"
-        );
+        TextView watch =
+                createText(
+                        "WATCH LIVE  →",
+                        12,
+                        "#FFFFFF"
+                );
 
         watch.setTypeface(
                 null,
@@ -782,99 +1011,87 @@ private void setupNavigation() {
         );
 
         watch.setPadding(
-                14,
-                12,
-                14,
-                12
+                14, 12, 14, 12
         );
 
         watch.setBackgroundResource(
-                R.drawable.bg_live_button
+                R.drawable.bg_red_button
         );
-
-        LinearLayout.LayoutParams watchParams =
-                new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT
-                );
-
-        watchParams.setMargins(
-                0,
-                14,
-                0,
-                0
-        );
-
-        watch.setLayoutParams(watchParams);
 
         card.addView(watch);
 
-        String streamUrl = match.getStreamUrl();
+        TextView viewers =
+                createText(
+                        "LIVE STREAM",
+                        11,
+                        "#999999"
+                );
 
-        if (streamUrl != null &&
-                !streamUrl.trim().isEmpty()) {
+        viewers.setGravity(
+                Gravity.CENTER
+        );
 
-            View.OnClickListener openPlayer = v -> {
+        viewers.setPadding(
+                0, 10, 0, 0
+        );
+
+        card.addView(viewers);
+
+        if (!streamUrl.isEmpty()) {
+
+            card.setOnClickListener(v -> {
 
                 Intent intent =
                         new Intent(
                                 MainActivity.this,
-                                LivePlayerActivity.class
+                                LiveActivity.class
                         );
 
                 intent.putExtra(
-                        "live_id",
-                        match.getId()
-                );
-
-                intent.putExtra(
                         "stream_url",
-                        match.getStreamUrl()
+                        streamUrl
                 );
 
                 intent.putExtra(
                         "stream_type",
-                        match.getStreamType()
+                        streamType
                 );
 
                 intent.putExtra(
                         "live_title",
-                        match.getLiveTitle()
+                        liveTitle
                 );
 
                 intent.putExtra(
                         "home_team",
-                        match.getHomeTeam()
+                        home
                 );
 
                 intent.putExtra(
                         "away_team",
-                        match.getAwayTeam()
+                        away
                 );
 
                 intent.putExtra(
                         "competition",
-                        match.getCompetition()
+                        competition
                 );
 
-                intent.putExtra(
-                        "match_time",
-                        match.getMatchTime()
-                );
-
+                intent.putExtra("match_id", matchId);
                 startActivity(intent);
-            };
-
-            card.setOnClickListener(openPlayer);
-            watch.setOnClickListener(openPlayer);
+            });
 
         } else {
 
-            watch.setText("LIVE INAKUJA");
-            watch.setAlpha(0.55f);
-            watch.setEnabled(false);
+            card.setAlpha(0.65f);
 
-            card.setAlpha(0.75f);
+            card.setOnClickListener(v ->
+                    Toast.makeText(
+                            MainActivity.this,
+                            "Hakuna stream iliyowekwa kwa mechi hii.",
+                            Toast.LENGTH_SHORT
+                    ).show()
+            );
         }
 
         liveContainer.addView(card);

@@ -63,13 +63,6 @@ public class LiveViewerService {
     ) {
         new Thread(() -> {
             try {
-                if (matchId == null || matchId.trim().isEmpty()) {
-                    if (callback != null) {
-                        callback.onError("Match ID haipo.");
-                    }
-                    return;
-                }
-
                 String sessionId = getSessionId(context);
                 String now = timestamp();
 
@@ -79,37 +72,43 @@ public class LiveViewerService {
                         "&session_id=eq." + sessionId +
                         "&select=id,watch_seconds";
 
-                String response = SupabaseClient.get(endpoint);
+                String response =
+                        SupabaseClient.get(endpoint);
 
-                JSONArray rows = new JSONArray(response);
+                JSONArray rows =
+                        new JSONArray(response);
 
                 String viewerId = null;
                 int watchSeconds = 0;
 
                 if (rows.length() > 0) {
+                    JSONObject existing =
+                            rows.getJSONObject(0);
 
-                    JSONObject existing = rows.getJSONObject(0);
-
-                    viewerId = existing.optString("id", null);
+                    viewerId =
+                            existing.optString("id", null);
 
                     watchSeconds =
-                            existing.optInt("watch_seconds", 0);
+                            existing.optInt(
+                                    "watch_seconds",
+                                    0
+                            );
 
-                    if (viewerId != null) {
-                        JSONObject body = new JSONObject();
+                    JSONObject body =
+                            new JSONObject();
 
-                        body.put("last_seen", now);
-                        body.put("ended_at", JSONObject.NULL);
+                    body.put("last_seen", now);
+                    body.put("ended_at", JSONObject.NULL);
 
-                        SupabaseClient.patch(
-                                "/rest/v1/live_viewers?id=eq." + viewerId,
-                                body.toString()
-                        );
-                    }
+                    SupabaseClient.patch(
+                            "/rest/v1/live_viewers?id=eq." +
+                                    viewerId,
+                            body.toString()
+                    );
 
                 } else {
-
-                    JSONObject body = new JSONObject();
+                    JSONObject body =
+                            new JSONObject();
 
                     body.put("match_id", matchId);
                     body.put("session_id", sessionId);
@@ -118,60 +117,31 @@ public class LiveViewerService {
                     body.put("ended_at", JSONObject.NULL);
                     body.put("watch_seconds", 0);
 
-                    try {
+                    String insertResponse =
+                            SupabaseClient.post(
+                                    "/rest/v1/live_viewers" +
+                                            "?select=id,watch_seconds",
+                                    body.toString()
+                            );
 
-                        String insertResponse =
-                                SupabaseClient.post(
-                                        "/rest/v1/live_viewers?select=id,watch_seconds",
-                                        body.toString()
+                    JSONArray inserted =
+                            new JSONArray(insertResponse);
+
+                    if (inserted.length() > 0) {
+                        JSONObject viewer =
+                                inserted.getJSONObject(0);
+
+                        viewerId =
+                                viewer.optString(
+                                        "id",
+                                        null
                                 );
 
-                        if (insertResponse != null &&
-                                !insertResponse.trim().isEmpty()) {
-
-                            JSONArray inserted =
-                                    new JSONArray(insertResponse);
-
-                            if (inserted.length() > 0) {
-
-                                JSONObject viewer =
-                                        inserted.getJSONObject(0);
-
-                                viewerId =
-                                        viewer.optString("id", null);
-
-                                watchSeconds =
-                                        viewer.optInt(
-                                                "watch_seconds",
-                                                0
-                                        );
-                            }
-                        }
-
-                    } catch (Exception insertError) {
-
-                        String retryResponse =
-                                SupabaseClient.get(endpoint);
-
-                        JSONArray retryRows =
-                                new JSONArray(retryResponse);
-
-                        if (retryRows.length() > 0) {
-
-                            JSONObject retry =
-                                    retryRows.getJSONObject(0);
-
-                            viewerId =
-                                    retry.optString("id", null);
-
-                            watchSeconds =
-                                    retry.optInt(
-                                            "watch_seconds",
-                                            0
-                                    );
-                        } else {
-                            throw insertError;
-                        }
+                        watchSeconds =
+                                viewer.optInt(
+                                        "watch_seconds",
+                                        0
+                                );
                     }
                 }
 
@@ -180,9 +150,11 @@ public class LiveViewerService {
                 }
 
                 if (callback != null) {
+                    final String finalViewerId =
+                            viewerId;
 
-                    final String finalViewerId = viewerId;
-                    final int finalWatchSeconds = watchSeconds;
+                    final int finalWatchSeconds =
+                            watchSeconds;
 
                     callback.onSuccess(
                             finalViewerId,
@@ -191,7 +163,6 @@ public class LiveViewerService {
                 }
 
             } catch (Exception e) {
-
                 if (callback != null) {
                     callback.onError(
                             e.getMessage() == null
@@ -203,13 +174,17 @@ public class LiveViewerService {
         }).start();
     }
 
-    private static void incrementLiveViews(String matchId) {
-
+    private static void incrementLiveViews(
+            String matchId
+    ) {
         try {
+            JSONObject body =
+                    new JSONObject();
 
-            JSONObject body = new JSONObject();
-
-            body.put("p_match_id", matchId);
+            body.put(
+                    "p_match_id",
+                    matchId
+            );
 
             SupabaseClient.rpc(
                     "increment_live_views",
@@ -226,17 +201,15 @@ public class LiveViewerService {
             String viewerId,
             int seconds
     ) {
-
         if (viewerId == null ||
                 viewerId.trim().isEmpty()) {
             return;
         }
 
         new Thread(() -> {
-
             try {
-
-                JSONObject body = new JSONObject();
+                JSONObject body =
+                        new JSONObject();
 
                 body.put(
                         "last_seen",
@@ -249,7 +222,8 @@ public class LiveViewerService {
                 );
 
                 SupabaseClient.patch(
-                        "/rest/v1/live_viewers?id=eq." + viewerId,
+                        "/rest/v1/live_viewers?id=eq." +
+                                viewerId,
                         body.toString()
                 );
 
@@ -258,18 +232,13 @@ public class LiveViewerService {
                         seconds
                 );
 
-                getViewerCount(
-                        matchId,
-                        count -> updatePeak(
-                                matchId,
-                                count
-                        )
+                updatePeak(
+                        matchId
                 );
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
         }).start();
     }
 
@@ -277,10 +246,9 @@ public class LiveViewerService {
             String viewerId,
             int seconds
     ) {
-
         try {
-
-            JSONObject body = new JSONObject();
+            JSONObject body =
+                    new JSONObject();
 
             body.put(
                     "p_viewer_id",
@@ -306,11 +274,8 @@ public class LiveViewerService {
             String matchId,
             CountCallback callback
     ) {
-
         new Thread(() -> {
-
             try {
-
                 String cutoff =
                         timestamp(
                                 System.currentTimeMillis()
@@ -331,16 +296,16 @@ public class LiveViewerService {
                         new JSONArray(response);
 
                 if (callback != null) {
-                    callback.onCount(rows.length());
+                    callback.onCount(
+                            rows.length()
+                    );
                 }
 
             } catch (Exception e) {
-
                 if (callback != null) {
                     callback.onCount(0);
                 }
             }
-
         }).start();
     }
 
@@ -348,11 +313,8 @@ public class LiveViewerService {
             String matchId,
             int viewerCount
     ) {
-
         new Thread(() -> {
-
             try {
-
                 JSONObject body =
                         new JSONObject();
 
@@ -374,24 +336,21 @@ public class LiveViewerService {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
         }).start();
     }
 
     public static void endWatching(
             String viewerId
     ) {
-
         if (viewerId == null ||
                 viewerId.trim().isEmpty()) {
             return;
         }
 
         new Thread(() -> {
-
             try {
-
-                String now = timestamp();
+                String now =
+                        timestamp();
 
                 JSONObject body =
                         new JSONObject();
@@ -407,14 +366,14 @@ public class LiveViewerService {
                 );
 
                 SupabaseClient.patch(
-                        "/rest/v1/live_viewers?id=eq." + viewerId,
+                        "/rest/v1/live_viewers?id=eq." +
+                                viewerId,
                         body.toString()
                 );
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
         }).start();
     }
 }

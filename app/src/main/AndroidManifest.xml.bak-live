@@ -68,7 +68,6 @@
         <activity android:name=".LiveActivity" android:exported="false" />
             <activity android:name=".CookiePolicyActivity" />
         <activity android:name=".DisclaimerActivity" />
-            <activity android:name=".LivePlayerActivity" />
     </application>
 
 </manifest>

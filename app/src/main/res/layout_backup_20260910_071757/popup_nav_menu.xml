@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="#0B0B0B">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="22dp"
+        android:paddingBottom="24dp"
+        android:paddingStart="14dp"
+        android:paddingEnd="14dp">
+
+        <!-- MENU HEADER -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:gravity="center_vertical"
+            android:paddingStart="12dp"
+            android:paddingEnd="4dp"
+            android:background="#111111">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="90' MINUTES"
+                    android:textColor="#E30613"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="AFRICA"
+                    android:textColor="#FFFFFF"
+                    android:textSize="9sp"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.22" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/menuClose"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:gravity="center"
+                android:text="×"
+                android:textColor="#FFFFFF"
+                android:textSize="30sp"
+                android:clickable="true"
+                android:focusable="true" />
+
+        </LinearLayout>
+
+        <!-- NAVIGATION -->
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="MENU"
+            android:textColor="#E30613"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.12"
+            android:paddingStart="12dp"
+            android:paddingTop="22dp"
+            android:paddingBottom="8dp" />
+
+        <TextView
+            android:id="@+id/menuHome"
+            style="@style/NavMenuItem"
+            android:text="🏠  Home" />
+
+        <TextView
+            android:id="@+id/menuMatches"
+            style="@style/NavMenuItem"
+            android:text="⚽  Sport Live" />
+
+        <TextView
+            android:id="@+id/menuTanzania"
+            style="@style/NavMenuItem"
+            android:text="🇹🇿  Tanzania" />
+
+        <TextView
+            android:id="@+id/menuKimataifa"
+            style="@style/NavMenuItem"
+            android:text="🌍  Kimataifa" />
+
+        <TextView
+            android:id="@+id/menuUsajili"
+            style="@style/NavMenuItem"
+            android:text="🔄  Usajili" />
+
+        <TextView
+            android:id="@+id/menuVilabu"
+            style="@style/NavMenuItem"
+            android:text="🌍  Vilabu" />
+
+        <TextView
+            android:id="@+id/menuMashindano"
+            style="@style/NavMenuItem"
+            android:text="🏆  Mashindano" />
+
+        <TextView
+            android:id="@+id/menuWachezaji"
+            style="@style/NavMenuItem"
+            android:text="👤  Wachezaji" />
+
+        <TextView
+            android:id="@+id/menuResults"
+            style="@style/NavMenuItem"
+            android:text="🏁  Matokeo" />
+
+        <TextView
+            android:id="@+id/menuTable"
+            style="@style/NavMenuItem"
+            android:text="🏆  Msimamo" />
+
+        <TextView
+            android:id="@+id/menuTrending"
+            style="@style/NavMenuItem"
+            android:text="🔥  Trending" />
+
+        <TextView
+            android:id="@+id/menuFixtures"
+            style="@style/NavMenuItem"
+            android:text="📅  Ratiba" />
+
+        <!-- FOOTER -->
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="20dp"
+            android:background="#242424" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="90' MINUTES AFRICA"
+            android:textColor="#777777"
+            android:textSize="10sp"
+            android:gravity="center"
+            android:paddingTop="18dp" />
+
+    </LinearLayout>
+
+</ScrollView>

@@ -11,7 +11,6 @@ public class NewsItem {
     private final String imageUrl;
     private final String createdAt;
     private final int views;
-    private final boolean featured;
 
     public NewsItem(
             String id,
@@ -22,8 +21,7 @@ public class NewsItem {
             String author,
             String imageUrl,
             String createdAt,
-            int views,
-            boolean featured
+            int views
     ) {
         this.id = id;
         this.title = title;
@@ -34,7 +32,6 @@ public class NewsItem {
         this.imageUrl = imageUrl;
         this.createdAt = createdAt;
         this.views = views;
-        this.featured = featured;
     }
 
     public String getId() {
@@ -71,9 +68,5 @@ public class NewsItem {
 
     public int getViews() {
         return views;
-    }
-
-    public boolean isFeatured() {
-        return featured;
     }
 }

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_dark"
+    android:padding="20dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="90' MINUTES AFRICA"
+            android:textColor="@color/red_primary"
+            android:textSize="24sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="COOKIE POLICY"
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:text="90' MINUTES AFRICA hutumia cookies na teknolojia zinazofanana ili kuboresha matumizi ya app, kuelewa namna watumiaji wanavyotumia huduma zetu, na kuboresha maudhui pamoja na utendaji wa mfumo.
+
+Cookies zinaweza kusaidia kuhifadhi mapendeleo, kuboresha usalama, kupima matumizi ya huduma na kutoa uzoefu bora kwa mtumiaji.
+
+Kwa kuendelea kutumia app hii, unakubali matumizi ya cookies kwa madhumuni yaliyoelezwa katika sera hii. Unaweza kudhibiti baadhi ya mipangilio ya cookies kupitia mipangilio ya kifaa au kivinjari pale inapohusika.
+
+Sera hii inaweza kusasishwa mara kwa mara ili kuendana na mabadiliko ya huduma, teknolojia au mahitaji ya kisheria."
+            android:textColor="@color/text_secondary"
+            android:textSize="16sp"
+            android:lineSpacingExtra="7dp"/>
+    </LinearLayout>
+</ScrollView>
