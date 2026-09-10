@@ -648,7 +648,7 @@
                 android:textSize="12sp" />
 
             <TextView
-                android:id="@+id/footerCookies"
+                android:id="@+id/footerCookie"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="7dp"
