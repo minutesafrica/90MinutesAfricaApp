@@ -3,6 +3,7 @@ package com.ninetyminutes.africa;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.TranslateAnimation;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -13,6 +14,7 @@ import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
 
+    private TextView breakingTitle;
     private TextView featuredTitle;
     private TextView featuredMeta;
     private LinearLayout latestNewsContainer;
@@ -23,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        breakingTitle = findViewById(R.id.breakingTitle);
         featuredTitle = findViewById(R.id.featuredTitle);
         featuredMeta = findViewById(R.id.featuredMeta);
         latestNewsContainer = findViewById(R.id.latestNewsContainer);
@@ -59,6 +62,32 @@ public class MainActivity extends AppCompatActivity {
                 featuredMeta.setText("");
                 return;
             }
+
+            JSONObject breaking = news.getJSONObject(0);
+
+            for (int i = 0; i < news.length(); i++) {
+                JSONObject item = news.getJSONObject(i);
+                if (item.optBoolean("breaking", false)) {
+                    breaking = item;
+                    break;
+                }
+            }
+
+            breakingTitle.setText(
+                    breaking.optString("title", "Hakuna breaking news kwa sasa.")
+            );
+
+            TranslateAnimation animation = new TranslateAnimation(
+                    TranslateAnimation.RELATIVE_TO_PARENT, 1.0f,
+                    TranslateAnimation.RELATIVE_TO_PARENT, -1.0f,
+                    0,
+                    0
+            );
+
+            animation.setDuration(15000);
+            animation.setRepeatCount(TranslateAnimation.INFINITE);
+            animation.setRepeatMode(TranslateAnimation.RESTART);
+            breakingTitle.startAnimation(animation);
 
             JSONObject featured = news.getJSONObject(0);
 

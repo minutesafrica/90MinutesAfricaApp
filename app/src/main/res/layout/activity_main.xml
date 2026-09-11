@@ -58,6 +58,20 @@
                 android:background="#E30613" />
 
             <TextView
+                android:id="@+id/breakingTitle"
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:gravity="center_vertical"
+                android:paddingStart="18dp"
+                android:paddingEnd="18dp"
+                android:singleLine="true"
+                android:ellipsize="none"
+                android:scrollHorizontally="true"
+                android:text="Inapakia habari..."
+                android:textColor="#FFFFFF"
+                android:textSize="15sp" />
+
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="18dp"
