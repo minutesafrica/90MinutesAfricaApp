@@ -54,6 +54,10 @@
 
     <!-- BREAKING NEWS — website style -->
     <LinearLayout
+        android:id="@+id/breakingContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" />
     <LinearLayout
         android:id="@+id/breakingNewsSection"
         android:layout_width="match_parent"

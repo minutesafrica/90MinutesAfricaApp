@@ -45,7 +45,7 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
-    private LinearLayout breakingContainer;
+    private TextView breakingTitle;
     private LinearLayout latestNewsContainer;
     private LinearLayout fixturesContainer;
     private LinearLayout liveContainer;
@@ -59,8 +59,7 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-        breakingContainer =
-                findViewById(R.id.breakingContainer);
+        breakingTitle = findViewById(R.id.breakingTitle);
 
         latestNewsContainer =
                 findViewById(R.id.latestNewsContainer);
@@ -286,7 +285,6 @@ private void setupNavigation() {
 
                         runOnUiThread(() -> {
 
-                            breakingContainer.removeAllViews();
                             latestNewsContainer.removeAllViews();
                             trendingContainer.removeAllViews();
 
@@ -427,7 +425,6 @@ private void setupNavigation() {
 
                         runOnUiThread(() -> {
 
-                            breakingContainer.removeAllViews();
 
                             latestNewsContainer.removeAllViews();
 
@@ -1280,29 +1277,16 @@ private void setupNavigation() {
     }
 
     private void addBreakingCard(NewsItem news) {
-        if (breakingContainer == null || news == null) {
+        if (breakingTitle == null || news == null) {
             return;
         }
 
-        breakingContainer.removeAllViews();
-
-        TextView title = new TextView(this);
-        title.setText(safeText(news.getTitle()));
-        title.setTextColor(Color.WHITE);
-        title.setTextSize(15);
-        title.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
-        title.setSingleLine(true);
-        title.setEllipsize(android.text.TextUtils.TruncateAt.MARQUEE);
-        title.setMarqueeRepeatLimit(-1);
-        title.setSelected(true);
-        title.setPadding(16, 10, 16, 10);
-
-        GradientDrawable bg = new GradientDrawable();
-        bg.setColor(Color.rgb(18, 18, 18));
-        bg.setCornerRadius(12);
-        title.setBackground(bg);
-
-        breakingContainer.addView(title);
+        breakingTitle.setText(safeText(news.getTitle()));
+        breakingTitle.setSingleLine(true);
+        breakingTitle.setEllipsize(android.text.TextUtils.TruncateAt.MARQUEE);
+        breakingTitle.setMarqueeRepeatLimit(-1);
+        breakingTitle.setSelected(true);
+        breakingTitle.setOnClickListener(v -> openArticle(news));
     }
 
     private void addNewsCard(LinearLayout container, NewsItem news) {
