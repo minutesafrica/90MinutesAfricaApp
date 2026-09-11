@@ -80,8 +80,8 @@ public class MainActivity extends AppCompatActivity {
             TranslateAnimation animation = new TranslateAnimation(
                     TranslateAnimation.RELATIVE_TO_PARENT, 1.0f,
                     TranslateAnimation.RELATIVE_TO_PARENT, -1.0f,
-                    0,
-                    0
+                    TranslateAnimation.ABSOLUTE, 0,
+                    TranslateAnimation.ABSOLUTE, 0
             );
 
             animation.setDuration(15000);
