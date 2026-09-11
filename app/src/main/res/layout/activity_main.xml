@@ -91,7 +91,6 @@
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:scrollHorizontally="true"
-            android:selected="true"
             android:text="Inapakia breaking news..."
             android:textColor="@android:color/white"
             android:textSize="13sp" />
