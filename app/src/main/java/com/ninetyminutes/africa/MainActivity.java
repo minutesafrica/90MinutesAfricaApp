@@ -2,6 +2,7 @@ package com.ninetyminutes.africa;
 
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.content.Intent;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.Button;
