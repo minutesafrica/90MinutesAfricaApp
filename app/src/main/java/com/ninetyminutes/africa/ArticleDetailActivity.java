@@ -739,11 +739,8 @@ public class ArticleDetailActivity extends AppCompatActivity {
     }
 
     private void scrollToComments() {
-        commentsContainer.requestFocus();
-
-        findViewById(R.id.commentsTitle)
-                .getParent()
-                .requestFocus();
+        View commentsTitle = findViewById(R.id.commentsTitle);
+        commentsTitle.requestFocus();
     }
 
     private void updateStats() {
