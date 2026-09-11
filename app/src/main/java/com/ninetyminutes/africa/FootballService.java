@@ -21,7 +21,7 @@ public class FootballService {
             try {
                 URL url = new URL(
                         SupabaseConfig.URL +
-                        "/rest/v1/fixtures?select=*&order=match_date.asc&order=match_time.asc&limit=50"
+                        "/rest/v1/fixtures?select=*&order=match_date.desc&order=match_time.desc&limit=50"
                 );
 
                 connection = (HttpURLConnection) url.openConnection();
