@@ -27,6 +27,9 @@ import java.util.List;
 public class NewsActivity extends AppCompatActivity {
 
     private LinearLayout newsContainer;
+    private LinearLayout categoryContainer;
+    private List<NewsItem> allNews;
+    private String selectedCategory = "ALL";
     private ProgressBar progressBar;
 
     private final int RED = Color.rgb(227, 6, 19);
@@ -42,6 +45,8 @@ public class NewsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_news);
 
         newsContainer = findViewById(R.id.newsContainer);
+        categoryContainer = findViewById(R.id.categoryContainer);
+        setupCategories();
 
         showLoading();
         loadNews();
@@ -49,9 +54,45 @@ public class NewsActivity extends AppCompatActivity {
         findViewById(R.id.newsMenu).setOnClickListener(v -> finish());
     }
 
-    private void showLoading() {
+    private void setupCategories() {
+        categoryContainer.removeAllViews();
 
-        newsContainer.removeAllViews();
+        String[] categories = {
+                "Tanzania",
+                "Kimataifa",
+                "Usajili",
+                "Vilabu",
+                "Mashindano",
+                "Wachezaji"
+        };
+
+        for (String category : categories) {
+            TextView button = new TextView(this);
+            button.setText(category);
+            button.setTextColor(WHITE);
+            button.setTextSize(12);
+            button.setTypeface(null, Typeface.BOLD);
+            button.setGravity(Gravity.CENTER);
+            button.setPadding(dp(16), dp(10), dp(16), dp(10));
+            button.setBackgroundColor(CARD);
+
+            LinearLayout.LayoutParams params =
+                    new LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.WRAP_CONTENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT
+                    );
+
+            params.setMargins(0, 0, dp(8), 0);
+            categoryContainer.addView(button, params);
+
+            button.setOnClickListener(v -> {
+                selectedCategory = category;
+                displayNews();
+            });
+        }
+    }
+
+    private void showLoading() {
 
         progressBar = new ProgressBar(this);
 
@@ -92,18 +133,8 @@ public class NewsActivity extends AppCompatActivity {
 
                 runOnUiThread(() -> {
 
-                    newsContainer.removeAllViews();
-
-                    if (news == null || news.isEmpty()) {
-                        showMessage("Hakuna habari mpya.");
-                        return;
-                    }
-
-                    int limit = Math.min(news.size(), 6);
-
-                    for (int i = 0; i < limit; i++) {
-                        addNewsCard(news.get(i));
-                    }
+                    allNews = news;
+                    displayNews();
                 });
             }
 
@@ -111,8 +142,6 @@ public class NewsActivity extends AppCompatActivity {
             public void onError(String error) {
 
                 runOnUiThread(() -> {
-
-                    newsContainer.removeAllViews();
 
                     showMessage(
                             error == null || error.trim().isEmpty()
@@ -129,6 +158,43 @@ public class NewsActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void displayNews() {
+        newsContainer.removeAllViews();
+
+        if (allNews == null || allNews.isEmpty()) {
+            showMessage("Hakuna habari mpya.");
+            return;
+        }
+
+        int count = 0;
+
+        for (NewsItem item : allNews) {
+            String itemCategory = item.getCategory();
+
+            if (itemCategory == null) {
+                continue;
+            }
+
+            boolean categoryMatch =
+                    selectedCategory.equals("ALL") ||
+                    itemCategory.trim().equalsIgnoreCase(selectedCategory);
+
+            if (categoryMatch) {
+                addNewsCard(item);
+                count++;
+            }
+
+            if (count >= 6) {
+                break;
+            }
+        }
+
+        if (count == 0) {
+            showMessage("Hakuna habari katika kundi hili.");
+        }
+    }
+
 
     private void addNewsCard(NewsItem item) {
 

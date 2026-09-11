@@ -28,6 +28,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.ninetyminutes.africa.LiveMatch;
 import com.ninetyminutes.africa.network.FootballService;
+import com.ninetyminutes.africa.network.StandingsCalculator;
 import com.ninetyminutes.africa.network.LiveMatchService;
 import com.ninetyminutes.africa.network.NewsService;
 import com.ninetyminutes.africa.network.SupabaseClient;
@@ -327,6 +328,10 @@ private void setupNavigation() {
                             ImageView featuredImage =
                                     findViewById(R.id.featuredNewsImage);
 
+                            featuredImage.setBackgroundColor(
+                                    Color.rgb(35, 35, 35)
+                            );
+
                             featuredTitle.setText(
                                     safeText(featuredArticle.getTitle())
                             );
@@ -341,6 +346,12 @@ private void setupNavigation() {
                                             )
                             );
 
+                            android.util.Log.d(
+                                    "TOP_STORY_IMAGE",
+                                    "title=" + featuredArticle.getTitle()
+                                            + " | imageUrl=" + featuredArticle.getImageUrl()
+                            );
+
                             loadImageIntoView(
                                     featuredArticle.getImageUrl(),
                                     featuredImage
@@ -350,6 +361,7 @@ private void setupNavigation() {
                                     v -> openArticle(featuredArticle)
                             );
 
+                            findViewById(R.id.featuredNewsCard).setOnClickListener(v -> openArticle(featuredArticle));
                             featuredImage.setOnClickListener(
                                     v -> openArticle(featuredArticle)
                             );
@@ -491,7 +503,7 @@ private void setupNavigation() {
                     MainActivity.this,
                     ArticleDetailActivity.class
             );
-            intent.putExtra("news_id", news.getId());
+            intent.putExtra("article_id", news.getId());
             startActivity(intent);
         });
 
@@ -829,6 +841,13 @@ private void setupNavigation() {
                 8
         );
 
+        android.view.animation.AlphaAnimation livePulse =
+                new android.view.animation.AlphaAnimation(1.0f, 0.35f);
+        livePulse.setDuration(800);
+        livePulse.setRepeatMode(android.view.animation.Animation.REVERSE);
+        livePulse.setRepeatCount(android.view.animation.Animation.INFINITE);
+        live.startAnimation(livePulse);
+
         TextView teams = createText(
                 match.getHomeTeam()
                         + "   VS   "
@@ -1010,6 +1029,79 @@ private void setupNavigation() {
         }
 
         liveContainer.addView(card);
+    }
+
+    private void loadHomeStandings() {
+        FootballService.getResults(new FootballService.Callback() {
+            @Override
+            public void onSuccess(JSONArray data) {
+                runOnUiThread(() -> {
+                    standingsContainer.removeAllViews();
+
+                    try {
+                        JSONArray standings =
+                                StandingsCalculator.calculate(data);
+
+                        if (standings.length() == 0) {
+                            addMessage(
+                                    standingsContainer,
+                                    "Hakuna msimamo kwa sasa."
+                            );
+                            return;
+                        }
+
+                        int limit = Math.min(standings.length(), 6);
+
+                        for (int i = 0; i < limit; i++) {
+                            JSONObject team =
+                                    standings.getJSONObject(i);
+
+                            LinearLayout row = createCard();
+                            row.setPadding(16, 12, 16, 12);
+
+                            TextView name = createText(
+                                    team.optInt("position", i + 1)
+                                            + ". "
+                                            + team.optString("team", "Timu"),
+                                    14,
+                                    "#FFFFFF"
+                            );
+                            name.setTypeface(null, Typeface.BOLD);
+
+                            TextView stats = createText(
+                                    "MP " + team.optInt("played", 0)
+                                            + "   W " + team.optInt("won", 0)
+                                            + "   D " + team.optInt("drawn", 0)
+                                            + "   L " + team.optInt("lost", 0)
+                                            + "   PTS " + team.optInt("points", 0),
+                                    11,
+                                    "#AAAAAA"
+                            );
+
+                            row.addView(name);
+                            row.addView(stats);
+                            standingsContainer.addView(row);
+                        }
+
+                    } catch (Exception e) {
+                        addMessage(
+                                standingsContainer,
+                                "Imeshindikana kupakia msimamo."
+                        );
+                    }
+                });
+            }
+
+            @Override
+            public void onError(String error) {
+                runOnUiThread(() ->
+                        addMessage(
+                                standingsContainer,
+                                "Imeshindikana kupakia msimamo."
+                        )
+                );
+            }
+        });
     }
 
     private void loadResults() {
@@ -1286,6 +1378,7 @@ private void setupNavigation() {
         breakingTitle.setEllipsize(android.text.TextUtils.TruncateAt.MARQUEE);
         breakingTitle.setMarqueeRepeatLimit(-1);
         breakingTitle.setSelected(true);
+        breakingTitle.post(() -> breakingTitle.setSelected(true));
         breakingTitle.setOnClickListener(v -> openArticle(news));
     }
 
@@ -1362,7 +1455,7 @@ private void setupNavigation() {
                     MainActivity.this,
                     ArticleDetailActivity.class
             );
-            intent.putExtra("news_id", news.getId());
+            intent.putExtra("article_id", news.getId());
             startActivity(intent);
         });
 
