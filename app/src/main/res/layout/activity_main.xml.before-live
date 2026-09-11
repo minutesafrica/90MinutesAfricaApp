@@ -100,53 +100,26 @@
                 android:textColor="#AAAAAA"
                 android:textSize="13sp" />
 
-            <LinearLayout
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="18dp"
-                android:layout_marginEnd="18dp"
                 android:layout_marginTop="32dp"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="🔴"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:text="LIVE NOW"
-                    android:textColor="#FFFFFF"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
+                android:text="SPORT LIVE"
+                android:textColor="#E30613"
+                android:textSize="14sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/liveStatus"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="18dp"
-                android:layout_marginEnd="18dp"
-                android:layout_marginTop="12dp"
+                android:layout_margin="18dp"
                 android:padding="18dp"
-                android:text="Hakuna mechi inayorushwa LIVE kwa sasa."
+                android:text="Hakuna mechi live kwa sasa."
                 android:textColor="#FFFFFF"
-                android:textSize="15sp"
+                android:textSize="16sp"
                 android:background="#111111" />
-
-            <LinearLayout
-                android:id="@+id/liveContainer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="18dp"
-                android:layout_marginEnd="18dp"
-                android:layout_marginTop="12dp"
-                android:orientation="vertical" />
 
             <TextView
                 android:layout_width="match_parent"

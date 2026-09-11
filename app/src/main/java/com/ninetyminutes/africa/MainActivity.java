@@ -1,6 +1,10 @@
 package com.ninetyminutes.africa;
 
 import android.graphics.Color;
+import android.graphics.Typeface;
+import android.view.Gravity;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.TranslateAnimation;
@@ -167,11 +171,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void displayLiveFixtures(JSONArray fixtures) {
         TextView liveStatus = findViewById(R.id.liveStatus);
+        LinearLayout liveContainer = findViewById(R.id.liveContainer);
 
-        displayFixtures(fixtures);
+        liveContainer.removeAllViews();
 
         try {
-            StringBuilder liveText = new StringBuilder();
             int liveCount = 0;
 
             for (int i = 0; i < fixtures.length(); i++) {
@@ -183,35 +187,105 @@ public class MainActivity extends AppCompatActivity {
 
                 String home = match.optString("home_team", "Home");
                 String away = match.optString("away_team", "Away");
+                String time = match.optString("match_time", "");
                 String title = match.optString("live_title", "");
+                String competition = match.optString("competition", "");
+                String streamUrl = match.optString("stream_url", "");
+                String streamType = match.optString("stream_type", "hls");
 
-                if (liveCount > 0) {
-                    liveText.append("\n\n");
+                LinearLayout card = new LinearLayout(this);
+                card.setOrientation(LinearLayout.VERTICAL);
+                card.setPadding(17, 17, 17, 17);
+                card.setBackgroundColor(Color.rgb(16, 16, 16));
+
+                LinearLayout.LayoutParams cardParams =
+                        new LinearLayout.LayoutParams(
+                                ViewGroup.LayoutParams.MATCH_PARENT,
+                                ViewGroup.LayoutParams.WRAP_CONTENT
+                        );
+                cardParams.setMargins(0, 0, 0, 12);
+                card.setLayoutParams(cardParams);
+
+                TextView liveTime = new TextView(this);
+                liveTime.setText(
+                        "🔴 LIVE" +
+                        (time.isEmpty() ? "" : "     " + time.substring(0, Math.min(5, time.length())))
+                );
+                liveTime.setTextColor(Color.rgb(255, 59, 48));
+                liveTime.setTextSize(12);
+                liveTime.setTypeface(null, Typeface.BOLD);
+
+                TextView teams = new TextView(this);
+                teams.setText(home + "    VS    " + away);
+                teams.setTextColor(Color.WHITE);
+                teams.setTextSize(15);
+                teams.setTypeface(null, Typeface.BOLD);
+                teams.setGravity(Gravity.CENTER);
+                teams.setPadding(0, 14, 0, 10);
+
+                TextView status = new TextView(this);
+                String statusText = !title.isEmpty()
+                        ? title
+                        : (!competition.isEmpty() ? competition : "LIVE");
+
+                status.setText(statusText);
+                status.setTextColor(Color.rgb(227, 6, 19));
+                status.setTextSize(11);
+                status.setTypeface(null, Typeface.BOLD);
+                status.setGravity(Gravity.CENTER);
+
+                Button watchButton = new Button(this);
+                watchButton.setText(
+                        streamUrl.isEmpty()
+                                ? "LIVE INAKUJA"
+                                : "▶ TAZAMA LIVE"
+                );
+                watchButton.setTextColor(Color.WHITE);
+                watchButton.setTextSize(13);
+                watchButton.setAllCaps(false);
+                watchButton.setEnabled(!streamUrl.isEmpty());
+
+                if (!streamUrl.isEmpty()) {
+                    watchButton.setOnClickListener(v -> {
+                        Intent intent =
+                                new Intent(MainActivity.this, LiveActivity.class);
+
+                        intent.putExtra("stream_url", streamUrl);
+                        intent.putExtra("stream_type", streamType);
+                        intent.putExtra("live_title", title);
+                        intent.putExtra("competition", competition);
+                        intent.putExtra("home_team", home);
+                        intent.putExtra("away_team", away);
+
+                        startActivity(intent);
+                    });
                 }
 
-                liveText.append("🔴 LIVE\n")
-                        .append(home)
-                        .append("  vs  ")
-                        .append(away);
+                card.addView(liveTime);
+                card.addView(teams);
+                card.addView(status);
+                card.addView(watchButton);
 
-                if (!title.isEmpty()) {
-                    liveText.append("\n").append(title);
-                }
-
+                liveContainer.addView(card);
                 liveCount++;
             }
 
             if (liveCount == 0) {
-                liveStatus.setText("Hakuna mechi live kwa sasa.");
+                liveStatus.setVisibility(View.VISIBLE);
+                liveStatus.setText(
+                        "Hakuna mechi inayorushwa LIVE kwa sasa."
+                );
             } else {
-                liveStatus.setText(liveText.toString());
+                liveStatus.setVisibility(View.GONE);
             }
 
         } catch (Exception e) {
-            liveStatus.setText("Hakuna mechi live kwa sasa.");
+            liveStatus.setVisibility(View.VISIBLE);
+            liveStatus.setText(
+                    "Hakuna mechi inayorushwa LIVE kwa sasa."
+            );
         }
     }
-
 
     private void displayFixtures(JSONArray fixtures) {
         fixturesContainer.removeAllViews();
