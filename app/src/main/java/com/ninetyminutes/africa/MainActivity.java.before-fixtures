@@ -292,91 +292,19 @@ public class MainActivity extends AppCompatActivity {
         fixturesContainer.removeAllViews();
 
         try {
-            java.util.ArrayList<JSONObject> upcoming = new java.util.ArrayList<>();
+            int count = 0;
 
-            java.text.SimpleDateFormat formatter =
-                    new java.text.SimpleDateFormat(
-                            "yyyy-MM-dd'T'HH:mm",
-                            java.util.Locale.getDefault()
-                    );
-
-            java.util.Date now = new java.util.Date();
-
-            for (int i = 0; i < fixtures.length(); i++) {
+            for (int i = 0; i < fixtures.length() && count < 7; i++) {
                 JSONObject match = fixtures.getJSONObject(i);
 
                 if (match.optBoolean("is_live", false)) {
                     continue;
                 }
 
-                String date = match.optString("match_date", "");
-                String time = match.optString("match_time", "");
-
-                if (date.isEmpty()) {
-                    continue;
-                }
-
-                if (time.length() >= 5) {
-                    time = time.substring(0, 5);
-                } else if (time.isEmpty()) {
-                    time = "00:00";
-                }
-
-                try {
-                    java.util.Date matchDate =
-                            formatter.parse(date + "T" + time);
-
-                    if (matchDate != null && matchDate.after(now)) {
-                        upcoming.add(match);
-                    }
-                } catch (Exception ignored) {
-                }
-            }
-
-            java.util.Collections.sort(
-                    upcoming,
-                    (a, b) -> {
-                        try {
-                            String dateA = a.optString("match_date", "");
-                            String timeA = a.optString("match_time", "00:00");
-                            String dateB = b.optString("match_date", "");
-                            String timeB = b.optString("match_time", "00:00");
-
-                            if (timeA.length() >= 5) {
-                                timeA = timeA.substring(0, 5);
-                            }
-
-                            if (timeB.length() >= 5) {
-                                timeB = timeB.substring(0, 5);
-                            }
-
-                            java.util.Date aDate =
-                                    formatter.parse(dateA + "T" + timeA);
-                            java.util.Date bDate =
-                                    formatter.parse(dateB + "T" + timeB);
-
-                            return aDate.compareTo(bDate);
-                        } catch (Exception e) {
-                            return 0;
-                        }
-                    }
-            );
-
-            int count = 0;
-
-            for (JSONObject match : upcoming) {
-                if (count >= 7) {
-                    break;
-                }
-
                 String home = match.optString("home_team", "Home");
                 String away = match.optString("away_team", "Away");
                 String date = match.optString("match_date", "");
                 String time = match.optString("match_time", "");
-
-                if (time.length() >= 5) {
-                    time = time.substring(0, 5);
-                }
 
                 TextView card = new TextView(this);
 
@@ -416,8 +344,6 @@ public class MainActivity extends AppCompatActivity {
             TextView error = new TextView(this);
             error.setText("Imeshindwa kupakia ratiba.");
             error.setTextColor(Color.LTGRAY);
-            error.setTextSize(15);
-            error.setPadding(18, 18, 18, 18);
             fixturesContainer.addView(error);
         }
     }
