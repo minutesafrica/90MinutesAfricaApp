@@ -196,6 +196,19 @@
                 android:layout_marginTop="12dp"
                 android:orientation="vertical" />
 
+            <Button
+                android:id="@+id/viewAllResults"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="4dp"
+                android:text="MATOKEO ZAIDI"
+                android:textColor="#FFFFFF"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:backgroundTint="#E30613"
+                android:textAllCaps="false" />
+
             <LinearLayout
                 android:id="@+id/latestNewsContainer"
                 android:layout_width="match_parent"

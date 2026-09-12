@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
         latestNewsContainer = findViewById(R.id.latestNewsContainer);
         fixturesContainer = findViewById(R.id.fixturesContainer);
         resultsContainer = findViewById(R.id.resultsContainer);
+        findViewById(R.id.viewAllResults).setOnClickListener(v -> startActivity(new Intent(MainActivity.this, ResultsActivity.class)));
 
         loadNews();
         loadFixtures();
@@ -453,7 +454,9 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
 
-            for (int i = 0; i < results.length(); i++) {
+            int limit = Math.min(results.length(), 5);
+
+            for (int i = 0; i < limit; i++) {
                 JSONObject match = results.getJSONObject(i);
 
                 LinearLayout card = new LinearLayout(this);
@@ -490,13 +493,14 @@ public class MainActivity extends AppCompatActivity {
 
                 TextView score = new TextView(this);
                 score.setText(
-                        match.optString("home_score", "0") +
-                        " - " +
-                        match.optString("away_score", "0")
+                        match.optString("home_score", "0")
+                                + " - "
+                                + match.optString("away_score", "0")
                 );
                 score.setTextColor(Color.WHITE);
                 score.setTextSize(20);
                 score.setTypeface(null, Typeface.BOLD);
+                score.setGravity(Gravity.CENTER);
 
                 TextView status = new TextView(this);
                 status.setText(
