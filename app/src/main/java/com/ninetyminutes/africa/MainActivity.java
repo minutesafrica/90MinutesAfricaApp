@@ -32,6 +32,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        View sportLiveIndicator = findViewById(R.id.sportLiveIndicator);
+        android.view.animation.Animation liveBlink =
+                android.view.animation.AnimationUtils.loadAnimation(
+                        this,
+                        R.anim.live_blink
+                );
+        sportLiveIndicator.startAnimation(liveBlink);
+
         breakingTitle = findViewById(R.id.breakingTitle);
         featuredTitle = findViewById(R.id.featuredTitle);
         featuredMeta = findViewById(R.id.featuredMeta);
