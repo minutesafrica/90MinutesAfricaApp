@@ -4,8 +4,6 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.content.Intent;
 import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.widget.PopupWindow;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.os.Bundle;
@@ -26,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView featuredMeta;
     private LinearLayout latestNewsContainer;
     private LinearLayout fixturesContainer;
+    private LinearLayout resultsContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,48 +36,12 @@ public class MainActivity extends AppCompatActivity {
         featuredMeta = findViewById(R.id.featuredMeta);
         latestNewsContainer = findViewById(R.id.latestNewsContainer);
         fixturesContainer = findViewById(R.id.fixturesContainer);
-
-        findViewById(R.id.menuButton).setOnClickListener(this::showNavigationMenu);
+        resultsContainer = findViewById(R.id.resultsContainer);
+        findViewById(R.id.viewAllResults).setOnClickListener(v -> startActivity(new Intent(MainActivity.this, ResultsActivity.class)));
 
         loadNews();
         loadFixtures();
-    }
-
-    private void showNavigationMenu(View anchor) {
-        View menuView = LayoutInflater.from(this)
-                .inflate(R.layout.popup_nav_menu, null);
-
-        PopupWindow popupWindow = new PopupWindow(
-                menuView,
-                dp(260),
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                true
-        );
-
-        popupWindow.setBackgroundDrawable(
-                new android.graphics.drawable.ColorDrawable(Color.TRANSPARENT)
-        );
-        popupWindow.setOutsideTouchable(true);
-        popupWindow.setElevation(dp(12));
-
-        TextView menuResults = menuView.findViewById(R.id.menuResults);
-        TextView menuStandings = menuView.findViewById(R.id.menuStandings);
-
-        menuResults.setOnClickListener(v -> {
-            popupWindow.dismiss();
-            startActivity(new Intent(MainActivity.this, ResultsActivity.class));
-        });
-
-        menuStandings.setOnClickListener(v -> {
-            popupWindow.dismiss();
-            startActivity(new Intent(MainActivity.this, StandingsActivity.class));
-        });
-
-        popupWindow.showAsDropDown(anchor, -dp(214), dp(4));
-    }
-
-    private int dp(int value) {
-        return (int) (value * getResources().getDisplayMetrics().density + 0.5f);
+        loadResults();
     }
 
     private void loadNews() {
@@ -460,6 +423,124 @@ public class MainActivity extends AppCompatActivity {
             error.setTextSize(15);
             error.setPadding(18, 18, 18, 18);
             fixturesContainer.addView(error);
+        }
+    }
+
+    private void loadResults() {
+        ResultsService.loadResults(new ResultsService.Callback() {
+            @Override
+            public void onSuccess(JSONArray results) {
+                runOnUiThread(() -> displayResults(results));
+            }
+
+            @Override
+            public void onError(String error) {
+                runOnUiThread(() -> displayResults(new JSONArray()));
+            }
+        });
+    }
+
+    private void displayResults(JSONArray results) {
+        resultsContainer.removeAllViews();
+
+        try {
+            if (results.length() == 0) {
+                TextView empty = new TextView(this);
+                empty.setText("Hakuna matokeo kwa sasa.");
+                empty.setTextColor(Color.WHITE);
+                empty.setTextSize(14);
+                empty.setPadding(16, 16, 16, 16);
+                resultsContainer.addView(empty);
+                return;
+            }
+
+            int limit = Math.min(results.length(), 5);
+
+            for (int i = 0; i < limit; i++) {
+                JSONObject match = results.getJSONObject(i);
+
+                LinearLayout card = new LinearLayout(this);
+                card.setOrientation(LinearLayout.HORIZONTAL);
+                card.setGravity(Gravity.CENTER_VERTICAL);
+                card.setPadding(16, 16, 16, 16);
+                card.setBackgroundColor(Color.rgb(34, 34, 34));
+
+                LinearLayout.LayoutParams cardParams =
+                        new LinearLayout.LayoutParams(
+                                ViewGroup.LayoutParams.MATCH_PARENT,
+                                ViewGroup.LayoutParams.WRAP_CONTENT
+                        );
+                cardParams.setMargins(0, 0, 0, 12);
+                card.setLayoutParams(cardParams);
+
+                TextView homeTeam = new TextView(this);
+                homeTeam.setText(match.optString("home_team", ""));
+                homeTeam.setTextColor(Color.WHITE);
+                homeTeam.setTextSize(14);
+                homeTeam.setTypeface(null, Typeface.BOLD);
+                homeTeam.setGravity(Gravity.CENTER);
+                homeTeam.setLayoutParams(
+                        new LinearLayout.LayoutParams(
+                                0,
+                                ViewGroup.LayoutParams.WRAP_CONTENT,
+                                1f
+                        )
+                );
+
+                LinearLayout scoreBox = new LinearLayout(this);
+                scoreBox.setOrientation(LinearLayout.VERTICAL);
+                scoreBox.setGravity(Gravity.CENTER);
+
+                TextView score = new TextView(this);
+                score.setText(
+                        match.optString("home_score", "0")
+                                + " - "
+                                + match.optString("away_score", "0")
+                );
+                score.setTextColor(Color.WHITE);
+                score.setTextSize(20);
+                score.setTypeface(null, Typeface.BOLD);
+                score.setGravity(Gravity.CENTER);
+
+                TextView status = new TextView(this);
+                status.setText(
+                        match.optString("status", "Full Time")
+                );
+                status.setTextColor(Color.LTGRAY);
+                status.setTextSize(10);
+                status.setGravity(Gravity.CENTER);
+
+                scoreBox.addView(score);
+                scoreBox.addView(status);
+
+                TextView awayTeam = new TextView(this);
+                awayTeam.setText(match.optString("away_team", ""));
+                awayTeam.setTextColor(Color.WHITE);
+                awayTeam.setTextSize(14);
+                awayTeam.setTypeface(null, Typeface.BOLD);
+                awayTeam.setGravity(Gravity.CENTER);
+                awayTeam.setLayoutParams(
+                        new LinearLayout.LayoutParams(
+                                0,
+                                ViewGroup.LayoutParams.WRAP_CONTENT,
+                                1f
+                        )
+                );
+
+                card.addView(homeTeam);
+                card.addView(scoreBox);
+                card.addView(awayTeam);
+
+                resultsContainer.addView(card);
+            }
+
+        } catch (Exception e) {
+            TextView error = new TextView(this);
+            error.setText("Imeshindwa kupakia matokeo.");
+            error.setTextColor(Color.WHITE);
+            error.setTextSize(14);
+            error.setPadding(16, 16, 16, 16);
+            resultsContainer.addView(error);
         }
     }
 
