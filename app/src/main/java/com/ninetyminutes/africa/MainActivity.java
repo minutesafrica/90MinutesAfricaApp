@@ -56,6 +56,10 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, ClubsActivity.class))
         );
 
+        findViewById(R.id.navPlayers).setOnClickListener(v ->
+                startActivity(new Intent(MainActivity.this, PlayersActivity.class))
+        );
+
         findViewById(R.id.navCompetitions).setOnClickListener(v ->
                 startActivity(new Intent(MainActivity.this, CompetitionsActivity.class))
         );

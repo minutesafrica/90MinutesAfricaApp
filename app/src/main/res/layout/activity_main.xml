@@ -205,7 +205,7 @@
             android:gravity="center"
             android:text="TANZANIA"
             android:textColor="#E30613"
-            android:textSize="10sp"
+            android:textSize="9sp"
             android:textStyle="bold" />
 
         <TextView
@@ -216,7 +216,7 @@
             android:gravity="center"
             android:text="KIMATAIFA"
             android:textColor="#FFFFFF"
-            android:textSize="10sp" />
+            android:textSize="9sp" />
 
         <TextView
             android:id="@+id/navTransfers"
@@ -226,7 +226,7 @@
             android:gravity="center"
             android:text="USAJILI"
             android:textColor="#FFFFFF"
-            android:textSize="10sp" />
+            android:textSize="9sp" />
 
         <TextView
             android:id="@+id/navClubs"
@@ -236,7 +236,7 @@
             android:gravity="center"
             android:text="VILABU"
             android:textColor="#FFFFFF"
-            android:textSize="10sp" />
+            android:textSize="9sp" />
 
         <TextView
             android:id="@+id/navCompetitions"
@@ -246,7 +246,17 @@
             android:gravity="center"
             android:text="MASHINDANO"
             android:textColor="#FFFFFF"
-            android:textSize="10sp" />
+            android:textSize="9sp" />
+
+        <TextView
+            android:id="@+id/navPlayers"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="WACHEZAJI"
+            android:textColor="#FFFFFF"
+            android:textSize="9sp" />
 
     </LinearLayout>
 
