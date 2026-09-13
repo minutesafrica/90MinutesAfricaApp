@@ -1,8 +1,16 @@
 package com.ninetyminutes.africa;
 
 import android.graphics.Color;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.widget.ImageView;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 import android.graphics.Typeface;
 import android.content.Intent;
+import android.net.Uri;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.widget.PopupWindow;
@@ -31,6 +39,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        TextView visitWebsite = findViewById(R.id.visitWebsite);
+        visitWebsite.startAnimation(android.view.animation.AnimationUtils.loadAnimation(this, R.anim.website_glow));
+        visitWebsite.setOnClickListener(v -> {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://90minutesafrica.online"));
+            startActivity(browserIntent);
+        });
 
         View sportLiveIndicator = findViewById(R.id.sportLiveIndicator);
         android.view.animation.Animation liveBlink =
@@ -220,43 +234,66 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void addNewsCard(JSONObject item) {
-        TextView card = new TextView(this);
-
-        String title = item.optString(
-                "title",
-                "Hakuna kichwa"
-        );
-
-        String category = item.optString(
-                "category",
-                "Tanzania"
-        );
-
-        card.setText(
-                category.toUpperCase() +
-                "\n\n" +
-                title
-        );
-
-        card.setTextColor(Color.WHITE);
-        card.setTextSize(16);
-        card.setPadding(18, 18, 18, 18);
+        LinearLayout card = new LinearLayout(this);
+        card.setOrientation(LinearLayout.VERTICAL);
+        card.setPadding(0, 0, 0, 0);
         card.setBackgroundColor(Color.rgb(17, 17, 17));
+
+        ImageView image = new ImageView(this);
+        image.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                210
+        ));
+        image.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
+        TextView text = new TextView(this);
+        String title = item.optString("title", "Hakuna kichwa");
+        String category = item.optString("category", "Tanzania");
+
+        text.setText(
+                category.toUpperCase() + "\n\n" + title
+        );
+        text.setTextColor(Color.WHITE);
+        text.setTextSize(16);
+        text.setPadding(18, 18, 18, 18);
+
+        card.addView(image);
+        card.addView(text);
 
         LinearLayout.LayoutParams params =
                 new LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT,
                         LinearLayout.LayoutParams.WRAP_CONTENT
                 );
-
         params.setMargins(0, 0, 0, 12);
         card.setLayoutParams(params);
 
-        card.setOnClickListener(v -> openArticle(item));
+        String imageUrl = item.optString("image_url", "");
+        if (!imageUrl.isEmpty()) {
+            new Thread(() -> {
+                try {
+                    URL url = new URL(imageUrl);
+                    HttpURLConnection connection =
+                            (HttpURLConnection) url.openConnection();
+                    connection.setDoInput(true);
+                    connection.connect();
 
+                    InputStream input = connection.getInputStream();
+                    Bitmap bitmap = BitmapFactory.decodeStream(input);
+                    input.close();
+                    connection.disconnect();
+
+                    if (bitmap != null) {
+                        runOnUiThread(() -> image.setImageBitmap(bitmap));
+                    }
+                } catch (Exception ignored) {
+                }
+            }).start();
+        }
+
+        card.setOnClickListener(v -> openArticle(item));
         latestNewsContainer.addView(card);
     }
-
 
     private void loadFixtures() {
         FootballService.loadFixtures(new FootballService.Callback() {
