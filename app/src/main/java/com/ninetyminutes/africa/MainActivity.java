@@ -72,8 +72,32 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, CompetitionsActivity.class))
         );
 
+        findViewById(R.id.footerAbout).setOnClickListener(v -> openLegal("about"));
+        findViewById(R.id.footerTerms).setOnClickListener(v -> openLegal("terms"));
+        findViewById(R.id.footerPrivacy).setOnClickListener(v -> openLegal("privacy"));
+        findViewById(R.id.footerCookies).setOnClickListener(v -> openLegal("cookies"));
+        findViewById(R.id.footerDisclaimer).setOnClickListener(v -> openLegal("disclaimer"));
+        findViewById(R.id.footerContact).setOnClickListener(v -> openLegal("contact"));
+
+        findViewById(R.id.footerWhatsApp).setOnClickListener(v -> {
+            Intent intent = new Intent(
+                    Intent.ACTION_VIEW,
+                    android.net.Uri.parse(
+                            "https://whatsapp.com/channel/0029Vb6mtUXDjiOZZOGkCw00"
+                    )
+            );
+            startActivity(intent);
+        });
+
         loadNews();
         loadFixtures();
+    }
+
+
+    private void openLegal(String page) {
+        Intent intent = new Intent(MainActivity.this, LegalActivity.class);
+        intent.putExtra("page", page);
+        startActivity(intent);
     }
 
     private void showNavigationMenu(View anchor) {

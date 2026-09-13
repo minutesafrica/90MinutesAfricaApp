@@ -225,15 +225,77 @@
                     android:textColor="#777777"
                     android:textSize="12sp" />
 
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="18dp"
-                    android:gravity="center"
-                    android:text="Facebook   •   Instagram   •   YouTube   •   WhatsApp Channel"
-                    android:textColor="#E30613"
-                    android:textSize="12sp"
-                    android:textStyle="bold" />
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/footerAbout"
+                        android:layout_width="match_parent"
+                        android:layout_height="44dp"
+                        android:gravity="center"
+                        android:text="About Us"
+                        android:textColor="#FFFFFF"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:id="@+id/footerTerms"
+                        android:layout_width="match_parent"
+                        android:layout_height="44dp"
+                        android:gravity="center"
+                        android:text="Terms &amp; Conditions"
+                        android:textColor="#FFFFFF"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:id="@+id/footerPrivacy"
+                        android:layout_width="match_parent"
+                        android:layout_height="44dp"
+                        android:gravity="center"
+                        android:text="Privacy Policy"
+                        android:textColor="#FFFFFF"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:id="@+id/footerCookies"
+                        android:layout_width="match_parent"
+                        android:layout_height="44dp"
+                        android:gravity="center"
+                        android:text="Cookie Policy"
+                        android:textColor="#FFFFFF"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:id="@+id/footerDisclaimer"
+                        android:layout_width="match_parent"
+                        android:layout_height="44dp"
+                        android:gravity="center"
+                        android:text="Disclaimer"
+                        android:textColor="#FFFFFF"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:id="@+id/footerContact"
+                        android:layout_width="match_parent"
+                        android:layout_height="44dp"
+                        android:gravity="center"
+                        android:text="Contact Us"
+                        android:textColor="#FFFFFF"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:id="@+id/footerWhatsApp"
+                        android:layout_width="match_parent"
+                        android:layout_height="44dp"
+                        android:gravity="center"
+                        android:text="WhatsApp Channel"
+                        android:textColor="#E30613"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
