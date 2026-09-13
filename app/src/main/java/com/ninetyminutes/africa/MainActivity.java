@@ -93,8 +93,16 @@ public class MainActivity extends AppCompatActivity {
         popupWindow.setOutsideTouchable(true);
         popupWindow.setElevation(dp(12));
 
+        TextView menuHome = menuView.findViewById(R.id.menuHome);
         TextView menuResults = menuView.findViewById(R.id.menuResults);
         TextView menuStandings = menuView.findViewById(R.id.menuStandings);
+
+        menuHome.setOnClickListener(v -> {
+            popupWindow.dismiss();
+            Intent intent = new Intent(MainActivity.this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
+        });
 
         menuResults.setOnClickListener(v -> {
             popupWindow.dismiss();

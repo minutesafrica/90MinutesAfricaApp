@@ -22,6 +22,16 @@
         android:background="#333333" />
 
     <TextView
+        android:id="@+id/menuHome"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:gravity="center_vertical"
+        android:paddingStart="16dp"
+        android:text="⌂  HOME"
+        android:textColor="#FFFFFF"
+        android:textSize="15sp" />
+
+    <TextView
         android:id="@+id/menuResults"
         android:layout_width="match_parent"
         android:layout_height="52dp"
