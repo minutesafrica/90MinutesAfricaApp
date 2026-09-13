@@ -28,7 +28,7 @@ public class PlayersActivity extends AppCompatActivity {
     }
 
     private void loadPlayersNews() {
-        NewsService.loadNews(new NewsService.NewsCallback() {
+        NewsService.loadNews(new NewsService.Callback() {
             @Override
             public void onSuccess(JSONArray news) {
                 runOnUiThread(() -> {
