@@ -29,7 +29,7 @@ import java.util.UUID;
 public class ArticleDetailActivity extends AppCompatActivity {
 
     private ImageView articleImage;
-    private TextView titleView, metaView, contentView;
+    private TextView titleView, metaView, contentView, excerptView;
     private TextView viewsText, sharesText;
     private Button likeButton, commentButton, shareButton, whatsappButton;
     private EditText commentName, commentText;
@@ -52,6 +52,7 @@ public class ArticleDetailActivity extends AppCompatActivity {
         titleView = findViewById(R.id.articleTitle);
         metaView = findViewById(R.id.articleMeta);
         contentView = findViewById(R.id.articleContent);
+        excerptView = findViewById(R.id.articleExcerpt);
 
         viewsText = findViewById(R.id.viewsText);
         sharesText = findViewById(R.id.sharesText);
@@ -165,11 +166,16 @@ public class ArticleDetailActivity extends AppCompatActivity {
                     article.optString("category", "Tanzania")
             );
 
+            String excerpt = article.optString("excerpt", "");
+            if (!excerpt.isEmpty()) {
+                excerptView.setText(excerpt);
+                excerptView.setVisibility(View.VISIBLE);
+            } else {
+                excerptView.setVisibility(View.GONE);
+            }
+
             contentView.setText(
-                    article.optString(
-                            "content",
-                            article.optString("excerpt", "")
-                    )
+                    article.optString("content", "")
             );
 
             String imageUrl =

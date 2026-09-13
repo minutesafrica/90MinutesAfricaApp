@@ -23,9 +23,12 @@
         <ImageView
             android:id="@+id/articleImage"
             android:layout_width="match_parent"
-            android:layout_height="220dp"
+            android:layout_height="240dp"
             android:layout_marginTop="18dp"
             android:scaleType="centerCrop"
+            android:adjustViewBounds="true"
+            android:background="@drawable/bg_article_image"
+            android:clipToOutline="true"
             android:visibility="gone" />
 
         <TextView
@@ -45,6 +48,25 @@
             android:layout_marginTop="12dp"
             android:textColor="#AAAAAA"
             android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/articleExcerpt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22dp"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:lineSpacingExtra="5dp" />
+
+        <TextView
+            android:id="@+id/articleContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22dp"
+            android:textColor="#FFFFFF"
+            android:textSize="17sp"
+            android:lineSpacingExtra="6dp" />
 
         <LinearLayout
             android:id="@+id/newsStats"
@@ -118,15 +140,6 @@
             android:layout_height="1dp"
             android:layout_marginTop="20dp"
             android:background="#252525" />
-
-        <TextView
-            android:id="@+id/articleContent"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="22dp"
-            android:textColor="#FFFFFF"
-            android:textSize="17sp"
-            android:lineSpacingExtra="6dp" />
 
         <TextView
             android:id="@+id/commentsTitle"
