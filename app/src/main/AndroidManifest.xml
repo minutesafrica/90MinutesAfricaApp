@@ -26,6 +26,26 @@
             android:screenOrientation="portrait" />
 
         <activity
+            android:name=".TanzaniaActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".InternationalActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".TransfersActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ClubsActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".CompetitionsActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait"
             android:exported="true">

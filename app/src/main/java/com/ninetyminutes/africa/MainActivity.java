@@ -40,6 +40,26 @@ public class MainActivity extends AppCompatActivity {
 
         findViewById(R.id.menuButton).setOnClickListener(this::showNavigationMenu);
 
+        findViewById(R.id.navTanzania).setOnClickListener(v ->
+                startActivity(new Intent(MainActivity.this, TanzaniaActivity.class))
+        );
+
+        findViewById(R.id.navInternational).setOnClickListener(v ->
+                startActivity(new Intent(MainActivity.this, InternationalActivity.class))
+        );
+
+        findViewById(R.id.navTransfers).setOnClickListener(v ->
+                startActivity(new Intent(MainActivity.this, TransfersActivity.class))
+        );
+
+        findViewById(R.id.navClubs).setOnClickListener(v ->
+                startActivity(new Intent(MainActivity.this, ClubsActivity.class))
+        );
+
+        findViewById(R.id.navCompetitions).setOnClickListener(v ->
+                startActivity(new Intent(MainActivity.this, CompetitionsActivity.class))
+        );
+
         loadNews();
         loadFixtures();
     }
