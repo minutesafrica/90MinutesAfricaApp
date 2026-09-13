@@ -98,7 +98,7 @@ public class PlayersActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onError(Exception e) {
+            public void onError(String errorMessage) {
                 runOnUiThread(() -> {
                     TextView error = new TextView(PlayersActivity.this);
                     error.setText("Imeshindwa kupakia habari za wachezaji.");
