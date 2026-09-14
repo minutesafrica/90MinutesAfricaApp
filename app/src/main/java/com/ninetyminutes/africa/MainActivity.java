@@ -542,35 +542,69 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 }
 
-                String home = match.optString("home_team", "Home");
-                String away = match.optString("away_team", "Away");
-                String date = match.optString("match_date", "");
-                String time = match.optString("match_time", "");
+                LinearLayout card = new LinearLayout(this);
+                card.setOrientation(LinearLayout.VERTICAL);
+                card.setPadding(16, 14, 16, 14);
+                card.setBackgroundResource(R.drawable.bg_fixture_card);
 
-                if (time.length() >= 5) {
-                    time = time.substring(0, 5);
-                }
-
-                TextView card = new TextView(this);
-
-                card.setText(
-                        date + "  •  " + time + "\n\n" +
-                        home + "   VS   " + away
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
                 );
-
-                card.setTextColor(Color.WHITE);
-                card.setTextSize(16);
-                card.setPadding(18, 18, 18, 18);
-                card.setBackgroundColor(Color.rgb(17, 17, 17));
-
-                LinearLayout.LayoutParams params =
-                        new LinearLayout.LayoutParams(
-                                LinearLayout.LayoutParams.MATCH_PARENT,
-                                LinearLayout.LayoutParams.WRAP_CONTENT
-                        );
-
                 params.setMargins(0, 0, 0, 12);
                 card.setLayoutParams(params);
+
+                TextView dateView = new TextView(this);
+                dateView.setText(date);
+                dateView.setTextColor(Color.LTGRAY);
+                dateView.setTextSize(12);
+                dateView.setGravity(Gravity.CENTER);
+                card.addView(dateView);
+
+                TextView timeView = new TextView(this);
+                timeView.setText(time);
+                timeView.setTextColor(Color.rgb(227, 6, 19));
+                timeView.setTextSize(22);
+                timeView.setTypeface(null, android.graphics.Typeface.BOLD);
+                timeView.setGravity(Gravity.CENTER);
+                card.addView(timeView);
+
+                LinearLayout teams = new LinearLayout(this);
+                teams.setOrientation(LinearLayout.HORIZONTAL);
+                teams.setGravity(Gravity.CENTER_VERTICAL);
+
+                TextView homeView = new TextView(this);
+                homeView.setText(home);
+                homeView.setTextColor(Color.WHITE);
+                homeView.setTextSize(16);
+                homeView.setTypeface(null, android.graphics.Typeface.BOLD);
+                homeView.setGravity(Gravity.CENTER);
+                homeView.setLayoutParams(new LinearLayout.LayoutParams(
+                        0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f
+                ));
+
+                TextView vsView = new TextView(this);
+                vsView.setText("VS");
+                vsView.setTextColor(Color.LTGRAY);
+                vsView.setTextSize(12);
+                vsView.setTypeface(null, android.graphics.Typeface.BOLD);
+                vsView.setGravity(Gravity.CENTER);
+                vsView.setPadding(10, 0, 10, 0);
+
+                TextView awayView = new TextView(this);
+                awayView.setText(away);
+                awayView.setTextColor(Color.WHITE);
+                awayView.setTextSize(16);
+                awayView.setTypeface(null, android.graphics.Typeface.BOLD);
+                awayView.setGravity(Gravity.CENTER);
+                awayView.setLayoutParams(new LinearLayout.LayoutParams(
+                        0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f
+                ));
+
+                teams.addView(homeView);
+                teams.addView(vsView);
+                teams.addView(awayView);
+                card.addView(teams);
 
                 fixturesContainer.addView(card);
                 count++;
