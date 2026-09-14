@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView breakingTitle;
     private TextView featuredTitle;
     private TextView featuredMeta;
+    private ImageView featuredImage;
     private LinearLayout latestNewsContainer;
     private LinearLayout fixturesContainer;
 
@@ -57,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
         breakingTitle = findViewById(R.id.breakingTitle);
         featuredTitle = findViewById(R.id.featuredTitle);
         featuredMeta = findViewById(R.id.featuredMeta);
+        featuredImage = findViewById(R.id.featuredImage);
         latestNewsContainer = findViewById(R.id.latestNewsContainer);
         fixturesContainer = findViewById(R.id.fixturesContainer);
 
@@ -215,6 +217,33 @@ public class MainActivity extends AppCompatActivity {
 
             JSONObject featured = news.getJSONObject(0);
 
+            String featuredImageUrl = featured.optString("image_url", "");
+            if (!featuredImageUrl.isEmpty()) {
+                new Thread(() -> {
+                    try {
+                        URL url = new URL(featuredImageUrl);
+                        HttpURLConnection connection =
+                                (HttpURLConnection) url.openConnection();
+                        connection.setDoInput(true);
+                        connection.connect();
+
+                        InputStream input = connection.getInputStream();
+                        Bitmap bitmap = BitmapFactory.decodeStream(input);
+                        input.close();
+                        connection.disconnect();
+
+                        if (bitmap != null) {
+                            runOnUiThread(() -> {
+                                featuredImage.setImageBitmap(bitmap);
+                                featuredImage.setVisibility(View.VISIBLE);
+                            });
+                        }
+                    } catch (Exception ignored) {
+                    }
+                }).start();
+            }
+
+
             featuredTitle.setText(
                     featured.optString("title", "Hakuna kichwa")
             );
@@ -249,9 +278,11 @@ public class MainActivity extends AppCompatActivity {
         TextView text = new TextView(this);
         String title = item.optString("title", "Hakuna kichwa");
         String category = item.optString("category", "Tanzania");
+        String excerpt = item.optString("excerpt", "");
 
         text.setText(
-                category.toUpperCase() + "\n\n" + title
+                category.toUpperCase() + "\n\n" + title +
+                (excerpt.isEmpty() ? "" : "\n\n" + excerpt)
         );
         text.setTextColor(Color.WHITE);
         text.setTextSize(16);
