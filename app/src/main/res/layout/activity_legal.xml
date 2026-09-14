@@ -7,7 +7,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="62dp"
         android:gravity="center_vertical"
         android:paddingStart="10dp"
         android:paddingEnd="16dp"
@@ -20,7 +20,10 @@
             android:gravity="center"
             android:text="‹"
             android:textColor="#FFFFFF"
-            android:textSize="32sp" />
+            android:textSize="32sp"
+            android:fontFamily="sans"
+            android:clickable="true"
+            android:focusable="true" />
 
         <TextView
             android:id="@+id/legalTitle"
@@ -31,24 +34,38 @@
             android:text="ABOUT US"
             android:textColor="#FFFFFF"
             android:textSize="17sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:fontFamily="sans"
+            android:letterSpacing="0.02" />
 
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#D50000" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        android:overScrollMode="ifContentScrolls">
 
         <TextView
             android:id="@+id/legalContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="20dp"
-            android:textColor="#DDDDDD"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:paddingTop="24dp"
+            android:paddingBottom="36dp"
+            android:textColor="#E6E6E6"
             android:textSize="15sp"
-            android:lineSpacingExtra="5dp" />
+            android:fontFamily="sans"
+            android:lineSpacingExtra="7dp"
+            android:includeFontPadding="true"
+            android:textIsSelectable="true" />
 
     </ScrollView>
 
