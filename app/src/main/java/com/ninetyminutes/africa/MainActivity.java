@@ -367,6 +367,13 @@ public class MainActivity extends AppCompatActivity {
                 String streamUrl = match.optString("stream_url", "");
                 String streamType = match.optString("stream_type", "hls");
 
+                String home = match.optString("home_team", "Home");
+                String away = match.optString("away_team", "Away");
+                String date = match.optString("match_date", "");
+                String time = match.optString("match_time", "");
+                if (time.length() >= 5) {
+                    time = time.substring(0, 5);
+                }
                 LinearLayout card = new LinearLayout(this);
                 card.setOrientation(LinearLayout.VERTICAL);
                 card.setPadding(17, 17, 17, 17);
@@ -542,6 +549,13 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 }
 
+                String home = match.optString("home_team", "Home");
+                String away = match.optString("away_team", "Away");
+                String date = match.optString("match_date", "");
+                String time = match.optString("match_time", "");
+                if (time.length() >= 5) {
+                    time = time.substring(0, 5);
+                }
                 LinearLayout card = new LinearLayout(this);
                 card.setOrientation(LinearLayout.VERTICAL);
                 card.setPadding(16, 14, 16, 14);
