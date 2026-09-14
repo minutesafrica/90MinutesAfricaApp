@@ -5,6 +5,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.ImageView;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -44,16 +50,51 @@ public class PlayersActivity extends AppCompatActivity {
                                 continue;
                             }
 
-                            TextView card = new TextView(PlayersActivity.this);
-                            card.setText(
+                            LinearLayout card = new LinearLayout(PlayersActivity.this);
+                            card.setOrientation(LinearLayout.VERTICAL);
+                            card.setPadding(0, 0, 0, 16);
+                            card.setBackgroundColor(0xFF151515);
+
+                            ImageView image = new ImageView(PlayersActivity.this);
+                            image.setLayoutParams(new LinearLayout.LayoutParams(
+                                    LinearLayout.LayoutParams.MATCH_PARENT, 210
+                            ));
+                            image.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                            card.addView(image);
+
+                            TextView text = new TextView(PlayersActivity.this);
+                            text.setText(
                                     item.optString("title", "") +
                                     "\n\n" +
                                     item.optString("excerpt", "")
                             );
-                            card.setTextColor(0xFFFFFFFF);
-                            card.setTextSize(16);
-                            card.setPadding(20, 20, 20, 20);
-                            card.setBackgroundColor(0xFF151515);
+                            text.setTextColor(0xFFFFFFFF);
+                            text.setTextSize(16);
+                            text.setPadding(20, 20, 20, 20);
+                            card.addView(text);
+
+                            String imageUrl = item.optString("image_url", "");
+                            if (!imageUrl.isEmpty()) {
+                                new Thread(() -> {
+                                    try {
+                                        URL url = new URL(imageUrl);
+                                        HttpURLConnection connection =
+                                                (HttpURLConnection) url.openConnection();
+                                        connection.setDoInput(true);
+                                        connection.connect();
+
+                                        InputStream input = connection.getInputStream();
+                                        Bitmap bitmap = BitmapFactory.decodeStream(input);
+                                        input.close();
+                                        connection.disconnect();
+
+                                        if (bitmap != null) {
+                                            runOnUiThread(() -> image.setImageBitmap(bitmap));
+                                        }
+                                    } catch (Exception ignored) {
+                                    }
+                                }).start();
+                            }
 
                             LinearLayout.LayoutParams params =
                                     new LinearLayout.LayoutParams(

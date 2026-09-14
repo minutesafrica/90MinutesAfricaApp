@@ -3,11 +3,17 @@ package com.ninetyminutes.africa;
 import android.os.Bundle;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.ImageView;
 import android.content.Intent;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -79,41 +85,72 @@ public class ClubsActivity extends AppCompatActivity {
     private void addNewsCard(JSONObject item) {
         LinearLayout card = new LinearLayout(this);
         card.setOrientation(LinearLayout.VERTICAL);
-        card.setPadding(dp(16), dp(16), dp(16), dp(16));
+        card.setPadding(dp(0), dp(0), dp(0), dp(16));
         card.setBackgroundColor(Color.rgb(20, 20, 20));
 
-        LinearLayout.LayoutParams params =
-                new LinearLayout.LayoutParams(
-                        ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.WRAP_CONTENT
-                );
-
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+        );
         params.setMargins(0, 0, 0, dp(12));
         card.setLayoutParams(params);
 
+        ImageView image = new ImageView(this);
+        image.setLayoutParams(new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                dp(210)
+        ));
+        image.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
         TextView category = new TextView(this);
-        category.setText(item.optString("category", "VILABU").toUpperCase());
+        category.setText(item.optString("category", "").toUpperCase());
         category.setTextColor(Color.rgb(227, 6, 19));
         category.setTextSize(11);
         category.setTypeface(null, Typeface.BOLD);
+        category.setPadding(dp(16), dp(14), dp(16), 0);
 
         TextView title = new TextView(this);
         title.setText(item.optString("title", "Habari"));
         title.setTextColor(Color.WHITE);
         title.setTextSize(18);
         title.setTypeface(null, Typeface.BOLD);
-        title.setPadding(0, dp(7), 0, dp(7));
+        title.setPadding(dp(16), dp(7), dp(16), dp(7));
 
         TextView excerpt = new TextView(this);
         excerpt.setText(item.optString("excerpt", ""));
         excerpt.setTextColor(Color.LTGRAY);
         excerpt.setTextSize(13);
+        excerpt.setPadding(dp(16), 0, dp(16), 0);
 
+        card.addView(image);
         card.addView(category);
         card.addView(title);
 
         if (!item.optString("excerpt", "").isEmpty()) {
             card.addView(excerpt);
+        }
+
+        String imageUrl = item.optString("image_url", "");
+        if (!imageUrl.isEmpty()) {
+            new Thread(() -> {
+                try {
+                    URL url = new URL(imageUrl);
+                    HttpURLConnection connection =
+                            (HttpURLConnection) url.openConnection();
+                    connection.setDoInput(true);
+                    connection.connect();
+
+                    InputStream input = connection.getInputStream();
+                    Bitmap bitmap = BitmapFactory.decodeStream(input);
+                    input.close();
+                    connection.disconnect();
+
+                    if (bitmap != null) {
+                        runOnUiThread(() -> image.setImageBitmap(bitmap));
+                    }
+                } catch (Exception ignored) {
+                }
+            }).start();
         }
 
         card.setOnClickListener(v -> {
