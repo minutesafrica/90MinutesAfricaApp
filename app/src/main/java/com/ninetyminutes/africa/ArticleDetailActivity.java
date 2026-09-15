@@ -15,6 +15,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -35,6 +39,7 @@ public class ArticleDetailActivity extends AppCompatActivity {
     private EditText commentName, commentText;
     private Button sendCommentButton;
     private LinearLayout commentsContainer;
+    private AdView articleBannerAd;
 
     private String newsId;
     private String sessionId;
@@ -47,6 +52,10 @@ public class ArticleDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article_detail);
+
+        MobileAds.initialize(this, initializationStatus -> {});
+        articleBannerAd = findViewById(R.id.articleBannerAd);
+        articleBannerAd.loadAd(new AdRequest.Builder().build());
 
         articleImage = findViewById(R.id.articleImage);
         titleView = findViewById(R.id.articleTitle);
