@@ -172,7 +172,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
                 ads:adSize="BANNER"
-                ads:adUnitId="ca-app-pub-3940256099942544/6300978111" />
+                ads:adUnitId="ca-app-pub-8782828782945005/8178129024" />
 
             <TextView
                 android:layout_width="match_parent"
