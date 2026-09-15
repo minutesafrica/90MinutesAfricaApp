@@ -434,7 +434,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
         content.addView(contentInput);
         content.addView(imageButton);
         content.addView(imageStatus);
-        content.addView(category);
+        TextView categoryLabel = text("AINA YA HABARI", 14f, WHITE); content.addView(categoryLabel); content.addView(category);
         content.addView(author);
         content.addView(published);
         content.addView(breaking);
