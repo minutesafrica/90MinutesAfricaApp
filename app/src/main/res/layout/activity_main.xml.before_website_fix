@@ -5,6 +5,20 @@
     android:orientation="vertical"
     android:background="#050505">
 
+            <TextView
+                android:id="@+id/visitWebsite"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginStart="18dp"
+                android:layout_marginEnd="18dp"
+                android:layout_marginTop="24dp"
+                android:gravity="center"
+                android:text="TEMBELEA WEBSITE"
+                android:textColor="#E30613"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:clickable="true"
+                android:focusable="true" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="70dp"
@@ -13,7 +27,7 @@
         android:paddingEnd="12dp"
         android:background="#050505">
 
-        <TextView android:id="@+id/adminLogo"
+        <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -41,6 +55,20 @@
         android:fillViewport="true"
         android:scrollbars="none">
 
+            <TextView
+                android:id="@+id/visitWebsite"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginStart="18dp"
+                android:layout_marginEnd="18dp"
+                android:layout_marginTop="24dp"
+                android:gravity="center"
+                android:text="TEMBELEA WEBSITE"
+                android:textColor="#E30613"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:clickable="true"
+                android:focusable="true" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -82,16 +110,6 @@
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
-            <ImageView
-                android:id="@+id/featuredImage"
-                android:layout_width="match_parent"
-                android:layout_height="240dp"
-                android:layout_marginStart="18dp"
-                android:layout_marginEnd="18dp"
-                android:layout_marginTop="14dp"
-                android:scaleType="centerCrop"
-                android:visibility="gone" />
-
             <TextView
                 android:id="@+id/featuredTitle"
                 android:layout_width="match_parent"
@@ -111,6 +129,20 @@
                 android:textColor="#AAAAAA"
                 android:textSize="13sp" />
 
+            <TextView
+                android:id="@+id/visitWebsite"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginStart="18dp"
+                android:layout_marginEnd="18dp"
+                android:layout_marginTop="24dp"
+                android:gravity="center"
+                android:text="TEMBELEA WEBSITE"
+                android:textColor="#E30613"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:clickable="true"
+                android:focusable="true" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -155,6 +187,20 @@
                 android:textSize="15sp"
                 android:background="#111111" />
 
+            <TextView
+                android:id="@+id/visitWebsite"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginStart="18dp"
+                android:layout_marginEnd="18dp"
+                android:layout_marginTop="24dp"
+                android:gravity="center"
+                android:text="TEMBELEA WEBSITE"
+                android:textColor="#E30613"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:clickable="true"
+                android:focusable="true" />
             <LinearLayout
                 android:id="@+id/liveContainer"
                 android:layout_width="match_parent"
@@ -174,13 +220,6 @@
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
-            <LinearLayout
-                android:id="@+id/latestNewsContainer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="18dp"
-                android:orientation="vertical" />
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -190,17 +229,6 @@
                 android:textColor="#E30613"
                 android:textSize="14sp"
                 android:textStyle="bold" />
-
-            <LinearLayout
-                android:id="@+id/fixturesContainer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="18dp"
-                android:layout_marginEnd="18dp"
-                android:layout_marginTop="12dp"
-                android:orientation="vertical" />
-
-
 
             <TextView
                 android:id="@+id/visitWebsite"
@@ -213,8 +241,53 @@
                 android:text="TEMBELEA WEBSITE"
                 android:textColor="#E30613"
                 android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:clickable="true"
+                android:focusable="true" />
+            <LinearLayout
+                android:id="@+id/fixturesContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="18dp"
+                android:layout_marginEnd="18dp"
+                android:layout_marginTop="12dp"
+                android:orientation="vertical" />
 
+            <TextView
+                android:id="@+id/visitWebsite"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginStart="18dp"
+                android:layout_marginEnd="18dp"
+                android:layout_marginTop="24dp"
+                android:gravity="center"
+                android:text="TEMBELEA WEBSITE"
+                android:textColor="#E30613"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:clickable="true"
+                android:focusable="true" />
+            <LinearLayout
+                android:id="@+id/latestNewsContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="18dp"
+                android:orientation="vertical" />
+
+            <TextView
+                android:id="@+id/visitWebsite"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginStart="18dp"
+                android:layout_marginEnd="18dp"
+                android:layout_marginTop="24dp"
+                android:gravity="center"
+                android:text="TEMBELEA WEBSITE"
+                android:textColor="#E30613"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:clickable="true"
+                android:focusable="true" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -250,6 +323,20 @@
                     android:textColor="#777777"
                     android:textSize="12sp" />
 
+            <TextView
+                android:id="@+id/visitWebsite"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginStart="18dp"
+                android:layout_marginEnd="18dp"
+                android:layout_marginTop="24dp"
+                android:gravity="center"
+                android:text="TEMBELEA WEBSITE"
+                android:textColor="#E30613"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:clickable="true"
+                android:focusable="true" />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -328,6 +415,20 @@
 
     </ScrollView>
 
+            <TextView
+                android:id="@+id/visitWebsite"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginStart="18dp"
+                android:layout_marginEnd="18dp"
+                android:layout_marginTop="24dp"
+                android:gravity="center"
+                android:text="TEMBELEA WEBSITE"
+                android:textColor="#E30613"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:clickable="true"
+                android:focusable="true" />
     <LinearLayout
         android:id="@+id/bottomNavigation"
         android:layout_width="match_parent"

@@ -1,16 +1,8 @@
 package com.ninetyminutes.africa;
 
 import android.graphics.Color;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.widget.ImageView;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-
 import android.graphics.Typeface;
 import android.content.Intent;
-import android.net.Uri;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.widget.PopupWindow;
@@ -29,31 +21,9 @@ import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
 
-    private int adminLogoTaps = 0;
-    private long lastAdminLogoTap = 0L;
-
-    private void handleAdminLogoTap() {
-        long now = System.currentTimeMillis();
-
-        if (now - lastAdminLogoTap > 2000) {
-            adminLogoTaps = 0;
-        }
-
-        lastAdminLogoTap = now;
-        adminLogoTaps++;
-
-        if (adminLogoTaps >= 5) {
-            adminLogoTaps = 0;
-            startActivity(new Intent(this, AdminLoginActivity.class));
-        }
-    }
-
-
-
     private TextView breakingTitle;
     private TextView featuredTitle;
     private TextView featuredMeta;
-    private ImageView featuredImage;
     private LinearLayout latestNewsContainer;
     private LinearLayout fixturesContainer;
 
@@ -61,15 +31,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        TextView adminLogo = findViewById(R.id.adminLogo);
-        adminLogo.setOnClickListener(v -> handleAdminLogoTap());
-        TextView visitWebsite = findViewById(R.id.visitWebsite);
-        visitWebsite.startAnimation(android.view.animation.AnimationUtils.loadAnimation(this, R.anim.website_glow));
-        visitWebsite.setOnClickListener(v -> {
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://90minutesafrica.online"));
-            startActivity(browserIntent);
-        });
 
         View sportLiveIndicator = findViewById(R.id.sportLiveIndicator);
         android.view.animation.Animation liveBlink =
@@ -82,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
         breakingTitle = findViewById(R.id.breakingTitle);
         featuredTitle = findViewById(R.id.featuredTitle);
         featuredMeta = findViewById(R.id.featuredMeta);
-        featuredImage = findViewById(R.id.featuredImage);
         latestNewsContainer = findViewById(R.id.latestNewsContainer);
         fixturesContainer = findViewById(R.id.fixturesContainer);
 
@@ -241,33 +201,6 @@ public class MainActivity extends AppCompatActivity {
 
             JSONObject featured = news.getJSONObject(0);
 
-            String featuredImageUrl = featured.optString("image_url", "");
-            if (!featuredImageUrl.isEmpty()) {
-                new Thread(() -> {
-                    try {
-                        URL url = new URL(featuredImageUrl);
-                        HttpURLConnection connection =
-                                (HttpURLConnection) url.openConnection();
-                        connection.setDoInput(true);
-                        connection.connect();
-
-                        InputStream input = connection.getInputStream();
-                        Bitmap bitmap = BitmapFactory.decodeStream(input);
-                        input.close();
-                        connection.disconnect();
-
-                        if (bitmap != null) {
-                            runOnUiThread(() -> {
-                                featuredImage.setImageBitmap(bitmap);
-                                featuredImage.setVisibility(View.VISIBLE);
-                            });
-                        }
-                    } catch (Exception ignored) {
-                    }
-                }).start();
-            }
-
-
             featuredTitle.setText(
                     featured.optString("title", "Hakuna kichwa")
             );
@@ -287,68 +220,43 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void addNewsCard(JSONObject item) {
-        LinearLayout card = new LinearLayout(this);
-        card.setOrientation(LinearLayout.VERTICAL);
-        card.setPadding(0, 0, 0, 0);
-        card.setBackgroundColor(Color.rgb(17, 17, 17));
+        TextView card = new TextView(this);
 
-        ImageView image = new ImageView(this);
-        image.setLayoutParams(new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                210
-        ));
-        image.setScaleType(ImageView.ScaleType.CENTER_CROP);
-
-        TextView text = new TextView(this);
-        String title = item.optString("title", "Hakuna kichwa");
-        String category = item.optString("category", "Tanzania");
-        String excerpt = item.optString("excerpt", "");
-
-        text.setText(
-                category.toUpperCase() + "\n\n" + title +
-                (excerpt.isEmpty() ? "" : "\n\n" + excerpt)
+        String title = item.optString(
+                "title",
+                "Hakuna kichwa"
         );
-        text.setTextColor(Color.WHITE);
-        text.setTextSize(16);
-        text.setPadding(18, 18, 18, 18);
 
-        card.addView(image);
-        card.addView(text);
+        String category = item.optString(
+                "category",
+                "Tanzania"
+        );
+
+        card.setText(
+                category.toUpperCase() +
+                "\n\n" +
+                title
+        );
+
+        card.setTextColor(Color.WHITE);
+        card.setTextSize(16);
+        card.setPadding(18, 18, 18, 18);
+        card.setBackgroundColor(Color.rgb(17, 17, 17));
 
         LinearLayout.LayoutParams params =
                 new LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT,
                         LinearLayout.LayoutParams.WRAP_CONTENT
                 );
+
         params.setMargins(0, 0, 0, 12);
         card.setLayoutParams(params);
 
-        String imageUrl = item.optString("image_url", "");
-        if (!imageUrl.isEmpty()) {
-            new Thread(() -> {
-                try {
-                    URL url = new URL(imageUrl);
-                    HttpURLConnection connection =
-                            (HttpURLConnection) url.openConnection();
-                    connection.setDoInput(true);
-                    connection.connect();
-
-                    InputStream input = connection.getInputStream();
-                    Bitmap bitmap = BitmapFactory.decodeStream(input);
-                    input.close();
-                    connection.disconnect();
-
-                    if (bitmap != null) {
-                        runOnUiThread(() -> image.setImageBitmap(bitmap));
-                    }
-                } catch (Exception ignored) {
-                }
-            }).start();
-        }
-
         card.setOnClickListener(v -> openArticle(item));
+
         latestNewsContainer.addView(card);
     }
+
 
     private void loadFixtures() {
         FootballService.loadFixtures(new FootballService.Callback() {
@@ -570,72 +478,31 @@ public class MainActivity extends AppCompatActivity {
                 String away = match.optString("away_team", "Away");
                 String date = match.optString("match_date", "");
                 String time = match.optString("match_time", "");
+
                 if (time.length() >= 5) {
                     time = time.substring(0, 5);
                 }
-                LinearLayout card = new LinearLayout(this);
-                card.setOrientation(LinearLayout.VERTICAL);
-                card.setPadding(16, 14, 16, 14);
-                card.setBackgroundResource(R.drawable.bg_fixture_card);
 
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT
+                TextView card = new TextView(this);
+
+                card.setText(
+                        date + "  •  " + time + "\n\n" +
+                        home + "   VS   " + away
                 );
+
+                card.setTextColor(Color.WHITE);
+                card.setTextSize(16);
+                card.setPadding(18, 18, 18, 18);
+                card.setBackgroundColor(Color.rgb(17, 17, 17));
+
+                LinearLayout.LayoutParams params =
+                        new LinearLayout.LayoutParams(
+                                LinearLayout.LayoutParams.MATCH_PARENT,
+                                LinearLayout.LayoutParams.WRAP_CONTENT
+                        );
+
                 params.setMargins(0, 0, 0, 12);
                 card.setLayoutParams(params);
-
-                TextView dateView = new TextView(this);
-                dateView.setText(date);
-                dateView.setTextColor(Color.LTGRAY);
-                dateView.setTextSize(12);
-                dateView.setGravity(Gravity.CENTER);
-                card.addView(dateView);
-
-                TextView timeView = new TextView(this);
-                timeView.setText(time);
-                timeView.setTextColor(Color.rgb(227, 6, 19));
-                timeView.setTextSize(22);
-                timeView.setTypeface(null, android.graphics.Typeface.BOLD);
-                timeView.setGravity(Gravity.CENTER);
-                card.addView(timeView);
-
-                LinearLayout teams = new LinearLayout(this);
-                teams.setOrientation(LinearLayout.HORIZONTAL);
-                teams.setGravity(Gravity.CENTER_VERTICAL);
-
-                TextView homeView = new TextView(this);
-                homeView.setText(home);
-                homeView.setTextColor(Color.WHITE);
-                homeView.setTextSize(16);
-                homeView.setTypeface(null, android.graphics.Typeface.BOLD);
-                homeView.setGravity(Gravity.CENTER);
-                homeView.setLayoutParams(new LinearLayout.LayoutParams(
-                        0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f
-                ));
-
-                TextView vsView = new TextView(this);
-                vsView.setText("VS");
-                vsView.setTextColor(Color.LTGRAY);
-                vsView.setTextSize(12);
-                vsView.setTypeface(null, android.graphics.Typeface.BOLD);
-                vsView.setGravity(Gravity.CENTER);
-                vsView.setPadding(10, 0, 10, 0);
-
-                TextView awayView = new TextView(this);
-                awayView.setText(away);
-                awayView.setTextColor(Color.WHITE);
-                awayView.setTextSize(16);
-                awayView.setTypeface(null, android.graphics.Typeface.BOLD);
-                awayView.setGravity(Gravity.CENTER);
-                awayView.setLayoutParams(new LinearLayout.LayoutParams(
-                        0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f
-                ));
-
-                teams.addView(homeView);
-                teams.addView(vsView);
-                teams.addView(awayView);
-                card.addView(teams);
 
                 fixturesContainer.addView(card);
                 count++;

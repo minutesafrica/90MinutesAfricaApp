@@ -10,13 +10,6 @@
         android:theme="@style/AppTheme"
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher">
-        <activity
-            android:name=".AdminLoginActivity"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".AdminDashboardActivity"
-            android:screenOrientation="portrait" />
 
         <activity
             android:name=".ArticleDetailActivity"
