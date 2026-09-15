@@ -185,6 +185,14 @@ public class MainActivity extends AppCompatActivity {
         return (int) (value * getResources().getDisplayMetrics().density + 0.5f);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (breakingTitle != null) {
+            loadNews();
+        }
+    }
+
     private void loadNews() {
         NewsService.loadNews(new NewsService.Callback() {
 
@@ -213,7 +221,7 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
 
-            JSONObject breaking = news.getJSONObject(0);
+            JSONObject breaking = null;
 
             for (int i = 0; i < news.length(); i++) {
                 JSONObject item = news.getJSONObject(i);
@@ -223,6 +231,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
+            if (breaking == null) breaking = news.getJSONObject(0);
             breakingTitle.setText(
                     breaking.optString("title", "Hakuna breaking news kwa sasa.")
             );
