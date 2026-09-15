@@ -1,6 +1,7 @@
 package com.ninetyminutes.africa;
 
 import android.graphics.Color;
+import com.google.android.gms.ads.MobileAds;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.widget.ImageView;
@@ -61,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        MobileAds.initialize(this, initializationStatus -> {});
+        com.google.android.gms.ads.AdView homeBannerAd = findViewById(R.id.homeBannerAd); homeBannerAd.loadAd(new com.google.android.gms.ads.AdRequest.Builder().build());
 
         TextView adminLogo = findViewById(R.id.adminLogo);
         adminLogo.setOnClickListener(v -> handleAdminLogoTap());

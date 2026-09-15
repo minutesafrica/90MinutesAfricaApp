@@ -10,6 +10,7 @@
         android:theme="@style/AppTheme"
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher">
+        <meta-data android:name="com.google.android.gms.ads.APPLICATION_ID" android:value="ca-app-pub-8782828782945005~7700238994"/>
         <activity
             android:name=".AdminLoginActivity"
             android:screenOrientation="portrait" />
