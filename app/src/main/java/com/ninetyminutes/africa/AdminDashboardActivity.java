@@ -397,7 +397,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
         contentInput.setMinLines(7);
         contentInput.setGravity(Gravity.TOP);
         Button imageButton = button("CHAGUA PICHA");
-        TextView imageStatus = text("Hakuna picha iliyochaguliwa.");
+        TextView imageStatus = text("Hakuna picha iliyochaguliwa.", 14f, GRAY);
 
         imageButton.setOnClickListener(v -> {
             pickNewsImage();
@@ -3015,7 +3015,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
                         .build();
 
         okhttp3.Response response =
-                httpClient.newCall(request).execute();
+                client.newCall(request).execute();
 
         String responseBody =
                 response.body() != null
