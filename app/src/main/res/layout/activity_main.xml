@@ -201,6 +201,17 @@
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
+            <com.google.android.gms.ads.AdView
+                android:id="@+id/fixturesBannerAd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="18dp"
+                android:layout_marginEnd="18dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                ads:adSize="BANNER"
+                ads:adUnitId="ca-app-pub-8782828782945005/4635926100" />
+
             <LinearLayout
                 android:id="@+id/fixturesContainer"
                 android:layout_width="match_parent"
