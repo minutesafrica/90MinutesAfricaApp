@@ -5,3 +5,8 @@ local.properties
 *.iml
 .idea/
 .DS_Store
+*.backup*
+*.bak*
+*.before*
+*.old
+backups/
