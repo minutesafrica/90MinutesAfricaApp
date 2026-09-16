@@ -1,5 +1,8 @@
 package com.ninetyminutes.africa;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import android.os.Bundle;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -28,6 +31,11 @@ public class CompetitionsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_competitions);
+
+        MobileAds.initialize(this, initializationStatus -> {});
+        AdView competitionsBannerAd = findViewById(R.id.competitionsBannerAd);
+        competitionsBannerAd.loadAd(new AdRequest.Builder().build());
+
 
         findViewById(R.id.competitionsBack).setOnClickListener(v -> finish());
 

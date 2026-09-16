@@ -1,5 +1,8 @@
 package com.ninetyminutes.africa;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import android.os.Bundle;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -36,6 +39,11 @@ public class StandingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_standings);
+
+        MobileAds.initialize(this, initializationStatus -> {});
+        AdView standingsBannerAd = findViewById(R.id.standingsBannerAd);
+        standingsBannerAd.loadAd(new AdRequest.Builder().build());
+
 
         standingsContainer = findViewById(R.id.standingsContainer);
 

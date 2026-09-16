@@ -1,5 +1,8 @@
 package com.ninetyminutes.africa;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -22,6 +25,11 @@ public class LiveActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_live);
+
+        MobileAds.initialize(this, initializationStatus -> {});
+        AdView liveBannerAd = findViewById(R.id.liveBannerAd);
+        liveBannerAd.loadAd(new AdRequest.Builder().build());
+
 
         playerView = findViewById(R.id.livePlayerView);
         titleView = findViewById(R.id.liveTitle);

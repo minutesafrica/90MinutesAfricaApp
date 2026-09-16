@@ -164,7 +164,7 @@ public class LegalActivity extends AppCompatActivity {
                         "Kwa maswali, maoni, taarifa za habari au ushirikiano, unaweza kuwasiliana nasi kupitia njia rasmi za mawasiliano za 90' Minutes Africa.",
 
                         "2. WhatsApp Channel",
-                        "https://whatsapp.com/channel/0029Vb6mtUXDjiOZZOGkCw00"
+                        "https://wa.me/255787347922"
                 );
                 break;
 

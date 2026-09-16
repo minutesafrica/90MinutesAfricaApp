@@ -1,5 +1,8 @@
 package com.ninetyminutes.africa;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -25,6 +28,11 @@ public class PlayersActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_players);
+
+        MobileAds.initialize(this, initializationStatus -> {});
+        AdView playersBannerAd = findViewById(R.id.playersBannerAd);
+        playersBannerAd.loadAd(new AdRequest.Builder().build());
+
 
         newsContainer = findViewById(R.id.playersNewsContainer);
 
