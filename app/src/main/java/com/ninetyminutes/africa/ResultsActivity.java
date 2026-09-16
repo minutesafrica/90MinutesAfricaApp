@@ -9,6 +9,10 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import org.json.JSONArray;
@@ -22,6 +26,10 @@ public class ResultsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_results);
+
+        MobileAds.initialize(this, initializationStatus -> {});
+        AdView resultsBannerAd = findViewById(R.id.resultsBannerAd);
+        resultsBannerAd.loadAd(new AdRequest.Builder().build());
 
         allResultsContainer =
                 findViewById(R.id.allResultsContainer);
